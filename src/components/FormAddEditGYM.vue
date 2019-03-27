@@ -139,7 +139,6 @@ import FormCoachInfo from './FormCoachInfo.vue';
 import { ADD_GYM, ADD_COASH, ADD_GYM_ADMIN, GET_OSS_SESSION, GET_GYM_INFO, UPDATE_GYM
     , GET_CLASS_INFO_LIST_BY_GYMID, UPDATE_GYM_ADMIN_USER, GET_GYM_ADMIN_USER_GET_BIND, GET_COACH_LIST_BY_GYMID } from
     '../store/action_type';
-import { md5 } from '../utils/crypto';
 import {verifyEmptyHelper} from '../utils/index.js';
 import area from '../utils/area.js';
 import AddressMap from './AddressMap.vue';
@@ -410,9 +409,7 @@ export default {
         async onSubmitAddAccount () {
             let result;
             let payload = {...this.formAccountInfo, gym_id: this.gymId};
-            if (payload.password) {
-                payload.password = md5(payload.password);
-            } else {
+            if (!payload.password) {
                 delete payload.password;
             }
             if (this.isEdit) {
