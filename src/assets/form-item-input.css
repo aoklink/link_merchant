@@ -1,0 +1,49 @@
+.app-form-item {
+    display: inline-flex;
+    width: 12.22rem;
+    height: 1.94rem;
+    border: 1px solid rgba(225, 227, 232, 1);
+    flex-direction: column;
+}
+
+.app-form-item label {
+    padding-left: 1rem;
+    padding-top: .5rem;
+    font-size: 16px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(91, 99, 126, 1);
+    line-height: 0.47rem;
+}
+
+.app-form-item input,
+.app-form-item textarea {
+    padding-left: 1rem;
+    padding-top: 8px;
+    width: 100%;
+    background: transparent;
+    box-sizing: border-box;
+    border: none;
+    font-size: 16px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    line-height: 0.56rem;
+}
+
+.app-form-item textarea {
+    flex: 1;
+}
+.app-form-item input:focus,
+.app-form-item textarea:focus {
+    outline: none;
+}
+
+.app-form-item input::placeholder,
+.app-form-item textarea::placeholder{
+    color:rgba(191, 196, 209, 1);
+}
+
+
+.app-form-item:nth-of-type(2n-1){
+    margin-right: 1rem;
+}

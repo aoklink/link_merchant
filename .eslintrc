@@ -1,0 +1,32 @@
+{
+    "root": true,
+    "parserOptions": {
+        "parser": "babel-eslint",
+        "ecmaVersion": 2017,
+        "sourceType": "module"
+    },
+    "env": {
+        "browser": true
+    },
+    "plugins": [
+        "vue"
+    ],
+    "extends": [
+        "standard",
+        "plugin:vue/recommended"
+    ],
+    "rules": {
+        "vue/html-indent": ["error", 4],
+        "vue/max-attributes-per-line": ["error", {
+            "singleline": 3,
+            "multiline": {
+                "max": 3,
+                "allowFirstLine": true
+            }
+        }],
+        "eqeqeq": 0,
+        "arrow-parens": 0,
+        "semi": ["error", "always"],
+        "indent": ["error", 4]
+    }
+}

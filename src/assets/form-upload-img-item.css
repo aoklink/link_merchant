@@ -1,0 +1,55 @@
+ .form-upload-img-item {
+     display: inline-flex;
+     flex-direction: row;
+     width: 12.22rem;
+     height: 2.94rem;
+     padding: .33rem;
+     margin-bottom: .33rem;
+     box-sizing: border-box;
+     border: 1px solid rgba(225, 227, 232, 1);
+ }
+
+ .form-upload-img-item label {
+     flex: 1;
+ }
+
+ .form-upload-img-item:nth-of-type(2n) {
+     margin-right: .83rem;
+ }
+
+ .form-upload-img-item p,
+ .form-upload-img-item h6 {
+     margin: 0;
+     padding: 0;
+     color: #5B637E;
+ }
+
+ .form-upload-img-item p {
+     font-size: 14px;
+ }
+
+ .form-upload-img-item h6 {
+     font-size: 16px;
+     margin-bottom: .39rem;
+ }
+
+ .form-upload-img-item.img-show {
+     width: 25.28rem;
+     height: 4rem;
+     margin-right: 0;
+     display: flex;
+     flex-direction: column;
+ }
+
+ .form-upload-img-item.img-show label {
+     display: flex;
+ }
+
+ .form-upload-img-item.img-show h6 {
+     margin-bottom: 0;
+     margin-right: .33rem;
+ }
+
+ .img-show-list {
+     display: flex;
+ }

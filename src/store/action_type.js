@@ -1,0 +1,26 @@
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const VERIFY_AUTH = 'VERIFY_AUTH';
+
+export const GET_ALL_GYM_INFO = 'GET_ALL_GYM_IFNO';
+export const GET_GYM_INFO = 'GET_GYM_INFO';
+export const ADD_GYM = 'ADD_GYM';
+export const UPDATE_GYM = 'UPDATE_GYM';
+export const DELETE_GYM = 'DELETE_GYM';
+
+export const UPDATE_CLASS_INFO_BY_ID = 'UPDATE_CLASS_INFO_BY_ID';
+export const ADD_CLASS_INFO = 'ADD_CLASS_INFO';
+export const GET_CLASS_INFO_LIST_BY_GYMID = 'GET_CLASS_INFO_LIST_BY_GYMID';
+export const GET_CLASS_INFO_BY_ID = 'GET_CLASS_INFO_BY_ID';
+export const DELETE_CLASS_BY_ID = 'DELETE_CLASS_BY_ID';
+
+export const ADD_COASH = 'ADD_COASH';
+export const GET_COACH_LIST_BY_GYMID = 'GET_COACH_LIST_BY_GYMID';
+export const DELETE_GYM_COACH_BY_ID = 'DELETE_GYM_COACH_BY_ID';
+export const UPDATE_GYM_COACH_BY_ID = 'UPDATE_GYM_COACH_BY_ID';
+
+export const ADD_GYM_ADMIN = 'ADD_GYM_ADMIN';
+export const GET_GYM_ADMIN_USER_GET_BIND = 'GET_GYM_ADMIN_USER_GET_BIND';
+export const UPDATE_GYM_ADMIN_USER = 'UPDATE_GYM_ADMIN_USER';
+
+export const GET_OSS_SESSION = 'GET_OSS_SESSION';
