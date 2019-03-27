@@ -84,31 +84,6 @@
             <el-tab-pane label="课程活动" name="third">
                 <form-class-info :gym-id="gymId" />
             </el-tab-pane>
-            <el-tab-pane label="账号设定" name="fourth">
-                <div v-if="activeName=='fourth'" class="form-add-account">
-                    <h3>
-                        账号设定
-                    </h3>
-                    <div class="app-form-item">
-                        <label>负责人</label>
-                        <input v-model="formAccountInfo.name" autocomplete="false" type="text"
-                               placeholder="请输入负责人名称"
-                        >
-                    </div>
-                    <div class="app-form-item">
-                        <label>密码</label>
-                        <input v-model="formAccountInfo.password" autocomplete="false" type="password"
-                               placeholder="请输入6-18位密码"
-                        >
-                    </div>
-                    <div class="app-form-item">
-                        <label>手机号</label>
-                        <input v-model="formAccountInfo.phone" autocomplete="false" type="text"
-                               placeholder="请输入手机号"
-                        >
-                    </div>
-                </div>
-            </el-tab-pane>
         </el-tabs>
         <button class="btn-close-dialog-form-add-edit-gym" @click="onClose">
             <i class="el-icon-close" />
@@ -123,7 +98,7 @@
                 上一步
             </app-button>
             <app-button size="large" theme="yellow" @click="onNext">
-                {{ activeName=='fourth'?'保存':'下一步' }}
+                {{ activeName=='third'?'保存':'下一步' }}
             </app-button>
         </div>
     </div>
@@ -136,8 +111,8 @@ import ImgList from './ImgList.vue';
 import AppButton from './AppButton.vue';
 import FormClassInfo from './FormClassInfo.vue';
 import FormCoachInfo from './FormCoachInfo.vue';
-import { ADD_GYM, ADD_COASH, ADD_GYM_ADMIN, GET_OSS_SESSION, GET_GYM_INFO, UPDATE_GYM
-    , GET_CLASS_INFO_LIST_BY_GYMID, UPDATE_GYM_ADMIN_USER, GET_GYM_ADMIN_USER_GET_BIND, GET_COACH_LIST_BY_GYMID } from
+import { ADD_GYM, ADD_COASH, GET_OSS_SESSION, GET_GYM_INFO, UPDATE_GYM
+    , GET_CLASS_INFO_LIST_BY_GYMID, GET_COACH_LIST_BY_GYMID } from
     '../store/action_type';
 import {verifyEmptyHelper} from '../utils/index.js';
 import area from '../utils/area.js';
@@ -351,8 +326,6 @@ export default {
                 this.activeName = 'first';
             } else if (this.activeName == 'third') {
                 this.activeName = 'second';
-            } else if (this.activeName == 'fourth') {
-                this.activeName = 'third';
             }
         },
         async onNext () {
@@ -366,16 +339,7 @@ export default {
                 this.$store.dispatch(GET_CLASS_INFO_LIST_BY_GYMID, {gym_id: this.gymId});
                 this.activeName = 'third';
             } else if (this.activeName == 'third') {
-                if (this.isEdit) {
-                    let result = await this.$store.dispatch(GET_GYM_ADMIN_USER_GET_BIND, {gym_id: this.gymId});
-                    if (result.success) {
-                        this.formAccountInfo.name = result.data.name;
-                        this.formAccountInfo.phone = result.data.phone;
-                    }
-                }
-                this.activeName = 'fourth';
-            } else if (this.activeName == 'fourth') {
-                this.onSubmitAddAccount();
+                this.onClose();
             }
         },
         async onUploadImgError (msg) {
@@ -399,32 +363,6 @@ export default {
                     title: '添加成功',
                     type: 'success'
                 });
-            } else {
-                this.$notify.error({
-                    title: '添加失败',
-                    message: result.data
-                });
-            }
-        },
-        async onSubmitAddAccount () {
-            let result;
-            let payload = {...this.formAccountInfo, gym_id: this.gymId};
-            if (!payload.password) {
-                delete payload.password;
-            }
-            if (this.isEdit) {
-                payload.id = this.gymAdminInfoSelected.id;
-                result = await this.$store.dispatch(UPDATE_GYM_ADMIN_USER, payload);
-            } else {
-                result = await this.$store.dispatch(ADD_GYM_ADMIN, payload);
-            }
-
-            if (result.success) {
-                this.$notify({
-                    title: this.isEdit ? '编辑成功' : '添加成功',
-                    type: 'success'
-                });
-                this.onClose();
             } else {
                 this.$notify.error({
                     title: '添加失败',

@@ -2,12 +2,6 @@
     <div class="management">
         <div class="management-top">
             <h3>店铺列表</h3>
-            <app-button custom-class="btn-add-store" size="medium" theme="grey"
-                        @click="onAdd"
-            >
-                <i class="el-icon-plus"> 添加店铺
-                </i>
-            </app-button>
         </div>
         <div>
             <el-table :data="gymInfoList" style="width: 100%" stripe

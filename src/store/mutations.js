@@ -17,7 +17,9 @@ export default {
     [types.MUTATE_USERINFO] (state, payload) {
         state.userInfo = {
             name: payload.name,
-            id: payload.id
+            id: payload.id,
+            phone: payload.phone,
+            gym_id: payload.gym_id
         };
     },
     [types.MUTATE_GYM_INFO_LIST] (state, payload) {
