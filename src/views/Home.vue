@@ -1,13 +1,11 @@
 <template>
     <div class="home">
-        <Banner />
         <Content />
     </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Banner from '../components/Banner';
 import Content from '../components/Content';
 import store from '@/store';
 import { VERIFY_AUTH } from '../store/action_type';
@@ -15,7 +13,6 @@ import { VERIFY_AUTH } from '../store/action_type';
 export default {
     name: 'Home',
     components: {
-        Banner,
         Content
     },
     beforeRouteEnter: async (to, from, next) => {

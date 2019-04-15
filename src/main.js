@@ -8,6 +8,12 @@ import 'normalize.css';
 import './assets/form-item-input.css';
 import './assets/form-upload-img-item.css';
 
+import axios from 'axios';
+import Qs from 'qs';
+
+Vue.prototype.$axios = axios;
+Vue.prototype.$qs = Qs;
+
 Vue.use(ElementUI);
 
 Vue.config.productionTip = false;

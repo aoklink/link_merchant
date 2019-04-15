@@ -2,6 +2,11 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Login from './views/Login.vue';
+import BaseBind from './components/BaseBind.vue';
+import BaseMember from './components/BaseMember.vue';
+import BaseInfo from './components/BaseInfo.vue';
+import BaseAccount from './components/BaseAccount.vue';
+
 import {
     isLogin
 } from './utils/auth';
@@ -20,10 +25,35 @@ const router = new Router({
         path: '/',
         name: 'home',
         component: Home,
+        displayName: '店铺管理',
         meta: {
             requiresAuth: true
         },
         children: []
+    },
+    {
+        name: 'basebind',
+        path: '/BaseBind',
+        component: BaseBind,
+        displayName: '手环管理'
+    },
+    {
+        name: 'basemember',
+        path: '/BaseMember',
+        component: BaseMember,
+        displayName: '会员管理'
+    },
+    {
+        name: 'baseinfo',
+        path: '/BaseInfo',
+        component: BaseInfo,
+        displayName: '会员信息'
+    },
+    {
+        name: 'baseaccount',
+        path: '/BaseAccount',
+        component: BaseAccount,
+        displayName: '账户管理'
     }
     ]
 });

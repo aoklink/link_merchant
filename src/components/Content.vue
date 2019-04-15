@@ -1,29 +1,21 @@
 <template>
-    <div class="container">
-        <div class="menu">
-            <div class="menu-item">
-                <img src="../assets/icon1.png">
-                店铺管理
-            </div>
-        </div>
-        <div class="content">
-            <div class="tab-content">
-                <el-tabs v-model="tabIdSelected" type="border-card"
-                         @tab-remove="removeTab"
+    <div class="content">
+        <div class="tab-content">
+            <el-tabs v-model="tabIdSelected" type="border-card"
+                     @tab-remove="removeTab"
+            >
+                <el-tab-pane name="fixedtab">
+                    <span slot="label" class="content-tab-label">店铺管理</span>
+                    <management @addTab="addTab" />
+                </el-tab-pane>
+                <el-tab-pane v-for="(item) in gymInfoListSelected" :key="item.id"
+                             closable
+                             :name="item.id+''"
                 >
-                    <el-tab-pane name="fixedtab">
-                        <span slot="label" class="content-tab-label">店铺管理</span>
-                        <management @addTab="addTab" />
-                    </el-tab-pane>
-                    <el-tab-pane v-for="(item) in gymInfoListSelected" :key="item.id"
-                                 closable
-                                 :name="item.id+''"
-                    >
-                        <span slot="label" class="content-tab-label">店铺信息</span>
-                        <store-info :store-data="item" />
-                    </el-tab-pane>
-                </el-tabs>
-            </div>
+                    <span slot="label" class="content-tab-label">店铺信息</span>
+                    <store-info :store-data="item" />
+                </el-tab-pane>
+            </el-tabs>
         </div>
     </div>
 </template>
@@ -48,6 +40,12 @@ export default {
         ...mapState(['gymInfoListSelected'])
     },
     methods: {
+        goBaseBind () {
+            console.log(123);
+        },
+        addTab (id) {
+            this.tabIdSelected = id + '';
+        },
         addTab (id) {
             this.tabIdSelected = id + '';
         },
@@ -75,7 +73,7 @@ export default {
 </script>
 
 <style>
-    .container{
+    /* .container{
         display: flex;
         flex-direction: row;
         flex:1;
@@ -101,7 +99,7 @@ export default {
         display: inline-block;
         margin:0 .5rem 0 1rem;
         vertical-align: middle;
-    }
+    } */
     .content{
         display: flex;
         flex-direction: column;
