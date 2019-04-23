@@ -19,7 +19,10 @@ const router = new Router({
     routes: [{
         name: 'Login',
         path: '/Login',
-        component: Login
+        component: Login,
+        meta: {
+            keepAlive: false
+        }
     },
     {
         path: '/',
@@ -27,7 +30,8 @@ const router = new Router({
         component: Home,
         displayName: '店铺管理',
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            keepAlive: true
         },
         children: []
     },
@@ -35,25 +39,37 @@ const router = new Router({
         name: 'basebind',
         path: '/BaseBind',
         component: BaseBind,
-        displayName: '手环管理'
+        displayName: '手环管理',
+        meta: {
+            keepAlive: true
+        },
     },
     {
         name: 'basemember',
         path: '/BaseMember',
         component: BaseMember,
-        displayName: '会员管理'
+        displayName: '会员管理',
+        meta: {
+            keepAlive: true
+        },
     },
     {
         name: 'baseinfo',
         path: '/BaseInfo',
         component: BaseInfo,
-        displayName: '会员信息'
+        displayName: '会员信息',
+        meta: {
+            keepAlive: true
+        },
     },
     {
         name: 'baseaccount',
         path: '/BaseAccount',
         component: BaseAccount,
-        displayName: '账户管理'
+        displayName: '账户管理',
+        meta: {
+            keepAlive: true
+        },
     }
     ]
 });

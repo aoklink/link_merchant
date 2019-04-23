@@ -1,12 +1,19 @@
 <template>
     <div id="app">
-        <Banner v-if="headerShow" />
-        <div class="allCon">
-            <Nav v-if="headerShow" />
-            <div class="main-container">
-                <router-view />
+        <template v-if="$route.meta.keepAlive">
+            <keep-alive>
+                <Banner v-if="headerShow" />
+            </keep-alive>
+            <div class="allCon">
+                <keep-alive>
+                    <Nav v-if="headerShow" />
+                </keep-alive>
+                <div class="main-container">
+                    <router-view />
+                </div> 
             </div>
-        </div>
+        </template>    
+        <router-view v-if="!$route.meta.keepAlive"></router-view>
     </div>
 </template>
 <script>
@@ -21,19 +28,6 @@ export default {
         return {
             headerShow: true
         };
-    },
-    watch: {
-        $route (to, from) {
-            // 隐藏侧边栏
-            if (this.$route.path === './views/Login.vue' || this.$route.path === './views/Login') {
-                this.headerShow = false;
-            } else {
-                this.headerShow = true;
-            }
-            if (this.$route.path === '/' || this.$route.path === '/BaseBind' || this.$route.path === '/BaseMember' || this.$route.path === 'BaseAccount') {
-                this.headerShow = true;
-            }
-        }
     }
 };
 </script>

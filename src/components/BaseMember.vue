@@ -129,7 +129,7 @@ export default {
     name: 'Basemember',
     data () {
         return {
-            localhost: 'http://47.99.180.180:11002',
+            localhost: 'https://dev.linkfeeling.cn',
             // url: './static/vuetable.json',
             url: this.localhost + '/api/platform/members',
             tableData: [],

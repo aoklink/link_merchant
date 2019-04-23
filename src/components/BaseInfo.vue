@@ -11,7 +11,7 @@
                     个人信息
                 </div>
                 <div class="fa">
-                    <div>{{ user.usname }}</div>
+                    <div>{{ decodeURIComponent(user.usname) }}</div>
                     <div>{{ user.ussex }}</div>
                 </div>
                 <div :class="dt?'fbbb':'fb'">
@@ -145,7 +145,7 @@
                         </div>
                         <div class="right">
                             <div class="rtop">
-                                {{ getDd(new Date(parseInt(item.date_time))) }}
+                                {{ getDd(new Date(parseInt(item.bind_time))) }}
                             </div>
                             <div class="rbom">
                                 <div class="rboo">
@@ -166,7 +166,7 @@
                                 </div>
                                 <div class="rboo rsan">
                                     <!--  <div class="look" @click="dt=true;timeyy=item.date_time">查看</div> -->
-                                    <div class="look" @click="see(item.date_time)">
+                                    <div class="look" @click="see(item.bind_time)">
                                         查看
                                     </div>
                                 </div>
@@ -176,10 +176,12 @@
                 </ul>
             </div>
         </div>
-        <div v-show="dt" class="chart">
+        <!-- <div v-show="dt" class="chart"> -->
+        <div class="chart">
             <div class="chbox">
                 <div>运动记录</div>
-                <div>{{ getDd(new Date(parseInt(seetime))) }}</div>
+                <!-- <div>{{ getDd(new Date(parseInt(seetime))) }}</div> -->
+                <div>{{ getDd(new Date(parseInt(1554982731292))) }}</div>
                 <div @click="dt=false">
                     [&nbsp;&nbsp;]
                 </div>
@@ -199,15 +201,15 @@
                             <div>有氧</div><span>{{ Math.floor(stimea/60000) }}</span><div>分钟</div>
                         </div>
                         <!--   <div class="bcd" :style="'width:'+(stimea/mtime*230)+'px'"></div> -->
-                        <div class="bcd" :style="'width:'+stimea/mtime*230+'px'" />
+                        <div class="bcd" :style="'width:'+(10 + stimea/mtime*220)+'px'" />
                         <div class="bcc bccm">
                             <div>HIIT</div><span>{{ Math.floor(stimec/60000) }}</span><div>分钟</div>
                         </div>
-                        <div class="bcd bcca" :style="'width:'+stimec/mtime*230+'px'" />
+                        <div class="bcd bcca" :style="'width:'+(10 + stimec/mtime*220)+'px'" />
                         <div class="bcc bccm">
                             <div>力量</div><span>{{ Math.floor(stimeb/60000) }}</span><div>分钟</div>
                         </div>
-                        <div class="bcd bccb" :style="'width:'+stimeb/mtime*230+'px'" />
+                        <div class="bcd bccb" :style="'width:'+(10 + stimeb/mtime*220)+'px'" />
                         <div class="bca bcaa">
                             本次消耗热量
                         </div>
@@ -218,15 +220,15 @@
                         <div class="bcc bfc">
                             <div>有氧</div><span>{{ scala }}</span><div>千卡</div>
                         </div>
-                        <div class="bcd" :style="'width:'+stimea/mtime*230+'px'" />
+                        <div class="bcd" :style="'width:' + (10 + scala/mcal*220)+'px'" />
                         <div class="bcc bfc bccm">
                             <div>HIIT</div><span>{{ scalc }}</span><div>千卡</div>
                         </div>
-                        <div class="bcd bcca" :style="'width:'+stimec/mtime*230+'px'" />
+                        <div class="bcd bcca" :style="'width:' + (10 + scalb/mcal*220)+'px'" />
                         <div class="bcc bfc bccm">
                             <div>力量</div><span>{{ scalb }}</span><div>千卡</div>
                         </div>
-                        <div class="bcd bccb" :style="'width:'+stimeb/mtime*230+'px'" />
+                        <div class="bcd bccb" :style="'width:' + (10 + scalc/mcal*220)+'px'" />
                     </div>
                 </div>
                 <div class="cyright">
@@ -359,7 +361,7 @@ export default {
     name: 'Baseinfo',
     data () {
         return {
-            localhost: 'http://47.99.180.180:11002',
+            localhost: 'https://dev.linkfeeling.cn',
             // url: './static/vuetable.json',
             url: 'https://ll.linkfeeling.cn/api/fitness/summary',
             tableData: [],
@@ -451,6 +453,7 @@ export default {
     },
     created () {
         this.getData();
+        this.see()
         //  window.onscroll = function(){
         //  变量scrollTop是滚动条滚动时，距离顶部的距离
         //  var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
@@ -479,8 +482,10 @@ export default {
             let dayp = {
                 gym_name: 'link_office',
                 page: this.cur_page,
-                date_time: x,
-                uid: this.inquiry
+                // bind_time: x,
+                bind_time: "1554982731292",
+                // uid: this.inquiry,
+                uid: "7e44bc47069d2016144e175778a11359"
             };
             // let dayp = {
             //         uid: "9c1b9a52f5d054de228dc8fc92fca5f8",
@@ -488,68 +493,287 @@ export default {
             //         page: this.cur_page
             //        }
             console.log(this);
-            this.$axios.post('https://ll.linkfeeling.cn/api/fitness/detail', JSON.stringify(dayp), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/fitness/detail', JSON.stringify(dayp), {headers: {'Content-Type': 'application/json'}})
                 // this.$axios.post('https:/ll.linkfeeling.cn/api/fitness/list',JSON.stringify(dayp))
                 // this.$axios.post('https://ll.linkfeeling.cn/api/fitness/bracelet',JSON.stringify(dayp))
                 .then((res) => {
                     // jia  data
                     console.log(res.data.data);
-                    var data = res.data;
+                    var data = res.data.data;
 
-                    var tytime = data.data.total_time;
-                    var tycal = data.data.total_calorie;
-                    this.tyti = tytime;
-                    this.tyca = tycal;
-                    var vyvy = data.data;
-                    data = data.data.categories_data;
+                    // var tycal = data.data.total_calorie;
+                    // var vyvy = data.data;
+                    data = data.items
                     console.log(data);
-                    /// 
-                    var sumtimea = 0;
-                    var sumtimeb = 0;
-                    var sumtimec = 0;
-                    var maxtime = 0;
-                    var sumcala = 0;
-                    var sumcalb = 0;
-                    var sumcalc = 0;
-                    var maxcal = 0;
+                    //心率统计
+                    var run_effects = []
+                    var runa = 0
+                    var runb = 0
+                    var runc = 0
+                    var rund = 0
+                    var rune = 0
+                    var runf = 0
+                    console.log(data)
+                    var llmax = 0
 
+                    //10个最大力量值
+                    var jjm = []
+                    var sumjjm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    for(var i=0;i<data.length;i++){
+                    llmax < parseFloat(data[i].gravity) ? llmax = parseFloat(data[i].gravity) : llmax = llmax
+                    if (parseFloat(data[i].gravity)>0){
+                        sumjjm.push(parseFloat(data[i].gravity))
+                    }
+                    } 
+                    // console.log(llmax)
+                    // $("#llmax").html(llmax)
+                    // $("#llpka").html(llmax>0?llmax:'')
+                    // $("#llpkb").html(llmax>0?Math.floor(parseFloat(llmax)*5)/10:'')
+
+                    sumjjm.sort(function (a, b) {
+                    return b - a
+                    });
+                    jjm = sumjjm.slice(0,10)
+
+                    // if(llmax>0){
+                    // document.getElementById("fka").style.height = (jjm[0] / llmax*17.35 + 1.4) +'rem'
+                    // document.getElementById("fkb").style.height = (jjm[1] / llmax*17.35 + 1.4) +'rem'
+                    // document.getElementById("fkc").style.height = (jjm[2] / llmax*17.35 + 1.4) +'rem'
+                    // document.getElementById("fkd").style.height = (jjm[3] / llmax*17.35 + 1.4) +'rem'
+                    // document.getElementById("fke").style.height = (jjm[4] / llmax*17.35 + 1.4) +'rem'
+                    // document.getElementById("fkf").style.height = (jjm[5] / llmax*17.35 + 1.4) +'rem'
+                    // document.getElementById("fkg").style.height = (jjm[6] / llmax*17.35 + 1.4) +'rem'
+                    // document.getElementById("fkh").style.height = (jjm[7] / llmax*17.35 + 1.4) +'rem'
+                    // document.getElementById("fki").style.height = (jjm[8] / llmax*17.35 + 1.4) +'rem'
+                    // document.getElementById("fkj").style.height = (jjm[9] / llmax*17.35 + 1.4) +'rem'
+                    // }else{
+                    // document.getElementById("fka").style.height = 1.4 +'rem'
+                    // document.getElementById("fkb").style.height = 1.4 +'rem'
+                    // document.getElementById("fkc").style.height = 1.4 +'rem'
+                    // document.getElementById("fkd").style.height = 1.4 +'rem'
+                    // document.getElementById("fke").style.height = 1.4 +'rem'
+                    // document.getElementById("fkf").style.height = 1.4 +'rem'
+                    // document.getElementById("fkg").style.height = 1.4 +'rem'
+                    // document.getElementById("fkh").style.height = 1.4 +'rem'
+                    // document.getElementById("fki").style.height = 1.4 +'rem'
+                    // document.getElementById("fkj").style.height = 1.4 +'rem'
+                    // }
+                    var scccal = 0
+                    var xcc = 0
+                    var yqc = 0
+                    var zcc = 0
+                    var buc = {}
+                    var cha = 0
+                    var arrbox = [] 
+                    buc.run_data = []
+                    var acc = 0
+                    var bcc = 0
+                    var ccc = 0
+                    var maxtime = 0
+                    var tyca = 0
                     for (var i = 0; i < data.length; i++) {
-                        if (data[i].category_name == '有氧运动') {
-                            sumtimea = sumtimea + data[i].duration;
-                            for (var j = 0; j < data[i].run_data.length; j++) {
-                                sumcala = sumcala + data[i].run_data[j].calorie;
-                                console.log(sumcala);
+                         tyca = tyca + parseFloat(data[i].calorie)
+                        //本次消耗热量
+                        if (data[i].device_name.indexOf("跑步机") > -1 || data[i].device_name.indexOf("椭圆机") > -1 || data[i].device_name.indexOf("单车") > -1){
+                            xcc = xcc + parseFloat(data[i].calorie)
+                        }
+                        if (data[i].device_name.indexOf("哑铃") > -1 || data[i].device_name.indexOf("杠铃") > -1 || data[i].device_name.indexOf("飞鸟") > -1) {
+                            yqc = yqc + parseFloat(data[i].calorie)
+                        }
+                        if (data[i].device_name == 'hiit') {
+                            zcc = zcc + parseFloat(data[i].calorie)
+                        }
+                    }
+                    //运动时长
+                    for (var i = 0; i < data.length-1; i++){
+                        //运动曲线
+                        if (data[i + 1].device_name == data[i].device_name) {
+                            buc.run_data.push(data[i].heart_rate)
+                        }
+                        if (data[i + 1].device_name != data[i].device_name){
+                            if(i==1){
+                            buc.device_name = data[i].device_name
+                            buc.duration = data[i].server_time - data[cha].server_time
+                            buc.run_data.push(data[i].heart_rate)
+                            cha = i 
+                            arrbox.push(buc)
+                            buc = {}
+                            buc.run_data = []
+                            }else{
+                            buc.device_name = data[i].device_name
+                            buc.duration = data[i].server_time - data[cha].server_time
+                            buc.run_data.push(data[i].heart_rate)
+                            cha = i
+                            arrbox.push(buc) 
+                            buc = {}
+                            buc.run_data = []
                             }
                         }
-
-                        if (data[i].category_name == '力量') {
-                            sumtimeb = sumtimeb + data[i].duration;
-                            for (var j = 0; j < data[i].run_data.length; j++) {
-                                sumcalb = sumcalb + data[i].run_data[j].calorie;
+                        
+                        //心率统计
+                        if (data[i].result == 0){
+                            if(i==0){
+                            runa = 0
+                            }else{
+                            runa = parseInt(runa) + parseInt(data[i].server_time - data[i - 1].server_time)
                             }
                         }
-
-                        if (data[i].category_name == 'HIIT') {
-                            sumtimec = sumtimec + data[i].duration;
-                            for (var j = 0; j < data[i].run_data.length; j++) {
-                                sumcalc = sumcalc + data[i].run_data[j].calorie;
+                        if (data[i].result == 1) {
+                            if (i == 0) {
+                            runb = 0
+                            } else {
+                            runb = parseInt(runb) + parseInt(data[i].server_time - data[i - 1].server_time)
+                            }
+                        }
+                        if (data[i].result == 2) {
+                            if (i == 0) {
+                            runc = 0
+                            } else {
+                            runc = parseInt(runc) + parseInt(data[i].server_time - data[i - 1].server_time)
+                            }
+                        }
+                        if (data[i].result == 3) {
+                            if (i == 0) {
+                            rund = 0
+                            } else {
+                            rund = parseInt(rund) + parseInt(data[i].server_time - data[i - 1].server_time)
+                            }
+                        }
+                        if (data[i].result == 4) {
+                            if (i == 0) {
+                            rune = 0
+                            } else {
+                            rune = parseInt(rune) + parseInt(data[i].server_time - data[i - 1].server_time)
+                            }
+                        }
+                        if (data[i].result == 5) {
+                            if (i == 0) {
+                            runf = 0
+                            } else {
+                            runf = parseInt(runf) + parseInt(data[i].server_time - data[i - 1].server_time)
                             }
                         }
                     }
-                    this.stimea = sumtimea;
-                    this.stimeb = sumtimeb;
-                    this.stimec = sumtimec;
-                    this.scala = sumcala;
-                    this.scalb = sumcalb;
-                    this.scalc = sumcalc;
-                    sumtimea > sumtimeb ? maxtime = sumtimea : maxtime = sumtimeb;
-                    maxtime > sumtimec ? maxtime = maxtime : maxtime = sumtimec;
+                    var bigl = 0
+                    xcc>yqc?bigl=xcc:bigl=yqc
+                    console.log(scccal)
+                    // $("#scccal").html(Math.round(scccal))
+                    // $("#scyby").html(Math.round(scccal))
+                    // $("#xcc").html(Math.round(xcc))
+                    // $("#yqc").html(Math.round(yqc))
 
-                    sumcala > sumcalb ? maxcal = sumcala : maxcal = sumcalb;
-                    maxcal > sumcalc ? maxcal = maxcal : maxcal = sumcalc;
+                    // if(bigl>0){
+                    // document.getElementById("xbb").style.width = (xcc/bigl*30.5 + 0.5) +'rem'
+                    // document.getElementById("yqa").style.width = (yqc/bigl*30.5 + 0.5) +'rem'
+                    // }else{
+                    // document.getElementById("xbb").style.width = 0.5 +'rem'
+                    // document.getElementById("yqa").style.width = 0.5 +'rem'
+                    // }
+
+                    run_effects.push(runa)
+                    run_effects.push(runb)
+                    run_effects.push(runc)
+                    run_effects.push(rund)
+                    run_effects.push(rune)
+                    run_effects.push(runf)
+
+                    console.log(run_effects)
+                    //心率功效时间排序
+                    var zyx = JSON.parse(JSON.stringify(run_effects));
+                    zyx.sort(function (a, b) {
+                    return b - a;
+                    });
+                    var pcp = 0
+                    for(var p=0;p<run_effects.length;p++){
+                    pcp = pcp + run_effects[p]
+                    }
+                    console.log(zyx)
+                    var pbig = zyx[0]
+                    var nob = 0
+                    var kobb
+                    //主要集中在
+                    for (var p = 0; p < run_effects.length; p++){
+                    if(pbig == run_effects[p]){
+                        nob = p
+                    }
+                    }
+                    if(nob == 0){
+                    kobb = '激活放松'
+                    }
+                    if (nob == 1) {
+                    kobb = '动态热身'
+                    }
+                    if (nob == 2) {
+                    kobb = '脂肪燃烧'
+                    }
+                    if (nob == 3) {
+                    kobb = '有氧耐力'
+                    }
+                    if (nob == 4) {
+                    kobb = '无氧耐力'
+                    }
+                    if (nob == 5) {
+                    kobb = '峰值锻炼'
+                    }
+                    console.log(run_effects[2])
+
+                    // $("#pcp").html(Math.round(pcp/60000))
+                    // $("#kobb").html(kobb)
+                    // $("#yaa").html(Math.round(run_effects[0] / 60000))
+                    // $("#ybb").html(Math.round(run_effects[1] / 60000))
+                    // $("#ycc").html(Math.round(run_effects[2] / 60000))
+                    // $("#ydd").html(Math.round(run_effects[3] / 60000))
+                    // $("#yee").html(Math.round(run_effects[4] / 60000))
+                    // $("#yff").html(Math.round(run_effects[5] / 60000))
+                    // document.getElementById("yya").style.width = (run_effects[0] / pbig * 12.5 + 0.5)+'rem'
+                    // document.getElementById("yyb").style.width = (run_effects[1] / pbig * 12.5 + 0.5)+'rem'
+                    // document.getElementById("yyc").style.width = (run_effects[2] / pbig * 12.5 + 0.5)+'rem'
+                    // document.getElementById("yyd").style.width = (run_effects[3] / pbig * 12.5 + 0.5)+'rem'
+                    // document.getElementById("yye").style.width = (run_effects[4] / pbig * 12.5 + 0.5)+'rem'
+                    // document.getElementById("yyf").style.width = (run_effects[5] / pbig * 12.5 + 0.5)+'rem'
+                    buc.device_name = data[data.length - 1].device_name
+                    buc.duration = data[data.length - 1].server_time - data[cha].server_time
+                    buc.run_data.push(data[data.length - 1].heart_rate)
+                    arrbox.push(buc)
+
+                    data = arrbox 
+                    console.log(data)
+                    var ssuummdur = 0;
+                    
+                    for (var i = 0; i < data.length; i++) {
+                         ssuummdur = ssuummdur + data[i].duration
+                        //本次运动时长
+                        if (data[i].device_name.indexOf("跑步机") > -1 || data[i].device_name.indexOf("椭圆机") > -1 || data[i].device_name.indexOf("单车") > -1){
+                            acc = acc + data[i].duration
+                        }
+                        if (data[i].device_name.indexOf("哑铃") > -1 || data[i].device_name.indexOf("杠铃") > -1 || data[i].device_name.indexOf("飞鸟") > -1) {
+                            bcc = bcc + data[i].duration
+                        }
+                        if (data[i].device_name == 'hiit' || data[i].device_name == 'HIIT') {
+                            ccc = ccc + data[i].duration
+                        }
+                    }
+                    var maxcal = 0;
+                    this.scala = Math.round(xcc);
+                    this.scalb = Math.round(yqc);
+                    this.scalc = Math.ceil(zcc);
+                    xcc > yqc ? maxcal = xcc : maxcal = yqc;
+                    maxcal > zcc ? maxcal = maxcal : maxcal = zcc;
+                    this.mcal = maxcal;
+                    this.tyca = Math.round(tyca);
+                    this.tyti = Math.round(ssuummdur);
+
+                  
+                    this.stimea = acc;
+                    this.stimeb = bcc;
+                    this.stimec = ccc;
+                    
+                    acc > bcc ? maxtime = acc : maxtime = bcc;
+                    maxtime > ccc ? maxtime = maxtime : maxtime = ccc;
+
                     console.log(maxtime);
                     this.mtime = maxtime;
-                    this.mcal = maxcal;
+                    
 
                     // 最大力量
                     console.log(data);
@@ -656,149 +880,152 @@ export default {
                         this.tarr.push(parseInt(parseInt(ll[0].start_time) + parseInt((ll[ll.length - 1].end_time - ll[0].start_time) / 6 * 4)));
                         this.tarr.push(parseInt(parseInt(ll[0].start_time) + parseInt((ll[ll.length - 1].end_time - ll[0].start_time) / 6 * 5)));
                         this.tarr.push(parseInt(ll[ll.length - 1].end_time));
-
-                        // canvas运动曲线分布图表
-                        var d = document.getElementById('yzycan');
-                        var lcl = d.getContext('2d');
-                        console.log(9898);
-                        // data = data.categories_data
-                        console.log(data);
-                        var kk = -9 / 7;
-                        var bb = -200 * kk;
-                        var sumddp = 0;
-                        var lasttop = 60;
-                        var lefttop = 0;
-                        var sumdura = 0;
-                        var sumdurb = 0;
-                        var sumdurc = 0;
-                        var sumdurd = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            if (data[i].category_name == '有氧运动') {
-                                sumdura = sumdura + data[i].duration;
-                                // for(var j=0;j<data.categories_data[i].run_data.length;j++){
-                                //   sumcala = sumcala + data.categories_data[i].run_data[j].calorie
-                                // }
-                            }
-                            if (data[i].category_name == 'HIIT') {
-                                sumdurb = sumdurb + data[i].duration;
-                                // for(var j=0;j<data.categories_data[i].run_data.length;j++){
-                                //   sumcalb = sumcalb + data.categories_data[i].run_data[j].calorie
-                                // }
-                            }
-                            if (data[i].category_name == '力量') {
-                                sumdurc = sumdurc + data[i].duration;
-                                // for(var j=0;j<data.categories_data[i].run_data.length;j++){
-                                //   sumcalc = sumcalc + data.categories_data[i].run_data[j].calorie
-                                // }
-                            }
-                            if (data[i].category_name == '空闲') {
-                                sumdurd = sumdurd + data[i].duration;
-                            }
-                        }
-                        var ssuummdur = sumdura + sumdurb + sumdurc + sumdurd;
-                        this.kxtime = (sumdura + sumdurb + sumdurc) / ssuummdur;
-                        for (var i = 0; i < data.length; i++) {
-                            lcl.beginPath();
-                            lcl.lineWidth = 0.5;
-                            if (data[i].category_name == '有氧运动') {
-                                lcl.strokeStyle = 'rgba(255,255,255,0)';
-                                lcl.fillStyle = '#FFD450';
-                                var linearGradient1 = lcl.createLinearGradient(0, 0, 0, 180);
-                                linearGradient1.addColorStop(0, '#FFD450');
-                                linearGradient1.addColorStop(1, 'rgba(255,236,178,0.2)');
-                                lcl.fillStyle = linearGradient1;
-                            }
-                            if (data[i].category_name == '力量') {
-                                lcl.strokeStyle = 'rgba(255,255,255,0)';
-                                lcl.fillStyle = '#398EFF';
-                                var linearGradient1 = lcl.createLinearGradient(0, 0, 0, 180);
-                                linearGradient1.addColorStop(0, '#398EFF');
-                                linearGradient1.addColorStop(1, 'rgba(199,223,255,0.2)');
-                                lcl.fillStyle = linearGradient1;
-                            }
-                            if (data[i].category_name == 'HIIT') {
-                                lcl.strokeStyle = 'rgba(255,255,255,0)';
-                                lcl.fillStyle = '#FF5E7F';
-                                var linearGradient1 = lcl.createLinearGradient(0, 0, 0, 180);
-                                linearGradient1.addColorStop(0, '#FF5E7F');
-                                linearGradient1.addColorStop(1, 'rgba(255,93,127,0.2)');
-                                lcl.fillStyle = linearGradient1;
-                            }
-                            if (data[i].category_name == '空闲') {
-                                lcl.strokeStyle = 'rgba(255,255,255,0)';
-                                lcl.fillStyle = '#7E879C';
-                                var linearGradient1 = lcl.createLinearGradient(0, 0, 0, 180);
-                                linearGradient1.addColorStop(0, '#7E879C');
-                                linearGradient1.addColorStop(1, 'rgba(216,221,238,0.2)');
-                                lcl.fillStyle = linearGradient1;
-                            }
-
-                            lcl.lineWidth = 0.5;
-
-                            // console.log(data[i].duration/ssuummdur*530)
-                            // console.log(kk*data[i].run_data[data[i].run_data.length-1].heart_rate+bb)
-                            lcl.moveTo(lefttop + data[i].duration / ssuummdur * 530, kk * data[i].run_data[data[i].run_data.length - 1].heart_rate + bb);
-                            sumddp = sumddp + data[i].duration / ssuummdur * 530;
-                            lcl.lineTo(sumddp, 180);
-                            lcl.lineTo(sumddp - data[i].duration / ssuummdur * 530, 180);
-                            lcl.lineTo(sumddp - data[i].duration / ssuummdur * 530, kk * lasttop + bb);
-                            for (var j = 0; j < data[i].run_data.length; j++) {
-                                lcl.lineTo(lefttop + (j + 1) * data[i].duration / ssuummdur * 530 / data[i].run_data.length, kk * data[i].run_data[j].heart_rate + bb);
-                            }
-
-                            lcl.fill();
-                            lcl.stroke();
-                            lasttop = data[i].run_data[data[i].run_data.length - 1].heart_rate;
-                            lefttop = lefttop + data[i].duration / ssuummdur * 530;
-                        }
-                        // 顶部实线
-                        var kk = -9 / 7;
-                        var bb = -200 * kk;
-                        var sumddp = 0;
-                        var lasttop = 60;
-                        var lefttop = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            lcl.beginPath();
-                            lcl.lineWidth = 0.5;
-                            if (data[i].category_name == '有氧运动') {
-                                lcl.strokeStyle = '#FFD450';
-                            }
-                            if (data[i].category_name == '力量') {
-                                lcl.strokeStyle = '#398EFF';
-                            }
-                            if (data[i].category_name == 'HIIT') {
-                                lcl.strokeStyle = '#FF5E7F';
-                            }
-                            if (data[i].category_name == '空闲') {
-                                lcl.strokeStyle = '#7E879C';
-                            }
-
-                            lcl.lineWidth = 0.5;
-                            // console.log(data[i].duration/ssuummdur*250)
-                            // console.log(kk*data[i].run_data[data[i].run_data.length-1].heart_rate+bb)
-                            sumddp = sumddp + data[i].duration / ssuummdur * 530;
-                            lcl.moveTo(sumddp - data[i].duration / ssuummdur * 530, kk * lasttop + bb);
-                            for (var j = 0; j < data[i].run_data.length; j++) {
-                                // console.log(data[i].run_data[j].heart_rate)
-                                lcl.lineTo(lefttop + (j + 1) * data[i].duration / ssuummdur * 530 / data[i].run_data.length, kk * data[i].run_data[j].heart_rate + bb);
-                            }
-
-                            lcl.stroke();
-                            lasttop = data[i].run_data[data[i].run_data.length - 1].heart_rate;
-                            lefttop = lefttop + data[i].duration / ssuummdur * 530;
-                        }
-                        // 底部时间
-
-                        this.tbrr.push(parseInt(data[0].start_time));
-
-                        this.tbrr.push(parseInt(parseInt(data[0].start_time) + parseInt((data[data.length - 1].end_time - data[0].start_time) / 6)));
-                        this.tbrr.push(parseInt(parseInt(data[0].start_time) + parseInt((data[data.length - 1].end_time - data[0].start_time) / 6 * 2)));
-                        this.tbrr.push(parseInt(parseInt(data[0].start_time) + parseInt((data[data.length - 1].end_time - data[0].start_time) / 6 * 3)));
-                        this.tbrr.push(parseInt(parseInt(data[0].start_time) + parseInt((data[data.length - 1].end_time - data[0].start_time) / 6 * 4)));
-                        this.tbrr.push(parseInt(parseInt(data[0].start_time) + parseInt((data[data.length - 1].end_time - data[0].start_time) / 6 * 5)));
-                        this.tbrr.push(parseInt(data[data.length - 1].end_time));
                     }
+                    // canvas运动曲线分布图表
+                    var d = document.getElementById('yzycan');
+                    var lcl = d.getContext('2d');
+                    lcl.beginPath();
+                    lcl.moveTo(20,40)
+                    lcl.lineTo(60,80)
+                    lcl.stroke()
+                    // data = data.categories_data
+                    console.log(data);
+                    var kk = -9 / 7;
+                    var bb = -200 * kk;
+                    var sumddp = 0;
+                    var lasttop = 60;
+                    var lefttop = 0;
+                    var sumdura = 0;
+                    var sumdurb = 0;
+                    var sumdurc = 0;
+                    var sumdurd = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].device_name.indexOf("跑步机") > -1 || data[i].device_name.indexOf("椭圆机") > -1 || data[i].device_name.indexOf("单车") > -1) {
+                            sumdura = sumdura + data[i].duration;
+                            // for(var j=0;j<data.categories_data[i].run_data.length;j++){
+                            //   sumcala = sumcala + data.categories_data[i].run_data[j].calorie
+                            // }
+                        }
+                        if (data[i].device_name == 'hiit' || data[i].device_name == 'HIIT') {
+                            sumdurb = sumdurb + data[i].duration;
+                            // for(var j=0;j<data.categories_data[i].run_data.length;j++){
+                            //   sumcalb = sumcalb + data.categories_data[i].run_data[j].calorie
+                            // }
+                        }
+                        if (data[i].device_name.indexOf("哑铃") > -1 || data[i].device_name.indexOf("杠铃") > -1 || data[i].device_name.indexOf("飞鸟") > -1) {
+                            sumdurc = sumdurc + data[i].duration;
+                            // for(var j=0;j<data.categories_data[i].run_data.length;j++){
+                            //   sumcalc = sumcalc + data.categories_data[i].run_data[j].calorie
+                            // }
+                        }
+                        if (data[i].device_name == "rest" || data[i].device_name == "") {
+                            sumdurd = sumdurd + data[i].duration;
+                        }
+                    }
+                    var ssuummdur = sumdura + sumdurb + sumdurc + sumdurd;
+                    this.kxtime = (sumdura + sumdurb + sumdurc) / ssuummdur;
+                    for (var i = 0; i < data.length; i++) {
+                        lcl.beginPath();
+                        lcl.lineWidth = 0.5;
+                        if (data[i].device_name.indexOf("跑步机") > -1 || data[i].device_name.indexOf("椭圆机") > -1 || data[i].device_name.indexOf("单车") > -1) {
+                            // lcl.strokeStyle = 'rgba(255,255,255,0)';
+                            lcl.strokeStyle = 'rgba(255,255,0,0)';
+                            lcl.fillStyle = '#FFD450';
+                            var linearGradient1 = lcl.createLinearGradient(0, 0, 0, 180);
+                            linearGradient1.addColorStop(0, '#FFD450');
+                            linearGradient1.addColorStop(1, 'rgba(255,236,178,0.2)');
+                            lcl.fillStyle = linearGradient1;
+                        }
+                        if (data[i].device_name.indexOf("哑铃") > -1 || data[i].device_name.indexOf("杠铃") > -1 || data[i].device_name.indexOf("飞鸟") > -1) {
+                            lcl.strokeStyle = 'rgba(255,255,255,0)';
+                            lcl.fillStyle = '#398EFF';
+                            var linearGradient1 = lcl.createLinearGradient(0, 0, 0, 180);
+                            linearGradient1.addColorStop(0, '#398EFF');
+                            linearGradient1.addColorStop(1, 'rgba(199,223,255,0.2)');
+                            lcl.fillStyle = linearGradient1;
+                        }
+                        if (data[i].device_name == 'hiit' || data[i].device_name == 'HIIT') {
+                            lcl.strokeStyle = 'rgba(255,255,255,0)';
+                            lcl.fillStyle = '#FF5E7F';
+                            var linearGradient1 = lcl.createLinearGradient(0, 0, 0, 180);
+                            linearGradient1.addColorStop(0, '#FF5E7F');
+                            linearGradient1.addColorStop(1, 'rgba(255,93,127,0.2)');
+                            lcl.fillStyle = linearGradient1;
+                        }
+                        if (data[i].device_name == "rest" || data[i].device_name == "") {
+                            lcl.strokeStyle = 'rgba(255,255,255,0)';
+                            lcl.fillStyle = '#7E879C';
+                            var linearGradient1 = lcl.createLinearGradient(0, 0, 0, 180);
+                            linearGradient1.addColorStop(0, '#7E879C');
+                            linearGradient1.addColorStop(1, 'rgba(216,221,238,0.2)');
+                            lcl.fillStyle = linearGradient1;
+                        }
 
+                        lcl.lineWidth = 0.5;
+
+                        console.log(data[i].duration/ssuummdur*530)
+                        // console.log(kk*data[i].run_data[data[i].run_data.length-1].heart_rate+bb)
+                        lcl.moveTo(lefttop + data[i].duration / ssuummdur * 530, kk * data[i].run_data[data[i].run_data.length - 1].heart_rate + bb);
+                        sumddp = sumddp + data[i].duration / ssuummdur * 530;
+                        lcl.lineTo(sumddp, 180);
+                        lcl.lineTo(sumddp - data[i].duration / ssuummdur * 530, 180);
+                        lcl.lineTo(sumddp - data[i].duration / ssuummdur * 530, kk * lasttop + bb);
+                        for (var j = 0; j < data[i].run_data.length; j++) {
+                            lcl.lineTo(lefttop + (j + 1) * data[i].duration / ssuummdur * 530 / data[i].run_data.length, kk * data[i].run_data[j].heart_rate + bb);
+                            // console.log(123)
+                        }
+
+                        lcl.fill();
+                        lcl.stroke();
+                        lasttop = data[i].run_data[data[i].run_data.length - 1].heart_rate;
+                        lefttop = lefttop + data[i].duration / ssuummdur * 530;
+                    }
+                    // 顶部实线
+                    var kk = -9 / 7;
+                    var bb = -200 * kk;
+                    var sumddp = 0;
+                    var lasttop = 60;
+                    var lefttop = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        lcl.beginPath();
+                        lcl.lineWidth = 0.5;
+                        if (data[i].device_name.indexOf("跑步机") > -1 || data[i].device_name.indexOf("椭圆机") > -1 || data[i].device_name.indexOf("单车") > -1) {
+                            lcl.strokeStyle = '#FFD450';
+                        }
+                        if (data[i].device_name.indexOf("哑铃") > -1 || data[i].device_name.indexOf("杠铃") > -1 || data[i].device_name.indexOf("飞鸟") > -1) {
+                            lcl.strokeStyle = '#398EFF';
+                        }
+                        if (data[i].device_name == 'hiit' || data[i].device_name == 'HIIT') {
+                            lcl.strokeStyle = '#FF5E7F';
+                        }
+                        if (data[i].device_name == "rest" || data[i].device_name == "") {
+                            lcl.strokeStyle = '#7E879C';
+                        }
+
+                        lcl.lineWidth = 0.5;
+                        // console.log(data[i].duration/ssuummdur*250)
+                        // console.log(kk*data[i].run_data[data[i].run_data.length-1].heart_rate+bb)
+                        sumddp = sumddp + data[i].duration / ssuummdur * 530;
+                        lcl.moveTo(sumddp - data[i].duration / ssuummdur * 530, kk * lasttop + bb);
+                        for (var j = 0; j < data[i].run_data.length; j++) {
+                            // console.log(data[i].run_data[j].heart_rate)
+                            lcl.lineTo(lefttop + (j + 1) * data[i].duration / ssuummdur * 530 / data[i].run_data.length, kk * data[i].run_data[j].heart_rate + bb);
+                        }
+
+                        lcl.stroke();
+                        lasttop = data[i].run_data[data[i].run_data.length - 1].heart_rate;
+                        lefttop = lefttop + data[i].duration / ssuummdur * 530;
+                    }
+                    // 底部时间
+
+                    this.tbrr.push(parseInt(data[0].start_time));
+
+                    this.tbrr.push(parseInt(parseInt(data[0].start_time) + parseInt((data[data.length - 1].end_time - data[0].start_time) / 6)));
+                    this.tbrr.push(parseInt(parseInt(data[0].start_time) + parseInt((data[data.length - 1].end_time - data[0].start_time) / 6 * 2)));
+                    this.tbrr.push(parseInt(parseInt(data[0].start_time) + parseInt((data[data.length - 1].end_time - data[0].start_time) / 6 * 3)));
+                    this.tbrr.push(parseInt(parseInt(data[0].start_time) + parseInt((data[data.length - 1].end_time - data[0].start_time) / 6 * 4)));
+                    this.tbrr.push(parseInt(parseInt(data[0].start_time) + parseInt((data[data.length - 1].end_time - data[0].start_time) / 6 * 5)));
+                    this.tbrr.push(parseInt(data[data.length - 1].end_time));
                     // 运动功效图表
                     var c = document.getElementById('yyycan');
                     var yzy = c.getContext('2d');
@@ -806,12 +1033,12 @@ export default {
                     var a1, a2, a3, a4, a5, a6;
                     yzy.beginPath();
 
-                    data = vyvy.run_effects;
-                    var ydgxbox = [0, 0, 0, 0, 0, 0];
-                    for (var i = 0; i < data.length; i++) {
-                        ydgxbox.splice(data[i].effect, 1, data[i].time);
-                    }
-                    console.log(data);
+                    var ydgxbox
+                    ydgxbox = run_effects
+                    // for (var i = 0; i < data.length; i++) {
+                    //     ydgxbox.splice(data[i].effect, 1, data[i].time);
+                    // }
+                    // console.log(data);
                     a1 = ydgxbox[1];
                     a2 = ydgxbox[3];
                     a3 = ydgxbox[5];
@@ -1061,11 +1288,11 @@ export default {
                 uid: this.inquiry
             };
             console.log(this);
-            this.$axios.post('https://ll.linkfeeling.cn/api/fitness/sport_report', JSON.stringify(datd), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/fitness/sport_report', JSON.stringify(datd), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
                     // res.data.data = res.data.data.data
-                    this.user.usday = res.data.data.day_num;
+                    this.user.usday = res.data.data.data.day_num;
                     this.user.ustime = res.data.data.total_time;
                     this.user.uscal = res.data.data.total_calorie;
 
@@ -1079,12 +1306,12 @@ export default {
                 gym_name: 'link_office',
                 page: this.cur_page,
                 uid: this.inquiry,
-                pos: 0,
+                pos: 1,
                 count: 10,
                 flag: false
             };
             console.log(this);
-            this.$axios.post('https://ll.linkfeeling.cn/api/fitness/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/fitness/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
                     this.items = res.data.data;
@@ -1571,6 +1798,7 @@ export default {
         font-family:PingFangSC-Medium;
         font-weight:500;
         color:#5A6286;
+        text-align: left;
         text-indent: 0;
     }
     .rbom{
@@ -1823,7 +2051,7 @@ export default {
     }
     .bcd{
         margin-top: 10px;
-        width:100%;
+        width:0;
         height:7px;
         background:rgba(255,236,178,1);
         border-radius:6px;
