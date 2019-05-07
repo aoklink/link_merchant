@@ -46,9 +46,6 @@ export default {
         addTab (id) {
             this.tabIdSelected = id + '';
         },
-        addTab (id) {
-            this.tabIdSelected = id + '';
-        },
         removeTab (targetId) {
             let tabs = this.gymInfoListSelected;
             let activeId = this.tabIdSelected;

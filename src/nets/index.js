@@ -1,20 +1,55 @@
 import * as api from './api';
 import http from 'axios';
 import qs from 'qs';
+
 import {
     wrapAjaxToPromise
 } from '../utils';
+import router from '../router';
+
 
 const axios = http.create({
     timeout: 15000,
     withCredentials: true
 });
+
+axios.interceptors.response.use(
+    function (response) {
+        /**
+   * 下面的注释为通过response自定义code来标示请求状态，当code返回如下情况为权限有问题，登出并返回到登录页
+   * 如通过xmlhttprequest 状态码标识 逻辑可写在下面error中
+   */
+        const res = response.data;
+        if (res.code !== 200) {
+            let mes;
+            switch (res.code) {
+            case 401:
+                mes = '登录超时，请重新登录';
+                router.push('/Login');
+                break;
+            }
+            mes = mes || res.message;
+            return Promise.reject(mes);
+        } else {
+            return response;
+        }
+    },
+    error => {
+        console.log('err' + error);// for debug
+        return Promise.reject(error.message);
+    }
+);
 export function getOSSSession (payload) {
-    return wrapAjaxToPromise(http.create({timeout: 15000}).get(api.GET_OSS_SESSION).then(res => {
-        res.data.data = {...res.data};
-        res.data.code = 200;
-        return res;
-    }));
+    return wrapAjaxToPromise(
+        http
+            .create({ timeout: 15000 })
+            .get(api.GET_OSS_SESSION)
+            .then(res => {
+                res.data.data = { ...res.data };
+                res.data.code = 200;
+                return res;
+            })
+    );
 }
 
 export function login (payload) {
@@ -31,6 +66,10 @@ export function userVerify (payload) {
 
 export function gymAdminUserAdd (payload) {
     return wrapAjaxToPromise(axios.post(api.GYM_ADMIN_USER_ADD, payload));
+}
+
+export function gymAdminUserList (payload) {
+    return wrapAjaxToPromise(axios.post(api.GYM_ADMIN_USER_LIST, payload));
 }
 
 export function gymAdminUserUpdate (payload) {
@@ -187,4 +226,35 @@ export function gymInfoUpdate (payload) {
 
 export function gymInfoDelete (payload) {
     return wrapAjaxToPromise(axios.post(api.GYM_INFO_DELETE, payload));
+}
+
+export function gymPlayCoachList (payload) {
+    return wrapAjaxToPromise(axios.post(api.GYM_PLAY_COACH_LIST, payload));
+}
+
+export function gymPlayCoachDelete (payload) {
+    return wrapAjaxToPromise(axios.post(api.GYM_PLAY_COACH_DELETE, payload));
+}
+
+export function gymPlayCoachAdd (payload) {
+    return wrapAjaxToPromise(axios.post(api.GYM_PLAY_COACH_ADD, payload));
+}
+
+export function gymPlayMemberList (payload) {
+    return wrapAjaxToPromise(axios.post(api.GYM_PLAY_MEMBER_LIST, payload));
+}
+export function gymPlayMemberGet (payload) {
+    return wrapAjaxToPromise(axios.post(api.GYM_PLAY_MEMBER_GET, payload));
+}
+
+export function gymPlayCoachGet (payload) {
+    return wrapAjaxToPromise(axios.post(api.GYM_PLAY_COACH_GET, payload));
+}
+
+export function gymPlayMemberTrans (payload) {
+    return wrapAjaxToPromise(axios.post(api.GYM_PLAY_MEMBER_TRANS, payload));
+}
+
+export function gymPlayMemberAddstudent (payload) {
+    return wrapAjaxToPromise(axios.post(api.GYM_PLAY_MEMBER_ADDSTUDENT, payload));
 }

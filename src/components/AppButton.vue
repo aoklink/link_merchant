@@ -40,14 +40,14 @@ export default {
 
 <style scoped>
     .base {
-        border-radius: 0.11rem;
+        border-radius: 0.05rem;
         border: none;
         background: none;
         cursor: pointer;
         color: #3C4456;
         font-family:PingFangSC-Medium;
         font-weight:500;
-        font-size: 14px;
+        font-size: 12px;
     }
     .base:focus{
         outline: none;

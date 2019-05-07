@@ -1,12 +1,19 @@
-// const PREFIX = process.env.NODE_ENV === 'production' ? 'http://www.linkfeeling.cn' : 'http://www.linkfeeling.cn';
-const PREFIX = process.env.NODE_ENV === 'production' ? 'http://47.99.180.180:11002' : 'http://47.99.180.180:11002';
+const PREFIX = process.env.NODE_ENV === 'production' ? 'http://www.linkfeeling.cn' : 'http://www.linkfeeling.cn';
+
+// const PREFIX =
+//     process.env.NODE_ENV === 'production'
+//         ? 'http://47.99.180.180:11002'
+//         : 'http://192.168.9.37:10002';
+
 
 export const LOGIN = `${PREFIX}/api/account/platform/login`;
-export const GET_OSS_SESSION = `http://47.111.161.136:3990`;
+// export const GET_OSS_SESSION = `http://47.111.161.136:3990`;
+export const GET_OSS_SESSION = `http://oss.linkfeeling.cn/access_callback`;
 
 export const USER_ADD = `${PREFIX}/api/account/add`;
 export const USER_VERIFY = `${PREFIX}/api/account/verify`;
 export const GYM_ADMIN_USER_ADD = `${PREFIX}/api/account/gym_admin_user/add`;
+export const GYM_ADMIN_USER_LIST = `${PREFIX}/api/account/gym_admin_user/list`;
 export const GYM_ADMIN_USER_UPDATE = `${PREFIX}/api/account/gym_admin_user/update`;
 export const GYM_ADMIN_USER_VERIFY = `${PREFIX}/api/account/gym_admin_user/verify`;
 export const GYM_ADMIN_USER_GET_BIND = `${PREFIX}/api/account/gym_admin_user/get_bind`;
@@ -46,3 +53,13 @@ export const GYM_INFO_LIST_ALL = `${PREFIX}/api/platform/gym_info/list_all`;
 export const GYM_INFO_UPDATE_ME = `${PREFIX}/api/platform/gym_info/update_me`;
 export const GYM_INFO_UPDATE = `${PREFIX}/api/platform/gym_info/update`;
 export const GYM_INFO_DELETE = `${PREFIX}/api/platform/gym_info/delete`;
+
+// 教练管理
+export const GYM_PLAY_COACH_LIST = `${PREFIX}/api/platform/gym/play/coach/list`;
+export const GYM_PLAY_COACH_DELETE = `${PREFIX}/api/platform/gym/play/coach/unbind`;
+export const GYM_PLAY_COACH_ADD = `${PREFIX}/api/platform/gym/play/coach/bind`;
+export const GYM_PLAY_COACH_GET = `${PREFIX}/api/platform/gym/play/coach/get`;
+export const GYM_PLAY_MEMBER_LIST = `${PREFIX}/api/platform/gym/play/member/list`;
+export const GYM_PLAY_MEMBER_GET = `${PREFIX}/api/platform/gym/play/member/get`;
+export const GYM_PLAY_MEMBER_TRANS = `${PREFIX}/api/platform/gym/play/member/trans`;
+export const GYM_PLAY_MEMBER_ADDSTUDENT = `${PREFIX}/api/platform/gym/play/member/add_student`;

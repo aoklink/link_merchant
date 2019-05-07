@@ -22,31 +22,38 @@ export default {
             gym_id: payload.gym_id
         };
     },
+    [types.MUTATE_GYM_ACCOUNT_LIST] (state, payload) {
+        state.accountList = payload;
+    },
     [types.MUTATE_GYM_INFO_LIST] (state, payload) {
         state.gymInfoList = payload;
     },
     [types.ADD_GYM_INFO_LIST_SELECTED] (state, payload) {
-        state.gymInfoListSelected = [{
-            id: payload.id,
-            member_count: payload.memberCount,
-            name: payload.name,
-            city: payload.city,
-            address: payload.address,
-            label: payload.label,
-            phone: payload.phone,
-            logo_url: payload.logo_url,
-            display_img_urls: payload.display_img_urls,
-            mini_program_code_url: payload.mini_program_code_url
-        }];
+        state.gymInfoListSelected = [
+            {
+                id: payload.id,
+                member_count: payload.memberCount,
+                name: payload.name,
+                city: payload.city,
+                address: payload.address,
+                label: payload.label,
+                phone: payload.phone,
+                logo_url: payload.logo_url,
+                display_img_urls: payload.display_img_urls,
+                mini_program_code_url: payload.mini_program_code_url
+            }
+        ];
     },
     [types.REMOVE_ITEM_FROM_GYM_INFO_LIST_SELECTED] (state, payload) {
-        state.gymInfoListSelected = state.gymInfoListSelected.filter(item => item.id != payload);
+        state.gymInfoListSelected = state.gymInfoListSelected.filter(
+            item => item.id != payload
+        );
     },
     [types.MUTATE_COACH_INFO_LIST_SELECTED] (state, payload) {
         state.coachInfoListSelected = [...payload];
     },
     [types.MUTATE_CLASS_INFO_SELECTED] (state, payload) {
-        state.classInfoSelected = {...payload};
+        state.classInfoSelected = { ...payload };
     },
     [types.MUTATE_CLASS_INFO_LIST_SELECTED] (state, payload = []) {
         state.classInfoListSelected = [...payload];

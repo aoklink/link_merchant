@@ -10,10 +10,10 @@
                 </keep-alive>
                 <div class="main-container">
                     <router-view />
-                </div> 
+                </div>
             </div>
-        </template>    
-        <router-view v-if="!$route.meta.keepAlive"></router-view>
+        </template>
+        <router-view v-if="!$route.meta.keepAlive" />
     </div>
 </template>
 <script>

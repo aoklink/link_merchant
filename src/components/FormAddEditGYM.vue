@@ -330,15 +330,23 @@ export default {
         },
         async onNext () {
             if (this.activeName == 'first') {
+                console.log(1)
+                // let result = await this.onSubmitGYMInfo();
+                // if (result.success) {
+                    // this.$store.dispatch(GET_COACH_LIST_BY_GYMID, {gym_id: this.gymId});
+                    this.activeName = 'second';
+                // }
+            } else if (this.activeName == 'second') {
+                console.log(2)
+                // this.$store.dispatch(GET_CLASS_INFO_LIST_BY_GYMID, {gym_id: this.gymId});
+                this.activeName = 'third';
+            } else if (this.activeName == 'third') {
+                console.log(3)
                 let result = await this.onSubmitGYMInfo();
                 if (result.success) {
                     this.$store.dispatch(GET_COACH_LIST_BY_GYMID, {gym_id: this.gymId});
-                    this.activeName = 'second';
                 }
-            } else if (this.activeName == 'second') {
                 this.$store.dispatch(GET_CLASS_INFO_LIST_BY_GYMID, {gym_id: this.gymId});
-                this.activeName = 'third';
-            } else if (this.activeName == 'third') {
                 this.onClose();
             }
         },

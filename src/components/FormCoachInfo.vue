@@ -37,7 +37,7 @@
         </div>
         <div v-else>
             <h3>教练列表</h3>
-            <el-table :data="coachInfoListSelected" height="400" stripe
+            <el-table :data="coachInfoListSelected" stripe
                       style="width: 90%"
             >
                 <el-table-column prop="name" label="姓名" />

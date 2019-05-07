@@ -1,126 +1,128 @@
 <template>
-    <div class="table">
-        <div class="crumbs">
-            <div class="oo">
-                会员管理
+    <div class="content">
+        <div class="table">
+            <div class="crumbs">
+                <div class="oo">
+                    会员管理
+                </div>
+                <div class="celllist">
+                    会员列表
+                </div>
             </div>
-            <div class="celllist">
-                会员列表
-            </div>
-        </div>
-        <div class="container">
-            <!-- <div class="handle-box">
-                <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-                <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
-                    <el-option key="1" label="广东省" value="广东省"></el-option>
-                    <el-option key="2" label="湖南省" value="湖南省"></el-option>
-                </el-select>
-                <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
-                <el-button type="primary" icon="search" @click="search">搜索</el-button>
-                <el-button type="primary" icon="search" @click="tadd">添加手环</el-button>
-            </div> -->
-            <el-table ref="multipleTable" :data="data" border
-                      class="table" @selection-change="handleSelectionChange"
-            >
-                <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
-                <el-table-column prop="id" label="会员编号" width="150"
-                                 style="color: red !important"
-                />
-                <el-table-column prop="nick_name" label="昵称" width="220">
-                    <template slot-scope="scope">
-                        <div type="text">
-                            {{ tableData[scope.$index].nick_name }}
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="phone_num" label="注册手机" width="230">
-                    <template slot-scope="scope">
-                        <div type="text">
-                            {{ tableData[scope.$index].phone_num }}
-                        </div>
-                    </template>
-                </el-table-column>
-                <!-- <el-table-column prop="bind_time" label="上一次绑定时间" width="270">
-                    <template slot-scope="scope">
-                        <div type="text">{{getDd(new Date(parseInt(tableData[scope.$index].bind_time)))}}</div>
-                    </template>
-                </el-table-column> -->
-                <el-table-column prop="bind_time" label="上一次绑定时间" width="270">
-                    <template slot-scope="scope">
-                        <div type="text">
-                            {{ tableData[scope.$index].bind_time }}
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作" width="270" align="center"
-                                 prop="status"
+            <div class="container">
+                <!-- <div class="handle-box">
+                    <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
+                    <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
+                        <el-option key="1" label="广东省" value="广东省"></el-option>
+                        <el-option key="2" label="湖南省" value="湖南省"></el-option>
+                    </el-select>
+                    <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+                    <el-button type="primary" icon="search" @click="search">搜索</el-button>
+                    <el-button type="primary" icon="search" @click="tadd">添加手环</el-button>
+                </div> -->
+                <el-table ref="multipleTable" :data="data" border
+                        class="table" @selection-change="handleSelectionChange"
                 >
-                    <template slot-scope="scope">
-                        <router-link :class="tableData[scope.$index].status == 0?'cc':'cc'" :to="{ path: '/baseinfo', query: { inquiry: tableData[scope.$index].uid }}">
-                            查看
-                        </router-link>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <!-- <div class="pagination">
-                <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                </el-pagination>
-            </div> -->
-        </div>
-
-        <!-- 解绑弹出框 -->
-        <el-dialog title="解除绑定" :visible.sync="unBindVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="50px">
-                <el-form-item label="手环">
-                    <div v-model="form.id">
-                        {{ form.id }}
-                    </div>
-                </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="unBindVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveUn">确 定</el-button>
-            </span>
-        </el-dialog>
-
-        <!-- 绑定弹出框 -->
-        <el-dialog title="绑定" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="50px">
-                <el-form-item label="手环">
-                    <div v-model="form.id">
-                        {{ form.id }}
-                    </div>
-                </el-form-item>
-                <el-form-item label="姓名">
-                    <el-input v-model="form.nick_name" />
-                </el-form-item>
-                <el-form-item label="手机">
-                    <el-input v-model="form.phone_num" />
-                </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
-            </span>
-        </el-dialog>
-
-        <!-- 删除提示框 -->
-        <el-dialog title="提示" :visible.sync="delVisible" width="300px"
-                   center
-        >
-            <el-form ref="form" :model="form" label-width="50px">
-                <el-form-item label="手环">
-                    <el-input v-model="form.id" />
-                </el-form-item>
-            </el-form>
-            <div class="del-dialog-cnt">
-                删除不可恢复，是否确定删除？
+                    <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
+                    <el-table-column prop="ncc" label="会员编号"
+                                    style="color: red !important"
+                    />
+                    <el-table-column prop="nick_name" label="昵称" >
+                        <template slot-scope="scope">
+                            <div type="text">
+                                {{ decodeURIComponent(tableData[scope.$index].nick_name) }}
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="phone_num" label="注册手机">
+                        <template slot-scope="scope">
+                            <div type="text">
+                                {{ tableData[scope.$index].phone_num }}
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <!-- <el-table-column prop="bind_time" label="上一次绑定时间" width="270">
+                        <template slot-scope="scope">
+                            <div type="text">{{getDd(new Date(parseInt(tableData[scope.$index].bind_time)))}}</div>
+                        </template>
+                    </el-table-column> -->
+                    <el-table-column prop="bind_time" label="上一次绑定时间">
+                        <template slot-scope="scope">
+                            <div type="text">
+                                {{ tableData[scope.$index].bind_time }}
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作" align="center"
+                                    prop="status"
+                    >
+                        <template slot-scope="scope">
+                            <router-link :class="tableData[scope.$index].status == 0?'cc':'cc'" :to="{ path: '/baseinfo', query: { inquiry: tableData[scope.$index].uid }}">
+                                查看
+                            </router-link>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <!-- <div class="pagination">
+                    <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
+                    </el-pagination>
+                </div> -->
             </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="delVisible = false">取 消</el-button>
-                <el-button type="primary" @click="deleteRow">确 定</el-button>
-            </span>
-        </el-dialog>
+
+            <!-- 解绑弹出框 -->
+            <el-dialog title="解除绑定" :visible.sync="unBindVisible" width="30%">
+                <el-form ref="form" :model="form" label-width="50px">
+                    <el-form-item label="手环">
+                        <div v-model="form.id">
+                            {{ form.id }}
+                        </div>
+                    </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="unBindVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="saveUn">确 定</el-button>
+                </span>
+            </el-dialog>
+
+            <!-- 绑定弹出框 -->
+            <el-dialog title="绑定" :visible.sync="editVisible" width="30%">
+                <el-form ref="form" :model="form" label-width="50px">
+                    <el-form-item label="手环">
+                        <div v-model="form.id">
+                            {{ form.id }}
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="姓名">
+                        <el-input v-model="form.nick_name" />
+                    </el-form-item>
+                    <el-form-item label="手机">
+                        <el-input v-model="form.phone_num" />
+                    </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="editVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="saveEdit">确 定</el-button>
+                </span>
+            </el-dialog>
+
+            <!-- 删除提示框 -->
+            <el-dialog title="提示" :visible.sync="delVisible" width="300px"
+                    center
+            >
+                <el-form ref="form" :model="form" label-width="50px">
+                    <el-form-item label="手环">
+                        <el-input v-model="form.id" />
+                    </el-form-item>
+                </el-form>
+                <div class="del-dialog-cnt">
+                    删除不可恢复，是否确定删除？
+                </div>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="delVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="deleteRow">确 定</el-button>
+                </span>
+            </el-dialog>
+        </div>
     </div>
 </template>
 
@@ -129,7 +131,7 @@ export default {
     name: 'Basemember',
     data () {
         return {
-            localhost: 'https://dev.linkfeeling.cn',
+            localhost: 'https://ll.linkfeeling.cn',
             // url: './static/vuetable.json',
             url: this.localhost + '/api/platform/members',
             tableData: [],
@@ -218,7 +220,7 @@ export default {
             //     this.url = '/ms/table/list';
             // };
             let datt = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 page: this.cur_page
             };
             console.log(this);
@@ -227,28 +229,32 @@ export default {
                     console.log(res.data.data);
                     var xbox = res.data.data;
                     console.log(xbox);
+                    // console.log(new Date(xbox[0].bind_time));
                     var aDiv = [];
                     for (var i = 0; i < xbox.length; i++) {
                         aDiv.push(xbox[i]);
                     }
-                    aDiv.sort(function (a, b) { return a.status - b.status; });
+                    aDiv.sort(function (a, b) { return new Date(b.bind_time) - new Date(a.bind_time); });
+                    for(var i = 0; i < aDiv.length; i++){
+                        aDiv[i].ncc = (i+1)
+                    }
                     console.log(aDiv);
                     this.tableData = aDiv;
-                    console.log(this.tableData.filter((d) => {
-                        let is_del = false;
-                        for (let i = 0; i < this.del_list.length; i++) {
-                            if (d.id === this.del_list[i].id) {
-                                is_del = true;
-                                break;
-                            }
-                        }
-                        if (!is_del) {
-                            console.log(d);
-                            if (d.id.indexOf(this.select_cate) > -1) {
-                                return d;
-                            }
-                        }
-                    }));
+                    // console.log(this.tableData.filter((d) => {
+                    //     let is_del = false;
+                    //     for (let i = 0; i < this.del_list.length; i++) {
+                    //         if (d.id === this.del_list[i].id) {
+                    //             is_del = true;
+                    //             break;
+                    //         }
+                    //     }
+                    //     if (!is_del) {
+                    //         console.log(d);
+                    //         if (d.id.indexOf(this.select_cate) > -1) {
+                    //             return d;
+                    //         }
+                    //     }
+                    // }));
                 })
                 .catch((res) => {
                     console.log(res);
@@ -286,7 +292,7 @@ export default {
         getedit () {
             let that = this;
             let datt = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 id: this.form.id,
                 uid: this.form.uid,
                 nick_name: this.form.nick_name,
@@ -315,7 +321,7 @@ export default {
             this.$route.path(editor);
             let that = this;
             let datt = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 id: this.form.id,
                 end_time: Date.parse(new Date()),
                 page: this.cur_page
@@ -340,7 +346,7 @@ export default {
         getdel () {
             let that = this;
             let datt = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 id: this.form.id,
                 page: this.cur_page
             };
@@ -427,6 +433,89 @@ export default {
 };
 
 </script>
+
+<style>
+    .container .el-table thead{
+        color: #5A6286;
+        font-size:12px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(90,98,134,1);
+
+    }
+    .el-table th{
+        background: #E9EEF6;
+        margin-left: 1px;
+        height: 35px;
+        box-sizing: content-box;
+        padding: 0;
+    }
+    .el-table tr{
+        height: 50px;
+    }
+    .el-table td, .el-table th.is-leaf{
+        border:1px solid rgba(198,204,220,1);
+        border-left: 0;
+        border-top: 0;
+    }
+    .el-table tr:nth-child(even){
+        background: #F9FAFC;
+    }
+    .el-table--small td, .el-table--small th{
+        padding: 5px 0;
+        box-sizing: content-box !important;
+    }
+    .el-table--small td{
+        font-size:14px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(48,56,73,1);
+        font-size:12px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(90,98,134,1);
+    }
+    .el-table--small th{
+        font-size:12px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(90,98,134,1);
+    }
+    .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+        padding-left: 30px;
+        box-sizing: border-box;
+    }
+    .has-gutter tr{
+    }
+    .el-table__row .cell{
+        width: 130px;
+        height: 25px;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        margin-left: 30px;
+        text-align: left;
+    }
+    tbody tr td:last-child .cell{
+        margin: 0 auto;
+    }
+    tbody tr td:nth-of-type(1) .cell{
+        margin-left: 0;
+    }
+    .has-gutter tr th:last-of-type .cell{
+        padding: 0 !important;
+    }
+    .el-table td.is-center, .el-table th.is-center .cell{
+        padding: 0 !important;
+    }
+    tbody{
+        overflow: auto;
+    }
+    .el-table__body-wrapper{
+        overflow: overlay !important;
+        height: 500px !important;
+    }
+</style>
 
 <style scoped>
     .handle-box {
@@ -533,6 +622,8 @@ export default {
         font-weight:500;
         letter-spacing: 2px;
         margin: 0 auto;
+        text-decoration: none;
+        border-radius: 0.05rem;
     }
     .dd{
         background: #3C4456;
@@ -562,74 +653,11 @@ export default {
         color:#3C4456;
         font-family:PingFangSC-Medium;
     }
-</style>
-
-<style>
-    .container .el-table thead{
-        color: #5A6286;
-        font-size:12px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(90,98,134,1);
-
+    .table{
+        height: 550px;
     }
-    .el-table th{
-        background: #E9EEF6;
-        margin-left: 1px;
-        height: 35px;
-        box-sizing: content-box;
-        padding: 0;
-    }
-    .el-table tr{
-        height: 50px;
-    }
-    .el-table td, .el-table th.is-leaf{
-        border:1px solid rgba(198,204,220,1);
-        border-left: 0;
-        border-top: 0;
-    }
-    .el-table tr:nth-child(even){
-        background: #F9FAFC;
-    }
-    .el-table--small td, .el-table--small th{
-        padding: 5px 0;
-        box-sizing: content-box !important;
-    }
-    .el-table--small td{
-        font-size:14px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(48,56,73,1);
-        font-size:12px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(90,98,134,1);
-    }
-    .el-table--small th{
-        font-size:12px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(90,98,134,1);
-    }
-    .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
-        padding-left: 30px;
-        box-sizing: border-box;
-    }
-    .has-gutter tr{
-    }
-    .el-table__row .cell{
-        width: 130px;
-        height: 25px;
-        padding: 0;
-        display: flex;
-        justify-content: space-between;
-        margin-left: 30px;
-        text-align: left;
-    }
-    tbody tr td:last-child .cell{
-        margin: 0 auto;
-    }
-    tbody tr td:nth-of-type(1) .cell{
-        margin-left: 0;
+    .content{
+        background: #F6F7F8;
+        height: 670px;
     }
 </style>

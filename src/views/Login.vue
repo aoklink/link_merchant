@@ -8,7 +8,7 @@
             <div class="login-form-title">
                 <h2>欢迎回来</h2>
                 <h1>
-                    Linkfeeling 后台系统管理
+                    Linkfeeling 商户端
                 </h1>
             </div>
             <div class="login-form-input">
@@ -40,6 +40,7 @@ import {
 import {
     md5
 } from '../utils/crypto';
+import global from '../components/Global'
 
 export default {
     data () {
@@ -51,13 +52,38 @@ export default {
         };
     },
     methods: {
+        getCookie (cookiename) {
+            var result;
+            var mycookie = document.cookie;
+            var start2 = mycookie.indexOf(cookiename + "=");
+            if (start2 > -1) {
+            start = mycookie.indexOf("=", start2) + 1;
+            var end = mycookie.indexOf(";", start);
+
+            if (end == -1) {
+            end = mycookie.length;
+            }
+
+            result = unescape(mycookie.substring(start, end));
+            }
+
+            return result;
+        },
         async onSubmit () {
             let result = await this.$store.dispatch(LOGIN, {
                 name: this.formItem.userName,
                 password: md5(this.formItem.password)
             });
             if (result.success) {
-                this.$message.success('登陆成功');
+                this.$message.success('登录成功');
+                console.log(this.getCookie('JSESSIONID'))
+                global.gym_id = result.data.user.gym_id
+                localStorage.setItem("gym_id",result.data.user.gym_id);
+                global.gym_name = result.data.user.gym_name
+                localStorage.setItem("gym_name",result.data.user.gym_name);
+                console.log(global.gym_name)
+                console.log(localStorage.getItem("gym_name"))
+                console.log(this.$store.state)
                 this.$router.replace({
                     path: this.$route.query['from'] || '/'
                 });
@@ -75,7 +101,7 @@ export default {
     position: relative;
     text-align: left;
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     background:rgba(246,247,248,1);
     background-image: url('../assets/bg.png');
     background-position: 15rem 0 ;
@@ -83,7 +109,6 @@ export default {
 }
 .login-form{
     position: relative;
-    top:3rem;
     left: 3rem;
     width:17.67rem;
     height:22.08rem;

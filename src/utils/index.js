@@ -13,13 +13,14 @@ export function wrapAjaxToPromise (p) {
         return {
             success: false,
             data: response.data.message,
-            message: response.data.message
+            // message: response.data.message
+            message: 'response.data.message'
         };
-    }, (err) => {
-        console.log(err);
+    }, (response) => {
+        console.log(response);
         return {
             success: false,
-            data: '网络异常'
+            data: response
         };
     });
 }

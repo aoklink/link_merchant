@@ -3,16 +3,45 @@
         <div class="management-top">
             <h3>店铺列表</h3>
         </div>
-        <div>
+        <!-- <div class="mmbox">
             <el-table :data="gymInfoList" style="width: 100%" stripe
                       header-cell-class-name="management-table-header"
             >
                 <el-table-column label="健身房名称" prop="name" />
-                <el-table-column label="联系人" prop="gymAdminUserName" />
+                <el-table-column label="联系人" prop="charge_name" />
                 <el-table-column label="联系方式" prop="phone" />
                 <el-table-column label="城市" prop="city" />
                 <el-table-column label="用户数" prop="memberCount" />
-                <el-table-column align="left" label="操作">
+                <el-table-column align="left" label="操作" >
+                    <template slot-scope="scope">
+                        <app-button size="mini" theme="yellow" @click="handleViewDetail(scope.row)">
+                            查看
+                        </app-button>
+                        <app-button size="mini" theme="plain" @click="handleEdit(scope.row)">
+                            编辑
+                        </app-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div> -->
+
+        <div class="container">
+            <el-table :data="gymInfoList" border
+                    class="table"
+            >
+                <el-table-column prop="name" label="健身房名称" 
+                />
+                <el-table-column prop="charge_name" label="联系人"
+                />
+                <el-table-column prop="phone" label="联系方式">
+                </el-table-column>
+                <el-table-column prop="city" label="城市">
+                </el-table-column>
+                <el-table-column prop="memberCount" label="用户数">
+                </el-table-column>
+                <el-table-column label="操作" align="center" padding="0"
+                                prop="status"
+                >
                     <template slot-scope="scope">
                         <app-button size="mini" theme="yellow" @click="handleViewDetail(scope.row)">
                             查看
@@ -24,11 +53,13 @@
                 </el-table-column>
             </el-table>
         </div>
+
         <el-dialog :key="dialogAddEditKey" :visible.sync="dialogAddEdit"
                    top="1rem"
                    :show-close="false"
                    :close-on-click-modal="false"
                    custom-class="dialog-add-edit-gym"
+                   width="1100px !important"
         >
             <form-add-edit-g-y-m :is-edit="dialogIsEdit" :edit-gym-id="editGymId" @close="onClosedialogAddEdit" />
         </el-dialog>
@@ -87,6 +118,16 @@ export default {
             }
         },
         async handleEdit (row) {
+            if (this.gymInfoListSelected.find(item => item.id == row.id)) {
+                this.$emit('addTab', row.id);
+                return;
+            }
+            let [resultGymInfo] = await Promise.all([
+                this.$store.dispatch(GET_GYM_INFO, {id: row.id}),
+                this.$store.dispatch(GET_COACH_LIST_BY_GYMID, {gym_id: row.id}),
+                this.$store.dispatch(GET_GYM_ADMIN_USER_GET_BIND, {gym_id: row.id}),
+                this.$store.dispatch(GET_CLASS_INFO_LIST_BY_GYMID, {gym_id: row.id})
+            ]);
             this.dialogAddEdit = true;
             this.dialogIsEdit = true;
             this.editGymId = row.id;
@@ -139,5 +180,51 @@ export default {
     .dialog-add-edit-gym .el-dialog__body{
         flex: 1;
         display: flex;
+    }
+    .el-table .cell, .el-table th div{
+        padding-left: 30px !important;
+    }
+    .management-top{
+        padding-left: 20px;
+    }
+    .el-tabs--border-card{
+        border: 0;
+    }
+    .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+        border-bottom:1px solid rgba(198,204,220,1);
+    }
+    .has-gutter tr th:last-child .cell{
+        padding: 0px !important;
+    }
+    .has-gutter tr th:last-of-type .cell{
+        padding: 0 !important;
+    }
+    .el-table td.is-center, .el-table th.is-center .cell{
+        padding: 0 !important;
+    }
+    .has-gutter tr th:last-child{
+        text-align: center;
+        background: red !important;
+    }
+    .mmbox .el-table th:last-child{
+        background: red !important;
+    }
+    .mmbox .el-table thead{
+        padding: 0 !important;
+    }
+</style>
+
+<style scoped>
+    .management-top{
+        padding-left: 20px;
+    }
+    .el-table .cell, .el-table th div{
+        padding-left: 20px !important;
+    }
+    .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+        border:1px solid rgba(198,204,220,1) !important;
+    }
+    .el-tabs--border-card{
+        border: 0;
     }
 </style>

@@ -1,6 +1,4 @@
-import {
-    isLogin
-} from '../utils/auth';
+import { isLogin } from '../utils/auth';
 import * as persistence from './persistence';
 
 export const initVal = {
@@ -12,6 +10,7 @@ export const initVal = {
     coachInfoListSelected: [],
     classInfoListSelected: [],
     classInfoSelected: {},
+    accountList: [],
     OSSsession: {}
 };
 
