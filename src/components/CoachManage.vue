@@ -51,7 +51,8 @@
                             <el-table-column prop="bind_time" label="加入时间">
                                 <template slot-scope="scope">
                                     <div type="text">
-                                        {{ getDd(new Date(tableData[scope.$index].bind_time)) }}
+                                        <!-- {{ getDd(new Date(tableData[scope.$index].bind_time)) }} -->
+                                        {{tableData[scope.$index].bind_time}}
                                     </div>
                                 </template>
                             </el-table-column>
@@ -519,9 +520,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="ksco">
-                                                    <div class="kmak"><span>教练点评</span><span v-if="itembb.impp.length>0" @click="impp(itembb.img)">查看图片</span></div>
+                                                    <div class="kmak"><span>教练点评</span><span v-if="itembb.img.length>0" @click="impp(itembb.img)">查看图片</span></div>
                                                     <div class="kcont">{{itembb.comment.length>0?itembb.comment:'无'}}</div>
-                                                    <!-- 训练照 -->
                                                     <div v-show="imppvi" class="imppbox">
                                                         <div class="impcont">
                                                             <div class="imtit">
@@ -666,10 +666,7 @@ export default {
         impp (aa) {
             console.log(aa)
             let str = aa
-            let arr = [],leng = str.replace(/(^\[*)|(\]*$)/g,"").split(",")
-            for(let k=0;k<leng.length;k++){
-                arr.push(leng[k].replace(/(^"*)|("*$)/g,""))
-            }
+            let arr = str
             this.pharr = arr
             this.imppvi = true;
         },
@@ -797,10 +794,11 @@ export default {
             let result = await this.$store.dispatch(LIST_GYM_PLAY_COACH, {});
 
             if (result.success) {
+                console.log(result.data)
                 this.tableData = result.data;
                 global.coaarr = this.tableData
                 localStorage.setItem("coaarr",this.tableData);
-                console.log(result.data)
+                
                 // console.log(this.$store.state.userInfo)
             } else {
                 this.$message.error('数据获取失败');
@@ -950,25 +948,23 @@ export default {
                         var yarr = [] 
                         yarr = response.data.data.list
                         console.log(yarr)
-                        console.log(typeof(yarr[0].course_data[0].category))
-                        console.log(yarr[3].course_data[0].img)
+                        console.log(yarr[0].course_data.length)
+                        // console.log(yarr[3].course_data[0].img)
                         
                         for(var i=0;i<yarr.length;i++){
                             for(var j=0;j<yarr[i].course_data.length;j++){
                                 yarr[i].course_data[j].comment = yarr[i].course_data[j].comment || ''
                                 yarr[i].course_data[j].img = yarr[i].course_data[j].img || []
 
-                                let str = yarr[i].course_data[j].img
-                                let arr = [],leng = str.replace(/(^\[*)|(\]*$)/g,"").split(",")
-                                for(let k=0;k<leng.length;k++){
-                                    arr.push(leng[k].replace(/(^"*)|("*$)/g,""))
-                                }
+                                // let str = yarr[i].course_data[j].img
+                                // let arr = str
+
             
-                                if(arr[0].length<5){
-                                    arr = [] 
-                                }
-                                yarr[i].course_data[j].impp = arr
-                                console.log(yarr[i].course_data[j].impp)
+                                // if(arr[0].length<5){
+                                //     arr = [] 
+                                // }
+                                // yarr[i].course_data[j].impp = arr
+                                // console.log(yarr[i].course_data[j].impp)
 
                                 if(yarr[i].course_data[j].category=="有氧运动"){
                                     yarr[i].course_data[j].num = 1

@@ -361,13 +361,14 @@
 </template>
 
 <script>
+import global from '../components/Global'
 export default {
     name: 'Baseinfo',
     data () {
         return {
             localhost: 'https://ll.linkfeeling.cn',
             // url: './static/vuetable.json',
-            url: 'https://ll.linkfeeling.cn/api/fitness/summary',
+            url: 'https://ll.linkfeeling.cn/api/user/sport/category_data',
             tableData: [],
             yybox: {},
             tharr: [],
@@ -485,7 +486,7 @@ export default {
             this.clearCanvas()
             // 请求详情
             let dayp = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 page: this.cur_page,
                 bind_time: x,
                 // bind_time: "1553935864759",
@@ -498,7 +499,7 @@ export default {
             //         page: this.cur_page
             //        }
             console.log(this);
-            this.$axios.post(this.localhost + '/api/fitness/detail', JSON.stringify(dayp), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/user/sport/detail', JSON.stringify(dayp), {headers: {'Content-Type': 'application/json'}})
                 // this.$axios.post('https:/ll.linkfeeling.cn/api/fitness/list',JSON.stringify(dayp))
                 // this.$axios.post('https://ll.linkfeeling.cn/api/fitness/bracelet',JSON.stringify(dayp))
                 .then((res) => {
@@ -1296,7 +1297,7 @@ export default {
             console.log(this.inquiry);
             // 请求个人信息
             let datp = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 page: this.cur_page,
                 uid: this.inquiry,
                 app_version: '001',
@@ -1309,7 +1310,7 @@ export default {
                 user_type: 'trainee'
             };
             console.log(this);
-            this.$axios.post(this.localhost + '/api/user/account_info', JSON.stringify(datp), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/account/info', JSON.stringify(datp), {headers: {'Content-Type': 'application/json'}})
                 // this.$axios.post(this.localhost+'/api/account/get/account_info',JSON.stringify(datp),{headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
@@ -1325,12 +1326,12 @@ export default {
                 });
             // 请求报告
             let datd = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 page: this.cur_page,
                 uid: this.inquiry
             };
             console.log(this);
-            this.$axios.post(this.localhost + '/api/fitness/sport_report', JSON.stringify(datd), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/user/sport/all_data', JSON.stringify(datd), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
                     // res.data.data = res.data.data.data
@@ -1367,15 +1368,15 @@ export default {
                 });
             // 列表
             let datt = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 page: this.cur_page,
                 uid: this.inquiry,
                 pos: 1,
-                count: 50,
+                count: 100,
                 flag: false
             };
             console.log(this);
-            this.$axios.post(this.localhost + '/api/fitness/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/user/sport/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
                     this.items = res.data.data;

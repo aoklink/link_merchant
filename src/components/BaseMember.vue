@@ -127,6 +127,7 @@
 </template>
 
 <script>
+import global from '../components/Global'
 export default {
     name: 'Basemember',
     data () {

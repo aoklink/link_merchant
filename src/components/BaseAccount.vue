@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import global from '../components/Global'
 // this.$axios.defaults.headers.post['Content-Type'] = 'application/json'
 export default {
     name: 'Baseaccount',
@@ -190,7 +191,7 @@ export default {
             //     this.url = '/ms/table/list';
             // };
             let datt = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 page: this.cur_page
             };
             console.log(this);
@@ -259,7 +260,7 @@ export default {
         getedit () {
             let that = this;
             let datt = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 bracelet_id: this.form.bracelet_id,
                 user_name: this.form.user_name,
                 phone_num: this.form.phone_num,
@@ -286,7 +287,7 @@ export default {
         getfalseedit () {
             let that = this;
             let datt = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 bracelet_id: this.form.bracelet_id,
                 phone_num: this.form.phone_num,
                 unbind_time: Date.parse(new Date()),
@@ -312,7 +313,7 @@ export default {
         getdel () {
             let that = this;
             let datt = {
-                gym_name: 'link_office',
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 bracelet_id: this.form.bracelet_id,
                 page: this.cur_page
             };

@@ -47,6 +47,7 @@ const router = new Router({
             displayName: '会员信息',
             meta: {
                 title: '商家后台-领客菲力（杭州）健康技术有限公司',
+                requiresAuth: true,
                 keepAlive: true
             }
         },
@@ -56,6 +57,7 @@ const router = new Router({
             component: BaseBind,
             displayName: '手环管理',
             meta: {
+                requiresAuth: true,
                 keepAlive: true
             }
         },
@@ -65,6 +67,7 @@ const router = new Router({
             component: BaseMember,
             displayName: '会员管理',
             meta: {
+                requiresAuth: true,
                 keepAlive: true
             }
         },
@@ -75,6 +78,7 @@ const router = new Router({
             component: AccountManagement,
             displayName: '账户管理',
             meta: {
+                requiresAuth: true,
                 keepAlive: true
             }
         },
@@ -84,6 +88,7 @@ const router = new Router({
             component: CoachManage,
             displayName: '教练管理',
             meta: {
+                requiresAuth: true,
                 keepAlive: true
             }
         },
@@ -93,6 +98,7 @@ const router = new Router({
             component: AccountManagement,
             displayName: '账户管理',
             meta: {
+                requiresAuth: true,
                 keepAlive: true
             }
         }

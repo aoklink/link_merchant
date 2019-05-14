@@ -244,6 +244,7 @@
 </template>
 
 <script>
+import global from '../components/Global'
 // this.$axios.defaults.headers.post['Content-Type'] = 'application/json'
 export default {
     name: 'Basebind',
