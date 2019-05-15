@@ -111,7 +111,7 @@ export default {
     position: relative;
     left: 3rem;
     width:17.67rem;
-    height:22.08rem;
+    height:19.08rem;
     background:rgba(255,255,255,1);
     box-shadow:0rem 0.28rem 1.11rem 0rem rgba(35,44,96,0.06);
 }
@@ -194,7 +194,7 @@ export default {
 }
 .login-form-footer{
     padding-left: 3rem;
-    padding-top: 2rem;
+    padding-top: 1rem;
 }
 
 .btn-login{
@@ -210,7 +210,7 @@ export default {
 .login-form-footer p{
     width:12.33rem;
     margin: 0;
-    padding: 3rem 0 0;
+    padding: 0.5rem 0 0;
     text-align: center;
     font-size: 14px;
     font-family:PingFangSC-Regular;
