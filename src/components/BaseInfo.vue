@@ -12,7 +12,7 @@
                         个人信息
                     </div>
                     <div class="fa">
-                        <div>{{ decodeURIComponent(user.usname) }}</div>
+                        <div>{{ decodeURIComponent(user.usname.replace(/\+/g, '%20')) }}</div>
                         <div>{{ user.ussex }}</div>
                     </div>
                     <div :class="dt?'fbbb':'fb'">
@@ -367,6 +367,7 @@ export default {
     data () {
         return {
             localhost: 'https://ll.linkfeeling.cn',
+            // localhost: 'http://test.linkfeeling.cn',
             // url: './static/vuetable.json',
             url: 'https://ll.linkfeeling.cn/api/user/sport/category_data',
             tableData: [],

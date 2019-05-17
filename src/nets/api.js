@@ -1,5 +1,6 @@
-const PREFIX = process.env.NODE_ENV === 'production' ? 'http://www.linkfeeling.cn' : 'http://www.linkfeeling.cn';
-
+// const PREFIX = process.env.NODE_ENV === 'production' ? 'http://www.linkfeeling.cn' : 'http://www.linkfeeling.cn';
+const PREFIX = process.env.NODE_ENV === 'production' ? 'http://bg.linkfeeling.cn' : 'http://bg.linkfeeling.cn';
+// const PREFIX = process.env.NODE_ENV === 'production' ? 'http://test.linkfeeling.cn' : 'http://test.linkfeeling.cn';
 // const PREFIX =
 //     process.env.NODE_ENV === 'production'
 //         ? 'http://47.99.180.180:11002'

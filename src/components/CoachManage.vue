@@ -574,13 +574,15 @@ export default {
     name: 'CoachManage',
     data () {
         return {
+            localhost: 'https://ll.linkfeeling.cn',
+            // localhost: 'http://test.linkfeeling.cn',
             delVisiblea: '',
             delnum: '1',
             ikk: '',
             ioo: '',
             pharr: [],
             imppvi: false,
-            localhost: 'http://www.linkfeeling.cn',
+            // localhost: 'http://www.linkfeeling.cn',
             tt: "有氧运动",
             oka: 'vis',
             okb: 'hid',
@@ -723,7 +725,7 @@ export default {
                 cid: uid,
                 gym_id: this.$store.state.userInfo.gym_id
             };
-            this.$axios.post('https://ll.linkfeeling.cn/api/coach/students', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
+            this.$axios.post(this.localhost+'/api/coach/students', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
             )
                 .then((res) => {
                     if (res.data.code == 200) {
@@ -844,7 +846,7 @@ export default {
                 cid: coachItem.coach_uid,
                 gym_id: this.$store.state.userInfo.gym_id
             };
-            this.$axios.post('https://ll.linkfeeling.cn/api/coach/students', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
+            this.$axios.post(this.localhost+'/api/coach/students', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
             )
                 .then((res) => {
                     if (res.data.code == 200) {
@@ -933,7 +935,7 @@ export default {
             console.log(123)
             // TODO 调试接口
             this.$axios
-                .post('https://ll.linkfeeling.cn/api/coach/student_data/get', {
+                .post(this.localhost+'/api/coach/student_data/get', {
                     cid: coachId,
                     uid: index,
                     gym_name: global.gym_name || localStorage.getItem("gym_name")
@@ -976,55 +978,55 @@ export default {
                                     yarr[i].course_data[j].num = 3
                                 }
                                 if(yarr[i].course_data[j].device_name=="跑步机"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/a.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/a.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="哑铃"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/b.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/b.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="飞鸟架"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/c.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/c.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="单车"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/d.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/d.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="杠铃"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/e.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/e.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="椭圆机"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/f.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/f.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="HIIT"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/g.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/g.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="罗马椅"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/h.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/h.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="倒蹬机"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/i.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/i.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="腹肌练习椅"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/j.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/j.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="史密斯机"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/k.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/k.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="奥林匹克上斜椅"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/l.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/l.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="奥林匹克平椅"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/m.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/m.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="可调试哑铃练习椅"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/n.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/n.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="台阶机"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/o.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/o.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="蝴蝶机"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/p.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/p.png"
                                 }
                                 if(yarr[i].course_data[j].device_name=="卧式曲腿训练机"){
-                                    yarr[i].course_data[j].src = "https://ll.linkfeeling.cn/wx/q.png"
+                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/q.png"
                                 }
                             }
                         }

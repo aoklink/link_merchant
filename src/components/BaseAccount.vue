@@ -105,7 +105,8 @@ export default {
     name: 'Baseaccount',
     data () {
         return {
-            // url: './static/vuetable.json',
+            // localhost: 'http://test.linkfeeling.cn',
+            localhost: 'https://ll.linkfeeling.cn',
             url: 'https://ll.linkfeeling.cn/api/platform/bracelet/data',
             tableData: [],
             yybox: {},
@@ -195,7 +196,7 @@ export default {
                 page: this.cur_page
             };
             console.log(this);
-            this.$axios.post('https://ll.linkfeeling.cn/api/platform/bracelet/data', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
+            this.$axios.post(this.localhost+'/api/platform/bracelet/data', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
             )
                 .then((res) => {
                     console.log(res.data.data);
@@ -267,7 +268,7 @@ export default {
                 bind_time: Date.parse(new Date()),
                 page: this.cur_page
             };
-            this.$axios.post('https://ll.linkfeeling.cn/api/platform/bracelet/bind', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost+'/api/platform/bracelet/bind', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.code);
                     if (res.data.code == 200) {
@@ -293,7 +294,7 @@ export default {
                 unbind_time: Date.parse(new Date()),
                 page: this.cur_page
             };
-            this.$axios.post('https://ll.linkfeeling.cn/api/platform/bracelet/unbind', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost+'/api/platform/bracelet/unbind', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.code);
                     if (res.data.code == 200) {
@@ -318,7 +319,7 @@ export default {
                 page: this.cur_page
             };
             console.log('del');
-            this.$axios.post('https://ll.linkfeeling.cn/api/platform/bracelet/delete', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost+'/api/platform/bracelet/delete', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     if (res.data.code == 200) {
                         that.$message.success('删除成功');

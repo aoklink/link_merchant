@@ -47,7 +47,7 @@
                     <el-table-column prop="user_name" label="领取会员">
                         <template slot-scope="scope">
                             <div type="text">
-                                {{ tableData[scope.$index].status == 1?decodeURIComponent(tableData[scope.$index].user_name):'-' }}
+                                {{ tableData[scope.$index].status == 1?decodeURIComponent(tableData[scope.$index].user_name.replace(/\+/g, '%20')):'-' }}
                             </div>
                         </template>
                     </el-table-column>
@@ -251,6 +251,7 @@ export default {
     data () {
         return {
             localhost: 'https://ll.linkfeeling.cn',
+            // localhost: 'http://test.linkfeeling.cn',
             // url: './static/vuetable.json',
             url: 'https://ll.linkfeeling.cn/api/platform/bracelet/data',
             tableData: [],
@@ -485,7 +486,7 @@ export default {
                 page: this.cur_page
             };
             console.log('del');
-            this.$axios.post('https://ll.linkfeeling.cn/api/platform/bracelet/delete', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost+'/api/platform/bracelet/delete', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     if (res.data.code == 200) {
                         that.$message.success('删除成功');
