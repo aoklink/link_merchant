@@ -132,7 +132,7 @@ export default {
     name: 'Basemember',
     data () {
         return {
-            localhost: 'https://ll.linkfeeling.cn',
+            localhost: 'http://bg.linkfeeling.cn',
             // localhost: 'http://test.linkfeeling.cn',
             // url: './static/vuetable.json',
             url: this.localhost + '/api/platform/members',
@@ -515,7 +515,7 @@ export default {
     }
     .el-table__body-wrapper{
         overflow: overlay !important;
-        height: 500px !important;
+        height: 435px !important;
     }
 </style>
 

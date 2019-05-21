@@ -86,7 +86,7 @@ export default {
 <style>
     .menu{
         padding-top: 1rem;
-        min-height: 100%;
+        height: calc(100% - 1rem);
         width: 6.11rem;
         float: left;
         min-width: 6.11rem;

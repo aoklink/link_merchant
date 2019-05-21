@@ -250,10 +250,10 @@ export default {
     name: 'Basebind',
     data () {
         return {
-            localhost: 'https://ll.linkfeeling.cn',
+            localhost: 'http://bg.linkfeeling.cn',
             // localhost: 'http://test.linkfeeling.cn',
             // url: './static/vuetable.json',
-            url: 'https://ll.linkfeeling.cn/api/platform/bracelet/data',
+            url: 'http://ll.linkfeeling.cn/api/platform/bracelet/data',
             tableData: [],
             yybox: {},
             ttbox: [],

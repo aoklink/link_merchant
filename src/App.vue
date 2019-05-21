@@ -34,7 +34,7 @@ export default {
 
 <style>
     html{
-        min-height: 700px;
+        height: 700px;
         min-width: 1360px;
         font-size: 36px;
     }
@@ -69,7 +69,7 @@ export default {
     }
 
     .allCon{
-        height: 100%;
+        height: calc(100% - 1.67rem);
         width: 100%;
         display: flex;
     }

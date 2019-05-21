@@ -368,6 +368,7 @@ export default {
         return {
             localhost: 'https://ll.linkfeeling.cn',
             // localhost: 'http://test.linkfeeling.cn',
+            // localhostbbb: 'https://dev.linkfeeling.cn',
             // url: './static/vuetable.json',
             url: 'https://ll.linkfeeling.cn/api/user/sport/category_data',
             tableData: [],
@@ -1311,7 +1312,7 @@ export default {
                 user_type: 'trainee'
             };
             console.log(this);
-            this.$axios.post(this.localhost + '/api/account/info', JSON.stringify(datp), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost+'/api/account/info', JSON.stringify(datp), {headers: {'Content-Type': 'application/json'}})
                 // this.$axios.post(this.localhost+'/api/account/get/account_info',JSON.stringify(datp),{headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
@@ -1332,7 +1333,7 @@ export default {
                 uid: this.inquiry
             };
             console.log(this);
-            this.$axios.post(this.localhost + '/api/user/sport/all_data', JSON.stringify(datd), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost+'/api/user/sport/all_data', JSON.stringify(datd), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
                     // res.data.data = res.data.data.data
@@ -1377,7 +1378,7 @@ export default {
                 flag: false
             };
             console.log(this);
-            this.$axios.post(this.localhost + '/api/user/sport/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost+'/api/user/sport/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
                     this.items = res.data.data;

@@ -131,4 +131,7 @@ export default {
     .tab-content .el-tabs{
         width: 100%;
     }
+    .el-tabs--border-card>.el-tabs__content{
+        height: calc(100% - 40px);
+    }
 </style>

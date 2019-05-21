@@ -283,11 +283,8 @@
                             </el-row>
                         </div>
                     </div>
-                    <!-- <el-table ref="multipleTable" :data="memberData[item.coach_id]" border
-                            class="table"
-                    > -->
                     <el-table ref="multipleTable" :data="memberData[coah]" border
-                            class="table"
+                            class="table thabb"
                     >
                         <el-table-column prop="user_name" label="学员昵称" style="color: red !important" />
 
@@ -575,7 +572,7 @@ export default {
     data () {
         return {
             localhost: 'https://ll.linkfeeling.cn',
-            // localhost: 'http://test.linkfeeling.cn',
+            // localhost: 'https://dev.linkfeeling.cn',
             delVisiblea: '',
             delnum: '1',
             ikk: '',
@@ -896,8 +893,11 @@ export default {
             if (coachInfo.success) {
                 var coaarr =  global.coaarr || localStorage.getItem("coaarr")
                 console.log(coaarr)
+                console.log(coachInfo)
+                console.log(coachInfo.data.cid)
                 for(var i=0;i<coaarr.length;i++){
-                    if(coachInfo.data.uid == coaarr[i].coach_uid){
+                    if(coachInfo.data.cid == coaarr[i].coach_uid){
+                        console.log(coachInfo.data.cid)
                         this.$message.error('教练已存在, 请不要重复添加');
                         return false;
                     }
@@ -1237,7 +1237,7 @@ tbody tr td:nth-of-type(1) .cell {
     margin: 0 !important;
 }
 .content{
-    height: 615px;
+    height: 582px;
 }
 .table{
     height: 560px;
@@ -1978,5 +1978,8 @@ tbody tr td:last-child .cell button span{
     position: absolute;
     top: 0.275rem;
     left: 0.475rem;
+}
+.thabb{
+    height: 485px;
 }
 </style>
