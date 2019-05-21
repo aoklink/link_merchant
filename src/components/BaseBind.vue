@@ -420,9 +420,16 @@ export default {
         // 绑定手环请求接口
         getedit () {
             let that = this;
-            if (!(/^1[3456789]\d{9}$/.test(this.form.phone_num))) {
+            if (!(/^1[3456789]\d{9}$/.test(that.form.phone_num))) {
                 that.$message.error(`手机号格式错误`);
                 return
+            }
+            console.log(that.tableData)
+            for(var i=0;i<that.tableData.length;i++){
+                if(that.form.phone_num == that.tableData[i].phone_num){
+                    that.$message.error(`该手机号已绑定手环,请先解绑`);
+                    return
+                }
             }
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem("gym_name"),
