@@ -687,6 +687,7 @@ export default {
         box-shadow: 0px 5px 50px rgba(246,247,248,1) inset;
     }
     .bindlog{
+        z-index: 99;
         position: fixed;
         top: 0;
         right: 0;
