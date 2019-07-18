@@ -1,8 +1,8 @@
 <template>
     <div class="content">
         <el-tabs v-model="editableTabsValue" type="card" closable
-             @tab-remove="removeTab"
-    >
+                 @tab-remove="removeTab"
+        >
             <el-tab-pane
                 v-for="(item) in editableTabs"
                 :key="item.name"
@@ -22,13 +22,17 @@
                                     </div>
                                 </el-col>
                                 <el-col :span="6">
-                                    <div @click="addCoachVisible = true" class="addccb">
+                                    <div class="addccb" @click="addCoachVisible = true">
                                         添加教练
                                         <svg width="14px" height="14px" class="svgg">
-                                            <line x1="7" y1="0" x2="7" y2="14"
-                    style="stroke:#888EA7;stroke-width:1"/>
-                                            <line x1="0" y1="7" x2="14" y2="7"
-                    style="stroke:#888EA7;stroke-width:1"/>
+                                            <line x1="7" y1="0" x2="7"
+                                                  y2="14"
+                                                  style="stroke:#888EA7;stroke-width:1"
+                                            />
+                                            <line x1="0" y1="7" x2="14"
+                                                  y2="7"
+                                                  style="stroke:#888EA7;stroke-width:1"
+                                            />
                                         </svg>
                                     </div>
                                 </el-col>
@@ -37,7 +41,7 @@
                     </div>
                     <div class="container">
                         <el-table ref="multipleTable" :data="tableData" border
-                                class="table"
+                                  class="table"
                         >
                             <el-table-column prop="user_name" label="教练姓名" style="color: red !important" />
 
@@ -52,7 +56,7 @@
                                 <template slot-scope="scope">
                                     <div type="text">
                                         <!-- {{ getDd(new Date(tableData[scope.$index].bind_time)) }} -->
-                                        {{tableData[scope.$index].bind_time}}
+                                        {{ tableData[scope.$index].bind_time }}
                                     </div>
                                 </template>
                             </el-table-column>
@@ -95,10 +99,10 @@
                                                 <el-col :span="6">
                                                     <span class="stli">会员列表</span>
                                                     <span class="svgd">
-                                                        <svg width="30px" height="4px" >
-                                                            <polygon points="0,0 30,0" style="fill:#FFC001;stroke:#FFC001;stroke-width:4" /> 
-                                                        </svg> 
-                                                    </span>    
+                                                        <svg width="30px" height="4px">
+                                                            <polygon points="0,0 30,0" style="fill:#FFC001;stroke:#FFC001;stroke-width:4" />
+                                                        </svg>
+                                                    </span>
                                                 </el-col>
                                                 <el-col :span="6">
                                                     <div class="stucc">
@@ -118,16 +122,16 @@
                                                         v-model="checkedMembers"
                                                         class="align-left"
                                                         @change="handleCheckedMemberChange"
-                                                    >   
+                                                    >
                                                         <el-checkbox
                                                             v-for="(member, ikk) in curMemberList"
                                                             :key="member.student_uid"
                                                             :label="member"
                                                         >
-                                                            <span class="svge" v-show="(ikk-curMemberList.length)<-1">
-                                                                <svg width="270px" height="1px" >
-                                                                    <polygon points="0,0 270,0" style="fill:#E1E3E8;stroke:#E1E3E8;stroke-width:1" /> 
-                                                                </svg> 
+                                                            <span v-show="(ikk-curMemberList.length)<-1" class="svge">
+                                                                <svg width="270px" height="1px">
+                                                                    <polygon points="0,0 270,0" style="fill:#E1E3E8;stroke:#E1E3E8;stroke-width:1" />
+                                                                </svg>
                                                             </span>
                                                             <span>{{ decodeURIComponent(member.user_name) }}</span>
                                                         </el-checkbox>
@@ -146,10 +150,10 @@
                                                     v-model="desCoach"
                                                     :label="coach.uid"
                                                 >
-                                                    <span class="svgf" v-show="(ioo-transCoachList.length)<-1">
-                                                        <svg width="300px" height="1px" >
-                                                            <polygon points="0,0 300,0" style="fill:#E1E3E8;stroke:#E1E3E8;stroke-width:1" /> 
-                                                        </svg> 
+                                                    <span v-show="(ioo-transCoachList.length)<-1" class="svgf">
+                                                        <svg width="300px" height="1px">
+                                                            <polygon points="0,0 300,0" style="fill:#E1E3E8;stroke:#E1E3E8;stroke-width:1" />
+                                                        </svg>
                                                     </span>
                                                     {{ coach.user_name }}
                                                 </el-radio>
@@ -182,25 +186,34 @@
                             <el-button type="primary" @click="deleteRow">确 定</el-button>
                         </span>
                     </el-dialog> -->
-                    <div class="bindlog" v-if="delVisiblea">
+                    <div v-if="delVisiblea" class="bindlog">
                         <div class="unbindbox">
                             <div class="ubdup">
-                                <div>删除教练
-                                    <span></span>
+                                <div>
+                                    删除教练
+                                    <span />
                                     <span @click="delVisiblea=false">
                                         <svg width="10px" height="10px" class="svg">
-                                            <line x1="0" y1="0" x2="10" y2="10"
-                    style="stroke:#888EA7;stroke-width:1"/>
-                                            <line x1="10" y1="0" x2="0" y2="10"
-                    style="stroke:#888EA7;stroke-width:1"/>
+                                            <line x1="0" y1="0" x2="10"
+                                                  y2="10"
+                                                  style="stroke:#888EA7;stroke-width:1"
+                                            />
+                                            <line x1="10" y1="0" x2="0"
+                                                  y2="10"
+                                                  style="stroke:#888EA7;stroke-width:1"
+                                            />
                                         </svg>
                                     </span>
                                 </div>
                             </div>
                             <div class="ubdmd" :model="form">
-                                <span class="dece"></span>
-                                <div class="ubdta">是否确认删除教练</div>
-                                <div class="debbp">{{ form.user_name }}</div>
+                                <span class="dece" />
+                                <div class="ubdta">
+                                    是否确认删除教练
+                                </div>
+                                <div class="debbp">
+                                    {{ form.user_name }}
+                                </div>
                             </div>
                             <div class="ubdbt" :model="form">
                                 <span @click="delVisiblea=false">取消</span>
@@ -209,25 +222,34 @@
                         </div>
                     </div>
                     <!-- lll -->
-                    <div class="bindlog" v-if="delVisible">
+                    <div v-if="delVisible" class="bindlog">
                         <div class="unbindbox">
                             <div class="ubdup">
-                                <div>删除教练
-                                    <span></span>
+                                <div>
+                                    删除教练
+                                    <span />
                                     <span @click="delVisible=false">
                                         <svg width="10px" height="10px" class="svg">
-                                            <line x1="0" y1="0" x2="10" y2="10"
-                    style="stroke:#888EA7;stroke-width:1"/>
-                                            <line x1="10" y1="0" x2="0" y2="10"
-                    style="stroke:#888EA7;stroke-width:1"/>
+                                            <line x1="0" y1="0" x2="10"
+                                                  y2="10"
+                                                  style="stroke:#888EA7;stroke-width:1"
+                                            />
+                                            <line x1="10" y1="0" x2="0"
+                                                  y2="10"
+                                                  style="stroke:#888EA7;stroke-width:1"
+                                            />
                                         </svg>
                                     </span>
                                 </div>
                             </div>
                             <div class="ubdmd" :model="form">
-                                <span class="dece"></span>
-                                <div class="ubdta">确认删除？删除后无法恢复</div>
-                                <div class="debbp">{{ form.user_name }}</div>
+                                <span class="dece" />
+                                <div class="ubdta">
+                                    确认删除？删除后无法恢复
+                                </div>
+                                <div class="debbp">
+                                    {{ form.user_name }}
+                                </div>
                             </div>
                             <div class="ubdbt" :model="form">
                                 <span @click="delVisible=false">取消</span>
@@ -236,17 +258,22 @@
                         </div>
                     </div>
 
-                    <div class="bindlog" v-if="addCoachVisible">
+                    <div v-if="addCoachVisible" class="bindlog">
                         <div class="bindbox">
                             <div class="bdup">
-                                <div>添加教练
-                                    <span></span>
+                                <div>
+                                    添加教练
+                                    <span />
                                     <span @click="addCoachVisible=false">
                                         <svg width="10px" height="10px" class="svg">
-                                            <line x1="0" y1="0" x2="10" y2="10"
-                    style="stroke:#888EA7;stroke-width:1"/>
-                                            <line x1="10" y1="0" x2="0" y2="10"
-                    style="stroke:#888EA7;stroke-width:1"/>
+                                            <line x1="0" y1="0" x2="10"
+                                                  y2="10"
+                                                  style="stroke:#888EA7;stroke-width:1"
+                                            />
+                                            <line x1="10" y1="0" x2="0"
+                                                  y2="10"
+                                                  style="stroke:#888EA7;stroke-width:1"
+                                            />
                                         </svg>
                                     </span>
                                 </div>
@@ -254,7 +281,7 @@
                             <div class="bdmd">
                                 <div class="bdta bdtb">
                                     <span>教练手机号</span>
-                                    <input type="text" v-model="coachPhoneToAdd" placeholder="请输入手机号">
+                                    <input v-model="coachPhoneToAdd" type="text" placeholder="请输入手机号">
                                 </div>
                             </div>
                             <div class="bdbt">
@@ -284,7 +311,7 @@
                         </div>
                     </div>
                     <el-table ref="multipleTable" :data="memberData[coah]" border
-                            class="table thabb"
+                              class="table thabb"
                     >
                         <el-table-column prop="user_name" label="学员昵称" style="color: red !important" />
 
@@ -329,17 +356,22 @@
                             <el-button type="primary" @click="addMember(item.coach_uid)">确 定</el-button>
                         </span>
                     </el-dialog> -->
-                    <div class="bindlog" v-if="addMemberVisible">
+                    <div v-if="addMemberVisible" class="bindlog">
                         <div class="bindbox">
                             <div class="bdup">
-                                <div>添加学员
-                                    <span></span>
+                                <div>
+                                    添加学员
+                                    <span />
                                     <span @click="addMemberVisible=false">
                                         <svg width="10px" height="10px" class="svg">
-                                            <line x1="0" y1="0" x2="10" y2="10"
-                    style="stroke:#888EA7;stroke-width:1"/>
-                                            <line x1="10" y1="0" x2="0" y2="10"
-                    style="stroke:#888EA7;stroke-width:1"/>
+                                            <line x1="0" y1="0" x2="10"
+                                                  y2="10"
+                                                  style="stroke:#888EA7;stroke-width:1"
+                                            />
+                                            <line x1="10" y1="0" x2="0"
+                                                  y2="10"
+                                                  style="stroke:#888EA7;stroke-width:1"
+                                            />
                                         </svg>
                                     </span>
                                 </div>
@@ -347,7 +379,7 @@
                             <div class="bdmd">
                                 <div class="bdta bdtb">
                                     <span>学员手机号</span>
-                                    <input type="text" v-model="memberPhoneToAdd" placeholder="请输入会员手机号">
+                                    <input v-model="memberPhoneToAdd" type="text" placeholder="请输入会员手机号">
                                 </div>
                             </div>
                             <div class="bdbt">
@@ -362,10 +394,10 @@
                         title="上课情况"
                         :visible.sync="classStatusVisible"
                         width="1000px"
-                    >   
+                    >
                         <span class="svgb">
                             <svg width="30px" height="4px" class="svg">
-                                <polygon points="0,0 30,0" style="fill:#FFC001;stroke:#FFC001;stroke-width:4" /> 
+                                <polygon points="0,0 30,0" style="fill:#FFC001;stroke:#FFC001;stroke-width:4" />
                             </svg>
                         </span>
                         <el-row class="class-status-head">
@@ -373,12 +405,14 @@
                                 <div class="class-status-info">
                                     <el-row type="flex" align="middle">
                                         <img class="class-status-headimg" :src="classInfo.head_icon">
-                                        <div class="kname">{{ decodeURIComponent(classInfo.user_name) }}</div>
+                                        <div class="kname">
+                                            {{ decodeURIComponent(classInfo.user_name) }}
+                                        </div>
                                         <div v-if="classInfo.gender==='男'">
-                                            <span class="boy"></span>
+                                            <span class="boy" />
                                         </div>
                                         <div v-else>
-                                            <span class="girl"></span>
+                                            <span class="girl" />
                                         </div>
                                     </el-row>
                                     <el-row type="flex">
@@ -390,7 +424,7 @@
                                         </div>
                                         <span class="svga">
                                             <svg width="2px" height="17px" class="svg">
-                                                <polygon points="1,0 1,17" style="fill:#C6CCDC;stroke:#C6CCDC;stroke-width:1" /> 
+                                                <polygon points="1,0 1,17" style="fill:#C6CCDC;stroke:#C6CCDC;stroke-width:1" />
                                             </svg>
                                         </span>
                                         <div class="class-status-item">
@@ -401,7 +435,7 @@
                                         </div>
                                         <span class="svga">
                                             <svg width="2px" height="17px" class="svg">
-                                                <polygon points="1,0 1,17" style="fill:#C6CCDC;stroke:#C6CCDC;stroke-width:1" /> 
+                                                <polygon points="1,0 1,17" style="fill:#C6CCDC;stroke:#C6CCDC;stroke-width:1" />
                                             </svg>
                                         </span>
                                         <div class="class-status-item">
@@ -412,7 +446,7 @@
                                         </div>
                                         <span class="svga">
                                             <svg width="2px" height="17px" class="svg">
-                                                <polygon points="1,0 1,17" style="fill:#C6CCDC;stroke:#C6CCDC;stroke-width:1" /> 
+                                                <polygon points="1,0 1,17" style="fill:#C6CCDC;stroke:#C6CCDC;stroke-width:1" />
                                             </svg>
                                         </span>
                                         <div class="class-status-item">
@@ -427,19 +461,25 @@
                             <el-col :span="12">
                                 <el-row class="class-status" type="flex">
                                     <div class="class-status-store" :span="6">
-                                        <div class="class-ktit">入店天数</div>
+                                        <div class="class-ktit">
+                                            入店天数
+                                        </div>
                                         <div class="class-status-store-num">
                                             {{ classInfo.day_store }}
                                         </div>
                                     </div>
                                     <div class="class-status-store" :span="6">
-                                        <div class="class-ktit">锻炼天数</div>
+                                        <div class="class-ktit">
+                                            锻炼天数
+                                        </div>
                                         <div class="class-status-store-num">
                                             {{ classInfo.exercise_day }}
                                         </div>
                                     </div>
                                     <div class="class-status-store" :span="6">
-                                        <div class="class-ktit">课时次数</div>
+                                        <div class="class-ktit">
+                                            课时次数
+                                        </div>
                                         <div class="class-status-store-num">
                                             {{ classInfo.class_num }}
                                         </div>
@@ -461,72 +501,80 @@
                                 <el-tabs tab-position="left" type="card">
                                     <el-tab-pane v-for="(sportitem, index) in classList" :key="index" :label="sportitem.class_time">
                                         <div class="kbox">
-                                            <div class="ksb" v-for="itembb in sportitem.course_data">
+                                            <div v-for="itembb in sportitem.course_data" class="ksb">
                                                 <div class="ktit"
-                                                    :style="{ 'background': 'url(' +itembb.src + ') no-repeat left center'}">{{itembb.device_name}}
+                                                     :style="{ 'background': 'url(' +itembb.src + ') no-repeat left center'}"
+                                                >
+                                                    {{ itembb.device_name }}
                                                 </div>
-                                                <div class="kha" v-if="itembb.num==1">
+                                                <div v-if="itembb.num==1" class="kha">
                                                     <div class="kyyb">
                                                         <div class="kya">
                                                             <span>运动时长</span>
-                                                            <span>{{itembb.act_time}}</span>  
+                                                            <span>{{ itembb.act_time }}</span>
                                                             <span>分钟</span>
                                                         </div>
                                                         <div class="kyb">
                                                             <span>运动距离</span>
-                                                            <span>{{itembb.act_distance}}</span>
+                                                            <span>{{ itembb.act_distance }}</span>
                                                             <span>公里</span>
                                                         </div>
                                                         <div class="kyc">
                                                             <span>消耗热量</span>
-                                                            <span>{{itembb.act_calorie}}</span>
+                                                            <span>{{ itembb.act_calorie }}</span>
                                                             <span>千卡</span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="kha" v-if="itembb.num==2">
-                                                    <div class="lltit" style="margin: 20px 0 14px">{{itembb.type}}</div>
+                                                <div v-if="itembb.num==2" class="kha">
+                                                    <div class="lltit" style="margin: 20px 0 14px">
+                                                        {{ itembb.type }}
+                                                    </div>
                                                     <div class="kyyb">
                                                         <div class="kya">
                                                             <span>最大重量</span>
-                                                            <span>{{itembb.act_weight}}</span>  
+                                                            <span>{{ itembb.act_weight }}</span>
                                                             <span>KG</span>
                                                         </div>
                                                         <div class="kyb">
                                                             <span>锻炼次数</span>
-                                                            <span>{{itembb.act_per_group_time}}</span>
+                                                            <span>{{ itembb.act_per_group_time }}</span>
                                                             <span>次/组</span>
                                                         </div>
                                                         <div class="kyc">
                                                             <span>锻炼组数</span>
-                                                            <span>{{itembb.act_group_num}}</span>
+                                                            <span>{{ itembb.act_group_num }}</span>
                                                             <span>组</span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="kha" v-if="itembb.num==3">
+                                                <div v-if="itembb.num==3" class="kha">
                                                     <div class="kya">
                                                         <span>运动时长</span>
-                                                        <span>{{itembb.act_time}}</span>  
+                                                        <span>{{ itembb.act_time }}</span>
                                                         <span>分钟</span>
                                                     </div>
                                                     <div class="kyc">
                                                         <span>消耗热量</span>
-                                                        <span>{{itembb.act_calorie}}</span>
+                                                        <span>{{ itembb.act_calorie }}</span>
                                                         <span>千卡</span>
                                                     </div>
                                                 </div>
                                                 <div class="ksco">
-                                                    <div class="kmak"><span>教练点评</span><span v-if="itembb.img.length>0" @click="impp(itembb.img)">查看图片</span></div>
-                                                    <div class="kcont">{{itembb.comment.length>0?itembb.comment:'无'}}</div>
+                                                    <div class="kmak">
+                                                        <span>教练点评</span><span v-if="itembb.img.length>0" @click="impp(itembb.img)">查看图片</span>
+                                                    </div>
+                                                    <div class="kcont">
+                                                        {{ itembb.comment.length>0?itembb.comment:'无' }}
+                                                    </div>
                                                     <div v-show="imppvi" class="imppbox">
                                                         <div class="impcont">
                                                             <div class="imtit">
                                                                 训练照片
                                                                 <span class="svgc" @click="imlp">
                                                                     <svg width="40px" height="40px" class="svg">
-                                                                        <polygon points="0,0 40,40" style="fill:#CCC;stroke:#CCC;stroke-width:4" /> 
-                                                                        <polygon points="40,0 0,40" style="fill:#CCC;stroke:#CCC;stroke-width:4" /> 
+                                                                        <polygon points="0,0 40,40" style="fill:#CCC;stroke:#CCC;stroke-width:4" />
+                                                                        <polygon points="40,0 0,40" style="fill:#CCC;stroke:#CCC;stroke-width:4" />
                                                                     </svg>
                                                                 </span>
                                                             </div>
@@ -535,7 +583,7 @@
                                                                     v-for="itkk in pharr"
                                                                     :style="{ 'background': 'url(' +itkk+ ') no-repeat center'}"
                                                                     class="impk"
-                                                                ></div>
+                                                                />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -563,16 +611,16 @@ import {
     TRANS_GYM_PLAY_MEMBER,
     ADDSTUDENT_GYM_PLAY_MEMBER
 } from '@/store/action_type.js';
-import global from '../components/Global'
+import global from '../components/Global';
 
-const cityOptions = ['上海', '北京','大佬','大理'];
+const cityOptions = ['上海', '北京', '大佬', '大理'];
 
 export default {
     name: 'CoachManage',
     data () {
         return {
             localhost: 'https://ll.linkfeeling.cn',
-            // localhost: 'https://dev.linkfeeling.cn',
+            localhost: 'https://dev.linkfeeling.cn',
             delVisiblea: '',
             delnum: '1',
             ikk: '',
@@ -580,7 +628,7 @@ export default {
             pharr: [],
             imppvi: false,
             // localhost: 'http://www.linkfeeling.cn',
-            tt: "有氧运动",
+            tt: '有氧运动',
             oka: 'vis',
             okb: 'hid',
             checkedCities: [],
@@ -663,14 +711,14 @@ export default {
             this.imppvi = false;
         },
         impp (aa) {
-            console.log(aa)
-            let str = aa
-            let arr = str
-            this.pharr = arr
+            console.log(aa);
+            let str = aa;
+            let arr = str;
+            this.pharr = arr;
             this.imppvi = true;
         },
         handleCheckAllChange (val) {
-            console.log(this.curMemberList)
+            console.log(this.curMemberList);
             this.checkedMembers = val ? this.curMemberList : [];
             this.isIndeterminate = false;
         },
@@ -717,24 +765,24 @@ export default {
             //         }
             //     });
             // console.log(this.$store.state.userInfo)
-            var that = this
+            var that = this;
             let datt = {
                 cid: uid,
                 gym_id: this.$store.state.userInfo.gym_id
             };
-            this.$axios.post(this.localhost+'/api/coach/students', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
+            this.$axios.post(this.localhost + '/api/coach/students', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
             )
                 .then((res) => {
                     if (res.data.code == 200) {
-                        var data = res.data.data
-                        for(var i=0;i<data.length;i++){
-                            data[i].user_name = decodeURIComponent(data[i].user_name)
+                        var data = res.data.data;
+                        for (var i = 0; i < data.length; i++) {
+                            data[i].user_name = decodeURIComponent(data[i].user_name);
                         }
-                        that.memberData[uid] =data
-                        that.coah = uid
-                        var coach = that.coah
+                        that.memberData[uid] = data;
+                        that.coah = uid;
+                        var coach = that.coah;
                         that.$set(that.memberData);
-                        console.log(that.memberData)
+                        console.log(that.memberData);
                     }
                 })
                 .catch((res) => {
@@ -793,11 +841,11 @@ export default {
             let result = await this.$store.dispatch(LIST_GYM_PLAY_COACH, {});
 
             if (result.success) {
-                console.log(result.data)
+                console.log(result.data);
                 this.tableData = result.data;
-                global.coaarr = this.tableData
-                localStorage.setItem("coaarr",this.tableData);
-                
+                global.coaarr = this.tableData;
+                localStorage.setItem('coaarr', this.tableData);
+
                 // console.log(this.$store.state.userInfo)
             } else {
                 this.$message.error('数据获取失败');
@@ -807,16 +855,16 @@ export default {
         // 删除教练
         async getdel (cc, uid) {
             let that = this;
-            console.log(cc)
+            console.log(cc);
             var ppid = uid;
-            if(cc > 0){
-               that.$message.error('请先转移学员后,再删除该教练'); 
-               return false;
+            if (cc > 0) {
+                that.$message.error('请先转移学员后,再删除该教练');
+                return false;
             }
-            console.log(global.gym_id || localStorage.getItem("gym_id"));
+            console.log(global.gym_id || localStorage.getItem('gym_id'));
             let result = await this.$store.dispatch(DELETE_GYM_PLAY_COACH, {
                 coach_uid: ppid,
-                gym_id: global.gym_id || localStorage.getItem("gym_id")
+                gym_id: global.gym_id || localStorage.getItem('gym_id')
             });
 
             if (result.success) {
@@ -824,39 +872,39 @@ export default {
                 that.tableData.splice(this.idx, 1);
                 that.delVisible = false;
             } else {
-                console.log(999)
+                console.log(999);
                 that.$message.error(result.data);
                 that.delVisible = false;
             }
         },
 
         handleEdit (index, row, status) {
-            if(status == 0){
+            if (status == 0) {
                 return false;
             }
             this.idx = index;
             console.log(this.tableData);
             this.editVisible = true;
             let coachItem = this.tableData[index];
-            var that = this
+            var that = this;
             let datt = {
                 cid: coachItem.coach_uid,
                 gym_id: this.$store.state.userInfo.gym_id
             };
-            this.$axios.post(this.localhost+'/api/coach/students', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
+            this.$axios.post(this.localhost + '/api/coach/students', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
             )
                 .then((res) => {
                     if (res.data.code == 200) {
                         // debugger;
-                        console.log(res.data.data)
+                        console.log(res.data.data);
                         that.curMemberList = res.data.data;
-                        console.log(that.curMemberList)
+                        console.log(that.curMemberList);
                         that.curMemberList.forEach(item => (item.checked = false));
                         that.transCoachList = [].concat(that.tableData);
                         that.transCoachList.splice(that.idx, 1);
                         if (that.transCoachList.length > 0) {
                             that.desCoach = that.transCoachList[0].uid;
-                            console.log(that.transCoachList)
+                            console.log(that.transCoachList);
                         }
                     }
                 })
@@ -891,13 +939,13 @@ export default {
                 gym_id: this.$store.state.userInfo.gym_id
             });
             if (coachInfo.success) {
-                var coaarr =  global.coaarr || localStorage.getItem("coaarr")
-                console.log(coaarr)
-                console.log(coachInfo)
-                console.log(coachInfo.data.cid)
-                for(var i=0;i<coaarr.length;i++){
-                    if(coachInfo.data.cid == coaarr[i].coach_uid){
-                        console.log(coachInfo.data.cid)
+                var coaarr = global.coaarr || localStorage.getItem('coaarr');
+                console.log(coaarr);
+                console.log(coachInfo);
+                console.log(coachInfo.data.cid);
+                for (var i = 0; i < coaarr.length; i++) {
+                    if (coachInfo.data.cid == coaarr[i].coach_uid) {
+                        console.log(coachInfo.data.cid);
                         this.$message.error('教练已存在, 请不要重复添加');
                         return false;
                     }
@@ -905,7 +953,7 @@ export default {
                 let result = await this.$store.dispatch(ADD_GYM_PLAY_COACH, {
                     coach_uid: coachInfo.data.cid
                 });
-                console.log(result)
+                console.log(result);
                 if (result.success) {
                     this.getData();
                     this.addCoachVisible = false;
@@ -918,123 +966,121 @@ export default {
         },
 
         // 确定删除
-        delyzy (cc,uid) {
+        delyzy (cc, uid) {
             this.delVisiblea = false;
             this.delVisible = true;
         },
-        deleteRow (cc,uid,) {   
+        deleteRow (cc, uid) {
             this.deltit = '确认删除？删除后无法恢复';
-            this.getdel(cc,uid);
+            this.getdel(cc, uid);
         },
         // 查看上课情况
         checkAttend (index, coachId, ppk) {
-            if(ppk == 0){
+            if (ppk == 0) {
                 return false;
             }
             let member = this.memberData[coachId][index];
-            console.log(123)
+            console.log(123);
             // TODO 调试接口
             this.$axios
-                .post(this.localhost+'/api/coach/student_data/get', {
+                .post(this.localhost + '/api/coach/student_data/get', {
                     cid: coachId,
                     uid: index,
-                    gym_name: global.gym_name || localStorage.getItem("gym_name")
+                    gym_name: global.gym_name || localStorage.getItem('gym_name')
                 })
                 .then(response => {
-                    console.log(response)
+                    console.log(response);
                     if (response.data.code == 200) {
                         this.classList = [];
                         this.$set(this.classList);
-                        console.log(response.data.data)
+                        console.log(response.data.data);
                         this.classInfo = response.data.data.info;
-                        var yarr = [] 
-                        yarr = response.data.data.list
-                        console.log(yarr)
-                        console.log(yarr[0].course_data.length)
+                        var yarr = [];
+                        yarr = response.data.data.list;
+                        console.log(yarr);
+                        console.log(yarr[0].course_data.length);
                         // console.log(yarr[3].course_data[0].img)
-                        
-                        for(var i=0;i<yarr.length;i++){
-                            for(var j=0;j<yarr[i].course_data.length;j++){
-                                yarr[i].course_data[j].comment = yarr[i].course_data[j].comment || ''
-                                yarr[i].course_data[j].img = yarr[i].course_data[j].img || []
+
+                        for (var i = 0; i < yarr.length; i++) {
+                            for (var j = 0; j < yarr[i].course_data.length; j++) {
+                                yarr[i].course_data[j].comment = yarr[i].course_data[j].comment || '';
+                                yarr[i].course_data[j].img = yarr[i].course_data[j].img || [];
 
                                 // let str = yarr[i].course_data[j].img
                                 // let arr = str
 
-            
                                 // if(arr[0].length<5){
-                                //     arr = [] 
+                                //     arr = []
                                 // }
                                 // yarr[i].course_data[j].impp = arr
                                 // console.log(yarr[i].course_data[j].impp)
 
-                                if(yarr[i].course_data[j].category=="有氧运动"){
-                                    yarr[i].course_data[j].num = 1
+                                if (yarr[i].course_data[j].category == '有氧运动') {
+                                    yarr[i].course_data[j].num = 1;
                                 }
-                                if(yarr[i].course_data[j].category=="力量训练"){
-                                    yarr[i].course_data[j].num = 2
+                                if (yarr[i].course_data[j].category == '力量训练') {
+                                    yarr[i].course_data[j].num = 2;
                                 }
-                                if(yarr[i].course_data[j].category=="HIIT"){
-                                    yarr[i].course_data[j].num = 3
+                                if (yarr[i].course_data[j].category == 'HIIT') {
+                                    yarr[i].course_data[j].num = 3;
                                 }
-                                if(yarr[i].course_data[j].device_name=="跑步机"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/a.png"
+                                if (yarr[i].course_data[j].device_name == '跑步机') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/a.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="哑铃"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/b.png"
+                                if (yarr[i].course_data[j].device_name == '哑铃') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/b.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="飞鸟架"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/c.png"
+                                if (yarr[i].course_data[j].device_name == '飞鸟架') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/c.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="单车"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/d.png"
+                                if (yarr[i].course_data[j].device_name == '单车') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/d.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="杠铃"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/e.png"
+                                if (yarr[i].course_data[j].device_name == '杠铃') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/e.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="椭圆机"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/f.png"
+                                if (yarr[i].course_data[j].device_name == '椭圆机') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/f.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="HIIT"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/g.png"
+                                if (yarr[i].course_data[j].device_name == 'HIIT') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/g.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="罗马椅"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/h.png"
+                                if (yarr[i].course_data[j].device_name == '罗马椅') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/h.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="倒蹬机"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/i.png"
+                                if (yarr[i].course_data[j].device_name == '倒蹬机') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/i.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="腹肌练习椅"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/j.png"
+                                if (yarr[i].course_data[j].device_name == '腹肌练习椅') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/j.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="史密斯机"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/k.png"
+                                if (yarr[i].course_data[j].device_name == '史密斯机') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/k.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="奥林匹克上斜椅"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/l.png"
+                                if (yarr[i].course_data[j].device_name == '奥林匹克上斜椅') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/l.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="奥林匹克平椅"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/m.png"
+                                if (yarr[i].course_data[j].device_name == '奥林匹克平椅') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/m.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="可调试哑铃练习椅"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/n.png"
+                                if (yarr[i].course_data[j].device_name == '可调试哑铃练习椅') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/n.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="台阶机"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/o.png"
+                                if (yarr[i].course_data[j].device_name == '台阶机') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/o.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="蝴蝶机"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/p.png"
+                                if (yarr[i].course_data[j].device_name == '蝴蝶机') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/p.png';
                                 }
-                                if(yarr[i].course_data[j].device_name=="卧式曲腿训练机"){
-                                    yarr[i].course_data[j].src = "https://img.linkfeeling.cn/wx_small/sportdatail/q.png"
+                                if (yarr[i].course_data[j].device_name == '卧式曲腿训练机') {
+                                    yarr[i].course_data[j].src = 'https://img.linkfeeling.cn/wx_small/sportdatail/q.png';
                                 }
                             }
                         }
                         this.classList = yarr;
                         this.$set(this.classList);
-                        console.log(this.classList)
+                        console.log(this.classList);
                         this.$set(this.memberData);
-                        
                     } else {
                         this.$message(response.data.msg);
                     }
@@ -1046,15 +1092,15 @@ export default {
 
         // 转移学员
         async saveEdit () {
-            console.log(this.checkedMembers)
-            console.log(localStorage.getItem("gym_id"))
+            console.log(this.checkedMembers);
+            console.log(localStorage.getItem('gym_id'));
             let index = this.idx;
             const item = this.tableData[index];
             let result = await this.$store.dispatch(TRANS_GYM_PLAY_MEMBER, {
                 student_uid_array: JSON.stringify(this.checkedMembers),
                 from_coach_uid: item.uid,
                 to_coach_uid: this.desCoach,
-                gym_id: global.gym_id || localStorage.getItem("gym_id")
+                gym_id: global.gym_id || localStorage.getItem('gym_id')
             });
             if (result.success) {
                 this.$message.success('学员转移成功');
@@ -1068,31 +1114,31 @@ export default {
             // 先用手机号get
             let memberInfo = await this.$store.dispatch(GET_GYM_PLAY_MEMBER, {
                 phone_num: this.memberPhoneToAdd,
-                id: global.gym_id || global.gym_id || localStorage.getItem("gym_id")
+                id: global.gym_id || global.gym_id || localStorage.getItem('gym_id')
             });
-            console.log(memberInfo)
+            console.log(memberInfo);
             if (memberInfo.success) {
                 let result = await this.$store.dispatch(
                     ADDSTUDENT_GYM_PLAY_MEMBER, {
-                    uid: memberInfo.data.uid,
-                    student_nick: memberInfo.data.nick_name,
-                    gym_id: global.gym_id || localStorage.getItem("gym_id"),
-                    cid: uid,
-                    phone_num: memberInfo.data.phone_num
-                });
-                console.log(result)
+                        uid: memberInfo.data.uid,
+                        student_nick: memberInfo.data.nick_name,
+                        gym_id: global.gym_id || localStorage.getItem('gym_id'),
+                        cid: uid,
+                        phone_num: memberInfo.data.phone_num
+                    });
+                console.log(result);
                 if (result.success == true) {
-                    console.log(result)
-                    result.data.user_name = decodeURIComponent(result.data.user_name)
+                    console.log(result);
+                    result.data.user_name = decodeURIComponent(result.data.user_name);
                     this.memberData[uid].push(result.data);
-                    console.log(this.memberData[uid])
+                    console.log(this.memberData[uid]);
                     this.$set(this.memberData);
-                    this.addMemberVisible = false
+                    this.addMemberVisible = false;
                     this.$message.success(`添加学员成功`);
                 }
-                if (result.success == false){
-                    console.log(123)
-                    this.addMemberVisible = false
+                if (result.success == false) {
+                    console.log(123);
+                    this.addMemberVisible = false;
                     this.$message.error(`该学员已是当前教练学员,请不要重复添加`);
                 }
             } else {
@@ -1109,6 +1155,9 @@ export default {
 }
 a{
     cursor:pointer;
+}
+.el-tabs__content{
+    overflow: auto;
 }
 .class-status {
     .el-dialog__body {
@@ -1972,6 +2021,7 @@ tbody tr td:last-child .cell button span{
     font-family:PingFangSC-Medium;
     font-weight:500;
     top: 0.375rem;
+    cursor:pointer;
     text-indent: 1.173rem;
 }
 .svgg{

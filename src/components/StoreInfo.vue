@@ -392,7 +392,7 @@ export default {
     }
     .class-info-content{
         margin-top: .5rem;
-        min-height: 3rem;
+        height: 9rem;
         width: 25rem;
     }
     .class-info-operation >span{

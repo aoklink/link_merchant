@@ -177,12 +177,12 @@
                     </ul>
                 </div>
             </div>
-            <div class="chabox" v-show="dt">
+            <div v-show="dt" class="chabox">
                 <div class="chart">
                     <div class="chbox">
                         <div>运动记录</div>
-                        <!-- <div>{{ getDd(new Date(parseInt(seetime))) }}</div> -->
-                        <div>{{ getDd(new Date(parseInt(1554982731292))) }}</div>
+                        <div>{{ getDd(new Date(parseInt(seetime))) }}</div>
+                        <!-- <div>{{ getDd(new Date(parseInt(1554982731292))) }}</div> -->
                         <div @click="dt=false">
                             [&nbsp;&nbsp;]
                         </div>
@@ -361,14 +361,13 @@
 </template>
 
 <script>
-import global from '../components/Global'
+import global from '../components/Global';
 export default {
     name: 'Baseinfo',
     data () {
         return {
             localhost: 'https://ll.linkfeeling.cn',
-            // localhost: 'http://test.linkfeeling.cn',
-            // localhostbbb: 'https://dev.linkfeeling.cn',
+            localhost: 'https://dev.linkfeeling.cn',
             // url: './static/vuetable.json',
             url: 'https://ll.linkfeeling.cn/api/user/sport/category_data',
             tableData: [],
@@ -485,10 +484,10 @@ export default {
             this.dt = true;
             console.log(x);
             this.seetime = x;
-            this.clearCanvas()
+            this.clearCanvas();
             // 请求详情
             let dayp = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 page: this.cur_page,
                 bind_time: x,
                 // bind_time: "1553935864759",
@@ -511,37 +510,37 @@ export default {
 
                     // var tycal = data.data.total_calorie;
                     // var vyvy = data.data;
-                    data = data.items
+                    data = data.items;
                     console.log(data);
-                    //心率统计
-                    var run_effects = []
-                    var runa = 0
-                    var runb = 0
-                    var runc = 0
-                    var rund = 0
-                    var rune = 0
-                    var runf = 0
-                    console.log(data)
-                    var llmax = 0
+                    // 心率统计
+                    var run_effects = [];
+                    var runa = 0;
+                    var runb = 0;
+                    var runc = 0;
+                    var rund = 0;
+                    var rune = 0;
+                    var runf = 0;
+                    console.log(data);
+                    var llmax = 0;
 
-                    //10个最大力量值
-                    var jjm = []
-                    var sumjjm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                    for(var i=0;i<data.length;i++){
-                    llmax < parseFloat(data[i].e) ? llmax = parseFloat(data[i].e) : llmax = llmax
-                    if (parseFloat(data[i].e)>0){
-                        sumjjm.push(parseFloat(data[i].e))
+                    // 10个最大力量值
+                    var jjm = [];
+                    var sumjjm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    for (var i = 0; i < data.length; i++) {
+                        llmax < parseFloat(data[i].e) ? llmax = parseFloat(data[i].e) : llmax = llmax;
+                        if (parseFloat(data[i].e) > 0) {
+                            sumjjm.push(parseFloat(data[i].e));
+                        }
                     }
-                    } 
                     // console.log(llmax)
                     // $("#llmax").html(llmax)
                     // $("#llpka").html(llmax>0?llmax:'')
                     // $("#llpkb").html(llmax>0?Math.floor(parseFloat(llmax)*5)/10:'')
 
                     sumjjm.sort(function (a, b) {
-                    return b - a
+                        return b - a;
                     });
-                    jjm = sumjjm.slice(0,10)
+                    jjm = sumjjm.slice(0, 10);
 
                     // if(llmax>0){
                     // document.getElementById("fka").style.height = (jjm[0] / llmax*17.35 + 1.4) +'rem'
@@ -566,106 +565,106 @@ export default {
                     // document.getElementById("fki").style.height = 1.4 +'rem'
                     // document.getElementById("fkj").style.height = 1.4 +'rem'
                     // }
-                    var scccal = 0
-                    var xcc = 0
-                    var yqc = 0
-                    var zcc = 0
-                    var buc = {}
-                    var cha = 0
-                    var arrbox = [] 
-                    buc.run_data = []
-                    var acc = 0
-                    var bcc = 0
-                    var ccc = 0
-                    var maxtime = 0
-                    var tyca = 0
+                    var scccal = 0;
+                    var xcc = 0;
+                    var yqc = 0;
+                    var zcc = 0;
+                    var buc = {};
+                    var cha = 0;
+                    var arrbox = [];
+                    buc.run_data = [];
+                    var acc = 0;
+                    var bcc = 0;
+                    var ccc = 0;
+                    var maxtime = 0;
+                    var tyca = 0;
                     var sdata = JSON.parse(JSON.stringify(data));
                     for (var i = 0; i < data.length; i++) {
-                         tyca = tyca + parseFloat(data[i].f)
-                        //本次消耗热量
-                        if (data[i].c.indexOf("跑步机") > -1 || data[i].c.indexOf("椭圆机") > -1 || data[i].c.indexOf("单车") > -1 || data[i].c.indexOf("台阶机") > -1){
-                            xcc = xcc + parseFloat(data[i].f)
+                        tyca = tyca + parseFloat(data[i].f);
+                        // 本次消耗热量
+                        if (data[i].c.indexOf('跑步机') > -1 || data[i].c.indexOf('椭圆机') > -1 || data[i].c.indexOf('单车') > -1 || data[i].c.indexOf('台阶机') > -1) {
+                            xcc = xcc + parseFloat(data[i].f);
                         }
-                        if (data[i].c.indexOf("哑铃") > -1 || data[i].c.indexOf("杠铃") > -1 || data[i].c.indexOf("飞鸟") > -1 || data[i].c.indexOf("罗马椅") > -1 || data[i].c.indexOf("倒蹬机") > -1 || data[i].c.indexOf("腹肌练习椅") > -1 || data[i].c.indexOf("史密斯机") > -1 || data[i].c.indexOf("蝴蝶机") > -1 || data[i].c.indexOf("卧式曲腿训练机") > -1 || data[i].c.indexOf("奥林匹克上斜椅") > -1 || data[i].c.indexOf("奥林匹克平椅") > -1) {
-                            yqc = yqc + parseFloat(data[i].f)
+                        if (data[i].c.indexOf('哑铃') > -1 || data[i].c.indexOf('杠铃') > -1 || data[i].c.indexOf('飞鸟') > -1 || data[i].c.indexOf('罗马椅') > -1 || data[i].c.indexOf('倒蹬机') > -1 || data[i].c.indexOf('腹肌练习椅') > -1 || data[i].c.indexOf('史密斯机') > -1 || data[i].c.indexOf('蝴蝶机') > -1 || data[i].c.indexOf('卧式曲腿训练机') > -1 || data[i].c.indexOf('奥林匹克上斜椅') > -1 || data[i].c.indexOf('奥林匹克平椅') > -1) {
+                            yqc = yqc + parseFloat(data[i].f);
                         }
                         if (data[i].c == 'hiit') {
-                            zcc = zcc + parseFloat(data[i].f)
+                            zcc = zcc + parseFloat(data[i].f);
                         }
                     }
-                    //运动时长
-                    for (var i = 0; i < data.length-1; i++){
-                        //运动曲线
+                    // 运动时长
+                    for (var i = 0; i < data.length - 1; i++) {
+                        // 运动曲线
                         if (data[i + 1].c == data[i].c) {
-                            buc.run_data.push(data[i].g)
+                            buc.run_data.push(data[i].g);
                         }
-                        if (data[i + 1].c != data[i].c){
-                            if(i==1){
-                            buc.c = data[i].c
-                            buc.duration = data[i].b - data[cha].b
-                            buc.run_data.push(data[i].g)
-                            cha = i 
-                            arrbox.push(buc)
-                            buc = {}
-                            buc.run_data = []
-                            }else{
-                            buc.c = data[i].c
-                            buc.duration = data[i].b - data[cha].b
-                            buc.run_data.push(data[i].g)
-                            cha = i
-                            arrbox.push(buc) 
-                            buc = {}
-                            buc.run_data = []
+                        if (data[i + 1].c != data[i].c) {
+                            if (i == 1) {
+                                buc.c = data[i].c;
+                                buc.duration = data[i].b - data[cha].b;
+                                buc.run_data.push(data[i].g);
+                                cha = i;
+                                arrbox.push(buc);
+                                buc = {};
+                                buc.run_data = [];
+                            } else {
+                                buc.c = data[i].c;
+                                buc.duration = data[i].b - data[cha].b;
+                                buc.run_data.push(data[i].g);
+                                cha = i;
+                                arrbox.push(buc);
+                                buc = {};
+                                buc.run_data = [];
                             }
                         }
-                        
-                        //心率统计
-                        if (data[i].a == 0){
-                            if(i==0){
-                            runa = 0
-                            }else{
-                            runa = parseInt(runa) + parseInt(data[i].b - data[i - 1].b)
+
+                        // 心率统计
+                        if (data[i].a == 0) {
+                            if (i == 0) {
+                                runa = 0;
+                            } else {
+                                runa = parseInt(runa) + parseInt(data[i].b - data[i - 1].b);
                             }
                         }
                         if (data[i].a == 1) {
                             if (i == 0) {
-                            runb = 0
+                                runb = 0;
                             } else {
-                            runb = parseInt(runb) + parseInt(data[i].b - data[i - 1].b)
+                                runb = parseInt(runb) + parseInt(data[i].b - data[i - 1].b);
                             }
                         }
                         if (data[i].a == 2) {
                             if (i == 0) {
-                            runc = 0
+                                runc = 0;
                             } else {
-                            runc = parseInt(runc) + parseInt(data[i].b - data[i - 1].b)
+                                runc = parseInt(runc) + parseInt(data[i].b - data[i - 1].b);
                             }
                         }
                         if (data[i].a == 3) {
                             if (i == 0) {
-                            rund = 0
+                                rund = 0;
                             } else {
-                            rund = parseInt(rund) + parseInt(data[i].b - data[i - 1].b)
+                                rund = parseInt(rund) + parseInt(data[i].b - data[i - 1].b);
                             }
                         }
                         if (data[i].a == 4) {
                             if (i == 0) {
-                            rune = 0
+                                rune = 0;
                             } else {
-                            rune = parseInt(rune) + parseInt(data[i].b - data[i - 1].b)
+                                rune = parseInt(rune) + parseInt(data[i].b - data[i - 1].b);
                             }
                         }
                         if (data[i].a == 5) {
                             if (i == 0) {
-                            runf = 0
+                                runf = 0;
                             } else {
-                            runf = parseInt(runf) + parseInt(data[i].b - data[i - 1].b)
+                                runf = parseInt(runf) + parseInt(data[i].b - data[i - 1].b);
                             }
                         }
                     }
-                    var bigl = 0
-                    xcc>yqc?bigl=xcc:bigl=yqc
-                    console.log(scccal)
+                    var bigl = 0;
+                    xcc > yqc ? bigl = xcc : bigl = yqc;
+                    console.log(scccal);
                     // $("#scccal").html(Math.round(scccal))
                     // $("#scyby").html(Math.round(scccal))
                     // $("#xcc").html(Math.round(xcc))
@@ -679,52 +678,52 @@ export default {
                     // document.getElementById("yqa").style.width = 0.5 +'rem'
                     // }
 
-                    run_effects.push(runa)
-                    run_effects.push(runb)
-                    run_effects.push(runc)
-                    run_effects.push(rund)
-                    run_effects.push(rune)
-                    run_effects.push(runf)
+                    run_effects.push(runa);
+                    run_effects.push(runb);
+                    run_effects.push(runc);
+                    run_effects.push(rund);
+                    run_effects.push(rune);
+                    run_effects.push(runf);
 
-                    console.log(run_effects)
-                    //心率功效时间排序
+                    console.log(run_effects);
+                    // 心率功效时间排序
                     var zyx = JSON.parse(JSON.stringify(run_effects));
                     zyx.sort(function (a, b) {
-                    return b - a;
+                        return b - a;
                     });
-                    var pcp = 0
-                    for(var p=0;p<run_effects.length;p++){
-                    pcp = pcp + run_effects[p]
+                    var pcp = 0;
+                    for (var p = 0; p < run_effects.length; p++) {
+                        pcp = pcp + run_effects[p];
                     }
-                    console.log(zyx)
-                    var pbig = zyx[0]
-                    var nob = 0
-                    var kobb
-                    //主要集中在
-                    for (var p = 0; p < run_effects.length; p++){
-                    if(pbig == run_effects[p]){
-                        nob = p
+                    console.log(zyx);
+                    var pbig = zyx[0];
+                    var nob = 0;
+                    var kobb;
+                    // 主要集中在
+                    for (var p = 0; p < run_effects.length; p++) {
+                        if (pbig == run_effects[p]) {
+                            nob = p;
+                        }
                     }
-                    }
-                    if(nob == 0){
-                    kobb = '激活放松'
+                    if (nob == 0) {
+                        kobb = '激活放松';
                     }
                     if (nob == 1) {
-                    kobb = '动态热身'
+                        kobb = '动态热身';
                     }
                     if (nob == 2) {
-                    kobb = '脂肪燃烧'
+                        kobb = '脂肪燃烧';
                     }
                     if (nob == 3) {
-                    kobb = '有氧耐力'
+                        kobb = '有氧耐力';
                     }
                     if (nob == 4) {
-                    kobb = '无氧耐力'
+                        kobb = '无氧耐力';
                     }
                     if (nob == 5) {
-                    kobb = '峰值锻炼'
+                        kobb = '峰值锻炼';
                     }
-                    console.log(run_effects[2])
+                    console.log(run_effects[2]);
 
                     // $("#pcp").html(Math.round(pcp/60000))
                     // $("#kobb").html(kobb)
@@ -740,26 +739,26 @@ export default {
                     // document.getElementById("yyd").style.width = (run_effects[3] / pbig * 12.5 + 0.5)+'rem'
                     // document.getElementById("yye").style.width = (run_effects[4] / pbig * 12.5 + 0.5)+'rem'
                     // document.getElementById("yyf").style.width = (run_effects[5] / pbig * 12.5 + 0.5)+'rem'
-                    buc.c = data[data.length - 1].c
-                    buc.duration = data[data.length - 1].b - data[cha].b
-                    buc.run_data.push(data[data.length - 1].g)
-                    arrbox.push(buc)
+                    buc.c = data[data.length - 1].c;
+                    buc.duration = data[data.length - 1].b - data[cha].b;
+                    buc.run_data.push(data[data.length - 1].g);
+                    arrbox.push(buc);
 
-                    data = arrbox 
-                    console.log(data)
+                    data = arrbox;
+                    console.log(data);
                     var ssuummdur = 0;
-                    
+
                     for (var i = 0; i < data.length; i++) {
-                         ssuummdur = ssuummdur + data[i].duration
-                        //本次运动时长
-                        if (data[i].c.indexOf("跑步机") > -1 || data[i].c.indexOf("椭圆机") > -1 || data[i].c.indexOf("单车") > -1 || data[i].c.indexOf("台阶机") > -1){
-                            acc = acc + data[i].duration
+                        ssuummdur = ssuummdur + data[i].duration;
+                        // 本次运动时长
+                        if (data[i].c.indexOf('跑步机') > -1 || data[i].c.indexOf('椭圆机') > -1 || data[i].c.indexOf('单车') > -1 || data[i].c.indexOf('台阶机') > -1) {
+                            acc = acc + data[i].duration;
                         }
-                        if (data[i].c.indexOf("哑铃") > -1 || data[i].c.indexOf("杠铃") > -1 || data[i].c.indexOf("飞鸟") > -1 || data[i].c.indexOf("罗马椅") > -1 || data[i].c.indexOf("倒蹬机") > -1 || data[i].c.indexOf("腹肌练习椅") > -1 || data[i].c.indexOf("史密斯机") > -1 || data[i].c.indexOf("蝴蝶机") > -1 || data[i].c.indexOf("卧式曲腿训练机") > -1 || data[i].c.indexOf("奥林匹克上斜椅") > -1 || data[i].c.indexOf("奥林匹克平椅") > -1) {
-                            bcc = bcc + data[i].duration
+                        if (data[i].c.indexOf('哑铃') > -1 || data[i].c.indexOf('杠铃') > -1 || data[i].c.indexOf('飞鸟') > -1 || data[i].c.indexOf('罗马椅') > -1 || data[i].c.indexOf('倒蹬机') > -1 || data[i].c.indexOf('腹肌练习椅') > -1 || data[i].c.indexOf('史密斯机') > -1 || data[i].c.indexOf('蝴蝶机') > -1 || data[i].c.indexOf('卧式曲腿训练机') > -1 || data[i].c.indexOf('奥林匹克上斜椅') > -1 || data[i].c.indexOf('奥林匹克平椅') > -1) {
+                            bcc = bcc + data[i].duration;
                         }
                         if (data[i].c == 'hiit' || data[i].c == 'HIIT') {
-                            ccc = ccc + data[i].duration
+                            ccc = ccc + data[i].duration;
                         }
                     }
                     var maxcal = 0;
@@ -772,26 +771,24 @@ export default {
                     this.tyca = Math.round(tyca);
                     this.tyti = Math.round(ssuummdur);
 
-                  
                     this.stimea = acc;
                     this.stimeb = bcc;
                     this.stimec = ccc;
-                    
+
                     acc > bcc ? maxtime = acc : maxtime = bcc;
                     maxtime > ccc ? maxtime = maxtime : maxtime = ccc;
 
                     console.log(maxtime);
                     this.mtime = maxtime;
-                    
 
                     // 最大力量
                     console.log(sdata);
                     var maxjuz = 0;
                     for (var i = 0; i < sdata.length; i++) {
                         // if (sdata[i].c.indexOf("哑铃") > -1 || sdata[i].c.indexOf("杠铃") > -1 || sdata[i].c.indexOf("飞鸟") > -1) {
-                        if (sdata[i].c.indexOf("哑铃") > -1 || sdata[i].c.indexOf("杠铃") > -1 || sdata[i].c.indexOf("飞鸟") > -1 || sdata[i].c.indexOf("罗马椅") > -1 || sdata[i].c.indexOf("倒蹬机") > -1 || sdata[i].c.indexOf("腹肌练习椅") > -1 || sdata[i].c.indexOf("史密斯机") > -1 || sdata[i].c.indexOf("蝴蝶机") > -1 || sdata[i].c.indexOf("卧式曲腿训练机") > -1 || sdata[i].c.indexOf("奥林匹克上斜椅") > -1 || sdata[i].c.indexOf("奥林匹克平椅") > -1) {
+                        if (sdata[i].c.indexOf('哑铃') > -1 || sdata[i].c.indexOf('杠铃') > -1 || sdata[i].c.indexOf('飞鸟') > -1 || sdata[i].c.indexOf('罗马椅') > -1 || sdata[i].c.indexOf('倒蹬机') > -1 || sdata[i].c.indexOf('腹肌练习椅') > -1 || sdata[i].c.indexOf('史密斯机') > -1 || sdata[i].c.indexOf('蝴蝶机') > -1 || sdata[i].c.indexOf('卧式曲腿训练机') > -1 || sdata[i].c.indexOf('奥林匹克上斜椅') > -1 || sdata[i].c.indexOf('奥林匹克平椅') > -1) {
                             maxjuz > sdata[i].e ? maxjuz = maxjuz : maxjuz = sdata[i].e;
-                            console.log(sdata[i].e)
+                            console.log(sdata[i].e);
                         }
                     }
                     this.mjuz = maxjuz;
@@ -812,49 +809,49 @@ export default {
                             //     // console.log(sdata[i])
                             //     ll.push(sdata[i]);
                             // }
-                            if (parseInt(sdata[i].e)>0) {
+                            if (parseInt(sdata[i].e) > 0) {
                                 // console.log(sdata[i])
                                 ll.push(sdata[i]);
                             }
                         }
-                        console.log(ll)
+                        console.log(ll);
                         // console.log(ll[1].run_data[data[1].run_data.length - 1].extra.field_value);
                         if (ll.length > 0) {
                             var ssuummdur = parseInt(ll[ll.length - 1].b) - parseInt(ll[0].b);
-                            console.log(ll[0].e.length)
+                            console.log(ll[0].e.length);
                             lpl.beginPath();
                             lpl.strokeStyle = 'rgba(255,255,255,0)';
                             lpl.fillStyle = '#FF6383';
-                            if(ll[ll.length-1].e>0){
-                                lpl.moveTo(530,kk*parseInt(ll[ll.length-1].e)+bb);
-                                console.log(1)
-                            }else{
-                                lpl.moveTo(530,140);
-                                console.log(2)
+                            if (ll[ll.length - 1].e > 0) {
+                                lpl.moveTo(530, kk * parseInt(ll[ll.length - 1].e) + bb);
+                                console.log(1);
+                            } else {
+                                lpl.moveTo(530, 140);
+                                console.log(2);
                             }
-                            lpl.lineTo(530,140)
-                            lpl.lineTo(0,140)
-                            if(parseInt(ll[0].e)>0){
-                                lpl.lineTo(0,kk*parseInt(ll[0].e)+bb);
-                            }else{
-                                lpl.moveTo(530,140);
+                            lpl.lineTo(530, 140);
+                            lpl.lineTo(0, 140);
+                            if (parseInt(ll[0].e) > 0) {
+                                lpl.lineTo(0, kk * parseInt(ll[0].e) + bb);
+                            } else {
+                                lpl.moveTo(530, 140);
                             }
                             lpl.lineWidth = 0.5;
                             for (var i = 1; i < ll.length; i++) {
-                                if(ll[i].e == ""){
-                                    ll[i].e = 0
+                                if (ll[i].e == '') {
+                                    ll[i].e = 0;
                                 }
-                                if(ll[i].e == "2.5"){
-                                    ll[i].e = 50
+                                if (ll[i].e == '2.5') {
+                                    ll[i].e = 50;
                                 }
                                 var linearGradient1 = lpl.createLinearGradient(0, 0, 0, 140);
                                 linearGradient1.addColorStop(0, '#FF5E7F');
                                 linearGradient1.addColorStop(1, 'rgba(255,93,127,0.2)');
                                 lpl.fillStyle = linearGradient1;
-                                lpl.lineTo((parseInt(ll[i].b)-parseInt(ll[0].b))/ssuummdur * 530,kk*parseInt(ll[i].e)+bb)
-                                    // console.log((parseInt(ll[i].b)-parseInt(ll[0].b))/ssuummdur * 530)
-                                    // console.log(kk*parseInt(ll[i].e)+bb)
-                                
+                                lpl.lineTo((parseInt(ll[i].b) - parseInt(ll[0].b)) / ssuummdur * 530, kk * parseInt(ll[i].e) + bb);
+                                // console.log((parseInt(ll[i].b)-parseInt(ll[0].b))/ssuummdur * 530)
+                                // console.log(kk*parseInt(ll[i].e)+bb)
+
                                 // if (i > 0) {
                                 //     lefttop = parseInt(lefttop) + (parseInt(ll[i].b) - parseInt(ll[i - 1].b)) / ssuummdur * 530;
                                 //     console.log(lefttop);
@@ -934,7 +931,7 @@ export default {
                     // canvas运动曲线分布图表
                     var d = document.getElementById('yzycan');
                     var lcl = d.getContext('2d');
-                    
+
                     // data = data.categories_data
                     console.log(data);
                     var kk = -9 / 7;
@@ -947,7 +944,7 @@ export default {
                     var sumdurc = 0;
                     var sumdurd = 0;
                     for (var i = 0; i < data.length; i++) {
-                        if (data[i].c.indexOf("跑步机") > -1 || data[i].c.indexOf("椭圆机") > -1 || data[i].c.indexOf("单车") > -1 || data[i].c.indexOf("台阶机") > -1) {
+                        if (data[i].c.indexOf('跑步机') > -1 || data[i].c.indexOf('椭圆机') > -1 || data[i].c.indexOf('单车') > -1 || data[i].c.indexOf('台阶机') > -1) {
                             sumdura = sumdura + data[i].duration;
                             // for(var j=0;j<data.categories_data[i].run_data.length;j++){
                             //   sumcala = sumcala + data.categories_data[i].run_data[j].f
@@ -959,24 +956,24 @@ export default {
                             //   sumcalb = sumcalb + data.categories_data[i].run_data[j].f
                             // }
                         }
-                        if (data[i].c.indexOf("哑铃") > -1 || data[i].c.indexOf("杠铃") > -1 || data[i].c.indexOf("飞鸟") > -1 || data[i].c.indexOf("罗马椅") > -1 || data[i].c.indexOf("倒蹬机") > -1 || data[i].c.indexOf("腹肌练习椅") > -1 || data[i].c.indexOf("史密斯机") > -1 || data[i].c.indexOf("蝴蝶机") > -1 || data[i].c.indexOf("卧式曲腿训练机") > -1 || data[i].c.indexOf("奥林匹克上斜椅") > -1 || data[i].c.indexOf("奥林匹克平椅") > -1) {
+                        if (data[i].c.indexOf('哑铃') > -1 || data[i].c.indexOf('杠铃') > -1 || data[i].c.indexOf('飞鸟') > -1 || data[i].c.indexOf('罗马椅') > -1 || data[i].c.indexOf('倒蹬机') > -1 || data[i].c.indexOf('腹肌练习椅') > -1 || data[i].c.indexOf('史密斯机') > -1 || data[i].c.indexOf('蝴蝶机') > -1 || data[i].c.indexOf('卧式曲腿训练机') > -1 || data[i].c.indexOf('奥林匹克上斜椅') > -1 || data[i].c.indexOf('奥林匹克平椅') > -1) {
                             sumdurc = sumdurc + data[i].duration;
                             // for(var j=0;j<data.categories_data[i].run_data.length;j++){
                             //   sumcalc = sumcalc + data.categories_data[i].run_data[j].f
                             // }
                         }
-                        if (data[i].c == "rest" || data[i].c == "") {
+                        if (data[i].c == 'rest' || data[i].c == '') {
                             sumdurd = sumdurd + data[i].duration;
                         }
                     }
-                    
+
                     var ssuummdur = sumdura + sumdurb + sumdurc + sumdurd;
                     this.kxtime = (sumdura + sumdurb + sumdurc) / ssuummdur;
-                    console.log(data)
+                    console.log(data);
                     for (var i = 0; i < data.length; i++) {
                         lcl.beginPath();
                         lcl.lineWidth = 0.5;
-                        if (data[i].c.indexOf("跑步机") > -1 || data[i].c.indexOf("椭圆机") > -1 || data[i].c.indexOf("单车") > -1 || data[i].c.indexOf("台阶机") > -1) {
+                        if (data[i].c.indexOf('跑步机') > -1 || data[i].c.indexOf('椭圆机') > -1 || data[i].c.indexOf('单车') > -1 || data[i].c.indexOf('台阶机') > -1) {
                             lcl.strokeStyle = 'rgba(255,255,255,0)';
                             lcl.fillStyle = '#FFD450';
                             var linearGradient1 = lcl.createLinearGradient(0, 0, 0, 180);
@@ -984,7 +981,7 @@ export default {
                             linearGradient1.addColorStop(1, 'rgba(255,236,178,0.2)');
                             lcl.fillStyle = linearGradient1;
                         }
-                        if (data[i].c.indexOf("哑铃") > -1 || data[i].c.indexOf("杠铃") > -1 || data[i].c.indexOf("飞鸟") > -1 || data[i].c.indexOf("罗马椅") > -1 || data[i].c.indexOf("倒蹬机") > -1 || data[i].c.indexOf("腹肌练习椅") > -1 || data[i].c.indexOf("史密斯机") > -1 || data[i].c.indexOf("蝴蝶机") > -1 || data[i].c.indexOf("卧式曲腿训练机") > -1 || data[i].c.indexOf("奥林匹克上斜椅") > -1 || data[i].c.indexOf("奥林匹克平椅") > -1) {
+                        if (data[i].c.indexOf('哑铃') > -1 || data[i].c.indexOf('杠铃') > -1 || data[i].c.indexOf('飞鸟') > -1 || data[i].c.indexOf('罗马椅') > -1 || data[i].c.indexOf('倒蹬机') > -1 || data[i].c.indexOf('腹肌练习椅') > -1 || data[i].c.indexOf('史密斯机') > -1 || data[i].c.indexOf('蝴蝶机') > -1 || data[i].c.indexOf('卧式曲腿训练机') > -1 || data[i].c.indexOf('奥林匹克上斜椅') > -1 || data[i].c.indexOf('奥林匹克平椅') > -1) {
                             lcl.strokeStyle = 'rgba(255,255,255,0)';
                             lcl.fillStyle = '#398EFF';
                             var linearGradient1 = lcl.createLinearGradient(0, 0, 0, 180);
@@ -1000,7 +997,7 @@ export default {
                             linearGradient1.addColorStop(1, 'rgba(255,93,127,0.2)');
                             lcl.fillStyle = linearGradient1;
                         }
-                        if (data[i].c == "rest" || data[i].c == "") {
+                        if (data[i].c == 'rest' || data[i].c == '') {
                             lcl.strokeStyle = 'rgba(255,255,255,0)';
                             lcl.fillStyle = '#7E879C';
                             var linearGradient1 = lcl.createLinearGradient(0, 0, 0, 180);
@@ -1034,16 +1031,16 @@ export default {
                     for (var i = 0; i < data.length; i++) {
                         lcl.beginPath();
                         lcl.lineWidth = 0.5;
-                        if (data[i].c.indexOf("跑步机") > -1 || data[i].c.indexOf("椭圆机") > -1 || data[i].c.indexOf("单车") > -1 || data[i].c.indexOf("台阶机") > -1) {
+                        if (data[i].c.indexOf('跑步机') > -1 || data[i].c.indexOf('椭圆机') > -1 || data[i].c.indexOf('单车') > -1 || data[i].c.indexOf('台阶机') > -1) {
                             lcl.strokeStyle = '#FFD450';
                         }
-                        if (data[i].c.indexOf("哑铃") > -1 || data[i].c.indexOf("杠铃") > -1 || data[i].c.indexOf("飞鸟") > -1 || data[i].c.indexOf("罗马椅") > -1 || data[i].c.indexOf("倒蹬机") > -1 || data[i].c.indexOf("腹肌练习椅") > -1 || data[i].c.indexOf("史密斯机") > -1 || data[i].c.indexOf("蝴蝶机") > -1 || data[i].c.indexOf("卧式曲腿训练机") > -1 || data[i].c.indexOf("奥林匹克上斜椅") > -1 || data[i].c.indexOf("奥林匹克平椅") > -1) {
+                        if (data[i].c.indexOf('哑铃') > -1 || data[i].c.indexOf('杠铃') > -1 || data[i].c.indexOf('飞鸟') > -1 || data[i].c.indexOf('罗马椅') > -1 || data[i].c.indexOf('倒蹬机') > -1 || data[i].c.indexOf('腹肌练习椅') > -1 || data[i].c.indexOf('史密斯机') > -1 || data[i].c.indexOf('蝴蝶机') > -1 || data[i].c.indexOf('卧式曲腿训练机') > -1 || data[i].c.indexOf('奥林匹克上斜椅') > -1 || data[i].c.indexOf('奥林匹克平椅') > -1) {
                             lcl.strokeStyle = '#398EFF';
                         }
                         if (data[i].c == 'hiit' || data[i].c == 'HIIT') {
                             lcl.strokeStyle = '#FF5E7F';
                         }
-                        if (data[i].c == "rest" || data[i].c == "") {
+                        if (data[i].c == 'rest' || data[i].c == '') {
                             lcl.strokeStyle = '#7E879C';
                         }
 
@@ -1060,18 +1057,18 @@ export default {
                         lefttop = lefttop + data[i].duration / ssuummdur * 530;
                     }
                     // 底部时间
-                    var ftime = sdata[0].b
-                    var etime = sdata[sdata.length - 1].b
+                    var ftime = sdata[0].b;
+                    var etime = sdata[sdata.length - 1].b;
                     this.tbrr.push(parseInt(ftime));
-                    console.log(parseInt(ftime))
+                    console.log(parseInt(ftime));
                     this.tbrr.push(parseInt(parseInt(ftime) + parseInt((etime - ftime) / 6)));
                     this.tbrr.push(parseInt(parseInt(ftime) + parseInt((etime - ftime) / 6 * 2)));
                     this.tbrr.push(parseInt(parseInt(ftime) + parseInt((etime - ftime) / 6 * 3)));
                     this.tbrr.push(parseInt(parseInt(ftime) + parseInt((etime - ftime) / 6 * 4)));
                     this.tbrr.push(parseInt(parseInt(ftime) + parseInt((etime - ftime) / 6 * 5)));
                     this.tbrr.push(parseInt(etime));
-                    console.log(this.getHh(new Date(this.tbrr[0])))
-                    
+                    console.log(this.getHh(new Date(this.tbrr[0])));
+
                     // 运动功效图表
                     var c = document.getElementById('yyycan');
                     var yzy = c.getContext('2d');
@@ -1079,8 +1076,8 @@ export default {
                     var a1, a2, a3, a4, a5, a6;
                     yzy.beginPath();
 
-                    var ydgxbox
-                    ydgxbox = run_effects
+                    var ydgxbox;
+                    ydgxbox = run_effects;
                     // for (var i = 0; i < data.length; i++) {
                     //     ydgxbox.splice(data[i].effect, 1, data[i].time);
                     // }
@@ -1263,15 +1260,27 @@ export default {
             var seperator2 = ':';
             var month = date.getMonth() + 1;
             var strDate = date.getDate();
+            var hours = date.getHours();
+            var mins = date.getMinutes();
+            var secs = date.getSeconds();
             if (month >= 1 && month <= 9) {
                 month = '0' + month;
             }
             if (strDate >= 0 && strDate <= 9) {
                 strDate = '0' + strDate;
             }
+            if (hours >= 0 && hours <= 9) {
+                hours = '0' + hours;
+            }
+            if (mins >= 0 && mins <= 9) {
+                mins = '0' + mins;
+            }
+            if (secs >= 0 && secs <= 9) {
+                secs = '0' + secs;
+            }
             var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
-                        ' ' + date.getHours() + seperator2 + date.getMinutes() +
-                        seperator2 + date.getSeconds();
+                        ' ' + hours + seperator2 + mins +
+                        seperator2 + secs;
             return currentdate;
         },
         getHh: function (no) {
@@ -1299,7 +1308,7 @@ export default {
             console.log(this.inquiry);
             // 请求个人信息
             let datp = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 page: this.cur_page,
                 uid: this.inquiry,
                 app_version: '001',
@@ -1312,7 +1321,7 @@ export default {
                 user_type: 'trainee'
             };
             console.log(this);
-            this.$axios.post(this.localhost+'/api/account/info', JSON.stringify(datp), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/account/info', JSON.stringify(datp), {headers: {'Content-Type': 'application/json'}})
                 // this.$axios.post(this.localhost+'/api/account/get/account_info',JSON.stringify(datp),{headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
@@ -1328,12 +1337,12 @@ export default {
                 });
             // 请求报告
             let datd = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 page: this.cur_page,
                 uid: this.inquiry
             };
             console.log(this);
-            this.$axios.post(this.localhost+'/api/user/sport/all_data', JSON.stringify(datd), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/user/sport/all_data', JSON.stringify(datd), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
                     // res.data.data = res.data.data.data
@@ -1342,35 +1351,35 @@ export default {
                     this.user.uscal = res.data.data.total_calorie;
 
                     this.tharr = res.data.data.device_categories;
-                    var sumtime = 0//总时长
-                    var sumcal = 0//总热量
-                    for(var i=0;i<this.tharr.length;i++){
-                        sumtime = sumtime + Math.round(parseInt(this.tharr[i].category_data.time))
-                        sumcal = sumcal + parseInt(this.tharr[i].category_data.calorie)
-                        if(this.tharr[i].category_name == '有氧运动'){
+                    var sumtime = 0;// 总时长
+                    var sumcal = 0;// 总热量
+                    for (var i = 0; i < this.tharr.length; i++) {
+                        sumtime = sumtime + Math.round(parseInt(this.tharr[i].category_data.time));
+                        sumcal = sumcal + parseInt(this.tharr[i].category_data.calorie);
+                        if (this.tharr[i].category_name == '有氧运动') {
                             this.tharr[i].color = '#9B4909';
                             this.tharr[i].bgcolor = '#FFECB2';
                         }
-                        if(this.tharr[i].category_name == '力量训练'){
+                        if (this.tharr[i].category_name == '力量训练') {
                             this.tharr[i].color = '#9E394E';
                             this.tharr[i].bgcolor = '#FFA2B5';
                         }
-                        if(this.tharr[i].category_name == 'HIIT'){
+                        if (this.tharr[i].category_name == 'HIIT') {
                             this.tharr[i].color = '#264F86';
                             this.tharr[i].bgcolor = '#C7DFFF';
                         }
                     }
 
-                    this.user.ustime = Math.round(sumtime/60000)
-                    this.user.uscal = Math.round(sumcal)
-                    console.log(sumtime)
+                    this.user.ustime = Math.round(sumtime / 60000);
+                    this.user.uscal = Math.round(sumcal);
+                    console.log(sumtime);
                 })
                 .catch((res) => {
                     console.log(res);
                 });
             // 列表
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 page: this.cur_page,
                 uid: this.inquiry,
                 pos: 1,
@@ -1378,19 +1387,23 @@ export default {
                 flag: false
             };
             console.log(this);
-            this.$axios.post(this.localhost+'/api/user/sport/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/user/sport/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
-                    this.items = res.data.data;
+                    var sdata = JSON.parse(JSON.stringify(res.data.data));
+                    sdata.sort(function (a, b) {
+                        return b.bind_time - a.bind_time;
+                    });
+                    this.items = sdata;
                 })
                 .catch((res) => {
                     console.log(res);
                 });
         },
-        clearCanvas () {  
-            var c=document.getElementById("yzycan");  
-            var cxt=c.getContext("2d");  
-            cxt.clearRect(0,0,c.width,c.height);
+        clearCanvas () {
+            var c = document.getElementById('yzycan');
+            var cxt = c.getContext('2d');
+            cxt.clearRect(0, 0, c.width, c.height);
         },
         handleEdit (index, row, status) {
             this.$router.push('/editor');
@@ -1963,6 +1976,7 @@ export default {
         color: #fff !important;
         text-indent: 0;
         text-align: center;
+        cursor:pointer;
     }
     .chart{
         background: #fff;
@@ -1989,6 +2003,7 @@ export default {
     .chbox div{
         box-sizing: border-box;
         position: absolute;
+        cursor:pointer;
     }
     .chbox div:nth-of-type(1){
         width: 80px;

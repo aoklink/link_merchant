@@ -21,13 +21,13 @@
                     <el-button type="primary" icon="search" @click="tadd">添加手环</el-button>
                 </div> -->
                 <el-table ref="multipleTable" :data="data" border
-                        class="table" @selection-change="handleSelectionChange"
+                          class="table" @selection-change="handleSelectionChange"
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
                     <el-table-column prop="ncc" label="会员编号"
-                                    style="color: red !important"
+                                     style="color: red !important"
                     />
-                    <el-table-column prop="nick_name" label="昵称" >
+                    <el-table-column prop="nick_name" label="昵称">
                         <template slot-scope="scope">
                             <div type="text">
                                 {{ decodeURIComponent(tableData[scope.$index].nick_name.replace(/\+/g, '%20')) }}
@@ -49,12 +49,12 @@
                     <el-table-column prop="bind_time" label="上一次绑定时间">
                         <template slot-scope="scope">
                             <div type="text">
-                                {{ tableData[scope.$index].bind_time }}
+                                {{ new Date(tableData[scope.$index].bind_time).getTime()>0?tableData[scope.$index].bind_time:'--' }}
                             </div>
                         </template>
                     </el-table-column>
                     <el-table-column label="操作" align="center"
-                                    prop="status"
+                                     prop="status"
                     >
                         <template slot-scope="scope">
                             <router-link :class="tableData[scope.$index].status == 0?'cc':'cc'" :to="{ path: '/baseinfo', query: { inquiry: tableData[scope.$index].uid }}">
@@ -107,7 +107,7 @@
 
             <!-- 删除提示框 -->
             <el-dialog title="提示" :visible.sync="delVisible" width="300px"
-                    center
+                       center
             >
                 <el-form ref="form" :model="form" label-width="50px">
                     <el-form-item label="手环">
@@ -127,13 +127,13 @@
 </template>
 
 <script>
-import global from '../components/Global'
+import global from '../components/Global';
 export default {
     name: 'Basemember',
     data () {
         return {
             localhost: 'http://bg.linkfeeling.cn',
-            // localhost: 'http://test.linkfeeling.cn',
+            localhost: 'https://dev.linkfeeling.cn',
             // url: './static/vuetable.json',
             url: this.localhost + '/api/platform/members',
             tableData: [],
@@ -222,7 +222,7 @@ export default {
             //     this.url = '/ms/table/list';
             // };
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 page: this.cur_page
             };
             console.log(this);
@@ -236,9 +236,9 @@ export default {
                     for (var i = 0; i < xbox.length; i++) {
                         aDiv.push(xbox[i]);
                     }
-                    aDiv.sort(function (a, b) { return new Date(b.bind_time) - new Date(a.bind_time); });
-                    for(var i = 0; i < aDiv.length; i++){
-                        aDiv[i].ncc = (i+1)
+                    aDiv.sort(function (a, b) { return new Date(b.bind_time || 0) - new Date(a.bind_time || 0); });
+                    for (var i = 0; i < aDiv.length; i++) {
+                        aDiv[i].ncc = (i + 1);
                     }
                     console.log(aDiv);
                     this.tableData = aDiv;
@@ -294,7 +294,7 @@ export default {
         getedit () {
             let that = this;
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 id: this.form.id,
                 uid: this.form.uid,
                 nick_name: this.form.nick_name,
@@ -323,7 +323,7 @@ export default {
             this.$route.path(editor);
             let that = this;
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 id: this.form.id,
                 end_time: Date.parse(new Date()),
                 page: this.cur_page
@@ -348,7 +348,7 @@ export default {
         getdel () {
             let that = this;
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 id: this.form.id,
                 page: this.cur_page
             };

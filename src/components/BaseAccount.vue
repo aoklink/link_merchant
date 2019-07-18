@@ -99,14 +99,14 @@
 </template>
 
 <script>
-import global from '../components/Global'
+import global from '../components/Global';
 // this.$axios.defaults.headers.post['Content-Type'] = 'application/json'
 export default {
     name: 'Baseaccount',
     data () {
         return {
-            // localhost: 'http://test.linkfeeling.cn',
-            localhost: 'http://bg.linkfeeling.cn',
+            localhost: 'http://test.linkfeeling.cn',
+            // localhost: 'http://bg.linkfeeling.cn',
             url: 'https://ll.linkfeeling.cn/api/platform/bracelet/data',
             tableData: [],
             yybox: {},
@@ -192,11 +192,11 @@ export default {
             //     this.url = '/ms/table/list';
             // };
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 page: this.cur_page
             };
             console.log(this);
-            this.$axios.post(this.localhost+'/api/platform/bracelet/data', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
+            this.$axios.post(this.localhost + '/api/platform/bracelet/data', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
             )
                 .then((res) => {
                     console.log(res.data.data);
@@ -261,14 +261,14 @@ export default {
         getedit () {
             let that = this;
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 bracelet_id: this.form.bracelet_id,
                 user_name: this.form.user_name,
                 phone_num: this.form.phone_num,
                 bind_time: Date.parse(new Date()),
                 page: this.cur_page
             };
-            this.$axios.post(this.localhost+'/api/platform/bracelet/bind', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/platform/bracelet/bind', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.code);
                     if (res.data.code == 200) {
@@ -288,13 +288,13 @@ export default {
         getfalseedit () {
             let that = this;
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 bracelet_id: this.form.bracelet_id,
                 phone_num: this.form.phone_num,
                 unbind_time: Date.parse(new Date()),
                 page: this.cur_page
             };
-            this.$axios.post(this.localhost+'/api/platform/bracelet/unbind', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/platform/bracelet/unbind', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.code);
                     if (res.data.code == 200) {
@@ -314,12 +314,12 @@ export default {
         getdel () {
             let that = this;
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 bracelet_id: this.form.bracelet_id,
                 page: this.cur_page
             };
             console.log('del');
-            this.$axios.post(this.localhost+'/api/platform/bracelet/delete', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/platform/bracelet/delete', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     if (res.data.code == 200) {
                         that.$message.success('删除成功');

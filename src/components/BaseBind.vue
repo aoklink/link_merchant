@@ -21,14 +21,14 @@
                     <el-button type="primary" icon="search" @click="tadd">添加手环</el-button>
                 </div> -->
                 <el-table ref="multipleTable" :data="data" border
-                        class="table" @selection-change="handleSelectionChange"
+                          class="table" @selection-change="handleSelectionChange"
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
-                    <el-table-column prop="id" label="手环编号" 
-                                    style="color: red !important"
+                    <el-table-column prop="id" label="手环编号"
+                                     style="color: red !important"
                     />
                     <el-table-column prop="bracelet_id" label="手环ID"
-                                    style="color: red !important"
+                                     style="color: red !important"
                     />
                     <el-table-column prop="uwb_id" label="配置uwb">
                         <template slot-scope="scope">
@@ -66,7 +66,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column label="操作" align="center" padding="0"
-                                    prop="status"
+                                     prop="status"
                     >
                         <template slot-scope="scope">
                             <div :class="tableData[scope.$index].status == 0?'cc':'dd'" type="text" @click="handleEdit(scope.$index, scope.row,tableData[scope.$index].status)">
@@ -83,38 +83,34 @@
             </div>
 
             <!-- 解绑弹出框 -->
-            <!-- <el-dialog title="解除绑定" :visible.sync="unBindVisible" width="500px"> -->
-                <!-- <el-form ref="form" :model="form" label-width="50px">
-                    <el-form-item label="手环">
-                        <div v-model="form.bracelet_id">
-                            {{ form.bracelet_id }}
-                        </div>
-                    </el-form-item>
-                </el-form>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="unBindVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveUn">确 定</el-button>
-                </span>
-            </el-dialog> -->
-            <div class="bindlog" v-if="unBindVisible">
+            <div v-if="unBindVisible" class="bindlog">
                 <div class="unbindbox">
                     <div class="ubdup">
-                        <div>解除绑定
-                            <span></span>
+                        <div>
+                            解除绑定
+                            <span />
                             <span @click="unBindVisible=false">
                                 <svg width="10px" height="10px" class="svg">
-                                    <line x1="0" y1="0" x2="10" y2="10"
-            style="stroke:#888EA7;stroke-width:1"/>
-                                    <line x1="10" y1="0" x2="0" y2="10"
-            style="stroke:#888EA7;stroke-width:1"/>
+                                    <line x1="0" y1="0" x2="10"
+                                          y2="10"
+                                          style="stroke:#888EA7;stroke-width:1"
+                                    />
+                                    <line x1="10" y1="0" x2="0"
+                                          y2="10"
+                                          style="stroke:#888EA7;stroke-width:1"
+                                    />
                                 </svg>
                             </span>
                         </div>
                     </div>
                     <div class="ubdmd">
-                        <span class="unce"></span>
-                        <div class="ubdta">是否确认解除手环绑定？</div>
-                        <div class="ubdtb">手环解除绑定后，将结束本次运动并生成运动报告</div>
+                        <span class="unce" />
+                        <div class="ubdta">
+                            是否确认解除手环绑定？
+                        </div>
+                        <div class="ubdtb">
+                            手环解除绑定后，将结束本次运动并生成运动报告
+                        </div>
                     </div>
                     <div class="ubdbt">
                         <span @click="unBindVisible=false">取消</span>
@@ -122,46 +118,23 @@
                     </div>
                 </div>
             </div>
-
             <!-- 绑定弹出框 -->
-            <!-- <el-dialog title="手环绑定" :visible.sync="editVisible" width="500px">
-                <el-form ref="form" :model="form" label-width="90px">
-                    <el-form-item label="手环编号">
-                        <div v-model="form.bracelet_id">
-                            {{ form.bracelet_id }}
-                        </div>
-                    </el-form-item>
-                    <el-form-item label="手环ID" class="eltt">
-                        <div v-model="form.bracelet_id">
-                            {{ form.bracelet_id }}
-                        </div>
-                    </el-form-item>
-                    <el-form-item label="配置uwb">
-                        <el-input v-model="form.user_name" />
-                    </el-form-item>
-                    <el-form-item label="nfc解码器">
-                        <el-input v-model="form.phone_num" />
-                    </el-form-item>
-                    <el-form-item label="领取会员">
-                        <el-input v-model="form.phone_num" />
-                    </el-form-item>
-                </el-form>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="editVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveEdit">确 定</el-button>
-                </span>
-            </el-dialog> -->
-            <div class="bindlog" v-if="editVisible">
+            <div v-if="editVisible" class="bindlog">
                 <div class="bindbox">
                     <div class="bdup">
-                        <div>手环绑定
-                            <span></span>
+                        <div>
+                            手环绑定
+                            <span />
                             <span @click="editVisible=false">
                                 <svg width="10px" height="10px" class="svg">
-                                    <line x1="0" y1="0" x2="10" y2="10"
-            style="stroke:#888EA7;stroke-width:1"/>
-                                    <line x1="10" y1="0" x2="0" y2="10"
-            style="stroke:#888EA7;stroke-width:1"/>
+                                    <line x1="0" y1="0" x2="10"
+                                          y2="10"
+                                          style="stroke:#888EA7;stroke-width:1"
+                                    />
+                                    <line x1="10" y1="0" x2="0"
+                                          y2="10"
+                                          style="stroke:#888EA7;stroke-width:1"
+                                    />
                                 </svg>
                             </span>
                         </div>
@@ -183,9 +156,27 @@
                             <span>配置uwb</span>
                             <input type="text" v-model="form.uwb_id" placeholder="请输入定位模块的id">
                         </div> -->
-                        <div class="bdta bdtb">
+                        <div class="bdta bdtb ccyb">
                             <span>领取会员</span>
-                            <input type="text" v-model="form.phone_num" placeholder="请输入会员手机号">
+                            <el-row class="demo-autocomplete">
+                                <el-col :span="12">
+                                    <el-autocomplete
+                                        v-model="state2"
+                                        popper-class="my-autocomplete"
+                                        class="inline-input"
+                                        :fetch-suggestions="querySearch"
+                                        placeholder="请输入会员手机号"
+                                        :trigger-on-focus="true"
+                                        @select="handleSelect"
+                                    >
+                                        <template slot-scope="props" width="400">
+                                            <div class="name">
+                                                <span class="shead" :style="{ 'background': 'url(' +props.item.head + ') no-repeat left center'}" /><span class="stna">{{ props.item.name }}</span><span class="sttk">{{ props.item.value }}</span><span class="addr">{{ props.item.date }}</span>
+                                            </div>
+                                        </template>
+                                    </el-autocomplete>
+                                </el-col>
+                            </el-row>
                         </div>
                     </div>
                     <div class="bdbt">
@@ -214,24 +205,31 @@
                     <el-button type="primary" @click="deleteRow">确 定</el-button>
                 </span>
             </el-dialog> -->
-            <div class="bindlog" v-if="delVisible">
+            <div v-if="delVisible" class="bindlog">
                 <div class="unbindbox">
                     <div class="ubdup">
-                        <div>删除手环
-                            <span></span>
+                        <div>
+                            删除手环
+                            <span />
                             <span @click="delVisible=false">
                                 <svg width="10px" height="10px" class="svg">
-                                    <line x1="0" y1="0" x2="10" y2="10"
-            style="stroke:#888EA7;stroke-width:1"/>
-                                    <line x1="10" y1="0" x2="0" y2="10"
-            style="stroke:#888EA7;stroke-width:1"/>
+                                    <line x1="0" y1="0" x2="10"
+                                          y2="10"
+                                          style="stroke:#888EA7;stroke-width:1"
+                                    />
+                                    <line x1="10" y1="0" x2="0"
+                                          y2="10"
+                                          style="stroke:#888EA7;stroke-width:1"
+                                    />
                                 </svg>
                             </span>
                         </div>
                     </div>
                     <div class="ubdmd">
-                        <span class="dece"></span>
-                        <div class="ubdta">是否确认删除手环</div>
+                        <span class="dece" />
+                        <div class="ubdta">
+                            是否确认删除手环
+                        </div>
                     </div>
                     <div class="ubdbt">
                         <span @click="delVisible=false">取消</span>
@@ -244,16 +242,14 @@
 </template>
 
 <script>
-import global from '../components/Global'
+import global from '../components/Global';
 // this.$axios.defaults.headers.post['Content-Type'] = 'application/json'
 export default {
     name: 'Basebind',
     data () {
         return {
-            localhost: 'http://bg.linkfeeling.cn',
-            // localhost: 'http://test.linkfeeling.cn',
-            // url: './static/vuetable.json',
-            url: 'http://ll.linkfeeling.cn/api/platform/bracelet/data',
+            // localhost: 'http://bg.linkfeeling.cn',
+            localhost: 'http://test.linkfeeling.cn',
             tableData: [],
             yybox: {},
             ttbox: [],
@@ -279,7 +275,13 @@ export default {
                 id: '',
                 uwb_id: ''
             },
-            idx: -1
+            idx: -1,
+            dataList: [],
+            tableDdd: '',
+            restaurants: [],
+            state1: '',
+            state2: '',
+            des: ['']
         };
     },
     computed: {
@@ -303,9 +305,45 @@ export default {
     },
     created () {
         this.getData();
+        var that = this;
+        this.dataList = [];
+        let datt = {
+            gym_name: global.gym_name || localStorage.getItem('gym_name'),
+            page: this.cur_page
+        };
+        this.$axios.post(this.localhost + '/api/platform/members', JSON.stringify(datt), {headers: {'Content-Type': 'application/json;charset=UTF-8'}})
+            .then((res) => {
+                if (res.data.code == 200) {
+                    console.log(res.data.data);
+                    var aDiv = [];
+                    for (var i = 0; i < res.data.data.length; i++) {
+                        aDiv.push(res.data.data[i]);
+                    }
+                    aDiv.sort(function (a, b) { return new Date(b.bind_time || 0) - new Date(a.bind_time || 0); });
+                    console.log(aDiv);
+                    var byby;
+                    for (var i = 0; i < aDiv.length; i++) {
+                        byby = {};
+                        byby.value = aDiv[i].phone_num;
+                        byby.date = aDiv[i].bind_time;
+                        byby.head = aDiv[i].head_icon || '';
+                        byby.name = decodeURIComponent(aDiv[i].nick_name.replace(/\+/g, '%20'));
+                        that.dataList.push(byby);
+                    }
+                    console.log(this.dataList);
+                    that.$set(that.dataList);
+                } else {
+                    that.$message.success('会员列表请求失败');
+                }
+            })
+            .catch((res) => {
+                console.log(res);
+            });
+        this.tableDdd = this.dataList;
     },
     mounted () {
-
+        this.restaurants = this.loadAll();
+        console.log(this.restaurants);
     },
     updated () {
         console.log(this.del_list);
@@ -345,6 +383,23 @@ export default {
                         seperator2 + secs;
             return currentdate;
         },
+        getYd: function (no) {
+            var date = no;
+            var seperator1 = '-';
+            var seperator2 = ':';
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = '0' + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = '0' + strDate;
+            }
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
+                        ' ' + date.getHours() + seperator2 + date.getMinutes() +
+                        seperator2 + date.getSeconds();
+            return currentdate;
+        },
         // 获取 easy-mock 的模拟数据
         getData () {
             // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
@@ -352,11 +407,11 @@ export default {
             //     this.url = '/ms/table/list';
             // };
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 page: this.cur_page
             };
             console.log(this);
-            this.$axios.post(this.localhost+'/api/platform/bracelet/data', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
+            this.$axios.post(this.localhost + '/api/platform/bracelet/data', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
             )
                 .then((res) => {
                     console.log(res.data.data);
@@ -389,6 +444,35 @@ export default {
                     console.log(res);
                 });
         },
+        querySearch_front (queryString, cb) {
+            let restaurants = this.restaurants;
+            let results = queryString ? restaurants.filter(this.createFilter_front(queryString)) : restaurants;
+            console.log(results);
+            // 调用 callback 返回建议列表的数据
+            cb(results);
+        },
+        createFilter_front (queryString) {
+            return (restaurant) => {
+                return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0 || restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+            };
+        },
+        querySearch (queryString, cb) {
+            let restaurants = this.restaurants;
+            let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+            // 调用 callback 返回建议列表的数据
+            cb(results);
+        },
+        createFilter (queryString) {
+            return (restaurant) => {
+                return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1 || restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+            };
+        },
+        loadAll () {
+            return this.dataList;
+        },
+        handleSelect (item) {
+            console.log(item);
+        },
         yzy () {
             console.log('yzy');
         },
@@ -420,24 +504,24 @@ export default {
         // 绑定手环请求接口
         getedit () {
             let that = this;
-            if (!(/^1[3456789]\d{9}$/.test(that.form.phone_num))) {
+            if (!(/^1[3456789]\d{9}$/.test(that.state2))) {
                 that.$message.error(`手机号格式错误`);
-                return
+                return;
             }
-            console.log(that.tableData)
-            for(var i=0;i<that.tableData.length;i++){
-                if(that.form.phone_num == that.tableData[i].phone_num){
+            console.log(that.tableData);
+            for (var i = 0; i < that.tableData.length; i++) {
+                if (that.state2 == that.tableData[i].phone_num) {
                     that.$message.error(`该手机号已绑定手环,请先解绑`);
-                    return
+                    return;
                 }
             }
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 bracelet_id: this.form.bracelet_id,
                 id: this.form.id,
                 uwb_id: this.form.uwb_id,
                 user_name: this.form.user_name,
-                phone_num: this.form.phone_num,
+                phone_num: this.state2,
                 bind_time: Date.parse(new Date()),
                 page: this.cur_page
             };
@@ -453,6 +537,9 @@ export default {
                     if (res.data.code == 103) {
                         that.$message.error(`手机号未注册`);
                     }
+                    if (res.data.code == 112) {
+                        that.$message.error(res.data.message);
+                    }
                 })
                 .catch((res) => {
                     console.log(res);
@@ -462,7 +549,7 @@ export default {
         getfalseedit () {
             let that = this;
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 bracelet_id: this.form.bracelet_id,
                 phone_num: this.form.phone_num,
                 unbind_time: Date.parse(new Date()),
@@ -488,12 +575,12 @@ export default {
         getdel () {
             let that = this;
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 bracelet_id: this.form.bracelet_id,
                 page: this.cur_page
             };
             console.log('del');
-            this.$axios.post(this.localhost+'/api/platform/bracelet/delete', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/platform/bracelet/delete', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     if (res.data.code == 200) {
                         that.$message.success('删除成功');
@@ -519,11 +606,13 @@ export default {
         },
         handleEdit (index, row, status) {
             let that = this;
+
             this.idx = index;
             console.log(status);
             const item = this.tableData[index];
             if (status == 0) {
                 this.editVisible = true;
+                that.state2 = '';
                 that.form = {
                     bracelet_id: item.bracelet_id,
                     id: item.id,
@@ -539,6 +628,7 @@ export default {
                 console.log('status = 0');
             } else if (status == 1) {
                 this.unBindVisible = true;
+                that.state2 = '';
                 that.form = {
                     bracelet_id: item.bracelet_id,
                     id: item.id,
@@ -561,7 +651,7 @@ export default {
             const item = this.tableData[index];
             this.form = {
                 bracelet_id: item.bracelet_id,
-                id: item.id,
+                id: item.id
             };
             this.delVisible = true;
         },
@@ -603,6 +693,12 @@ export default {
 </script>
 
 <style>
+    .my-autocomplete{
+        position: fixed;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        top: 58% !important;
+    }
     .container .el-table thead{
         color: #5A6286;
         font-size:12px;
@@ -698,10 +794,10 @@ export default {
     }
     .bindbox{
         width: 500px;
-        height: 482px;
+        height: 13.39rem;
         box-sizing: border-box;
         background: #fff;
-        margin: 50px auto 0;
+        margin: 1.38rem auto 0;
         padding: 0 30px 0;
     }
     .unbindbox{
@@ -761,6 +857,7 @@ export default {
         width: 60px;
         box-sizing: border-box;
         text-align: center;
+        cursor:pointer;
     }
     .ubdup div span:nth-of-type(2){
         position: absolute;
@@ -771,6 +868,7 @@ export default {
         width: 60px;
         box-sizing: border-box;
         text-align: center;
+        cursor:pointer;
     }
     .svg{
         margin: 0 auto;
@@ -843,6 +941,7 @@ export default {
         border-radius:2px;
         text-align: center;
         border:1px solid rgba(192,199,216,1);
+        cursor:pointer;
     }
     .bdbt span:nth-of-type(2){
         box-sizing: border-box;
@@ -860,6 +959,7 @@ export default {
         font-weight:500;
         border-radius:2px;
         text-align: center;
+        cursor:pointer;
     }
     .ubdbt{
         height: 70px;
@@ -882,6 +982,7 @@ export default {
         border-radius:2px;
         border:1px solid rgba(192,199,216,1);
         text-align: center;
+        cursor:pointer;
     }
     .ubdbt span:nth-of-type(2){
         box-sizing: border-box;
@@ -899,6 +1000,7 @@ export default {
         font-weight:500;
         border-radius:2px;
         text-align: center;
+        cursor:pointer;
     }
     .bdta input{
         position: absolute;
@@ -923,7 +1025,7 @@ export default {
     }
     .bdtb input::-webkit-input-placeholder{
         color: #BFC4D1;
-    } 
+    }
     .ubdta{
         text-align: left;
         text-indent: 49px;
@@ -981,6 +1083,21 @@ export default {
     .has-gutter tr th:last-of-type .cell{
         padding: 0 !important;
     }
+    .ccyb{
+        position: relative;
+    }
+    .ccyb input{
+        position: absolute;
+        padding: 0;
+        top: 0.67rem;
+        cursor:pointer;
+    }
+    .el-autocomplete-suggestion{
+        width: 13rem !important;
+    }
+    /* .my-autocomplete{
+        width: 500px !important;
+    } */
 </style>
 
 <style scoped>
@@ -1088,6 +1205,7 @@ export default {
         letter-spacing: 2px;
         margin: 0 auto;
         border-radius: 0.05rem;
+        cursor:pointer;
     }
     .dd{
         background: #3C4456;
@@ -1104,6 +1222,7 @@ export default {
         font-family:PingFangSC-Medium;
         margin: 0 auto;
         border-radius: 0.05rem;
+        cursor:pointer;
     }
     .ee{
         background: #fff;
@@ -1120,6 +1239,7 @@ export default {
         font-family:PingFangSC-Medium;
         position: absolute;
         right: 0%;
+        cursor:pointer;
     }
     .content{
         background: #F6F7F8;
@@ -1146,5 +1266,39 @@ export default {
     }
     thead tr th:last-child .cell{
         padding: 0 !important;
+    }
+    .shead{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-size: 30px 30px !important;
+    }
+    .name{
+        position: relative;
+        height: 50px;
+        line-height: 50px;
+    }
+    .sttk{
+        position: absolute;
+        height: 50px;
+        line-height: 50px;
+        left: 180px;
+    }
+    .addr{
+        position: absolute;
+        left: 290px;
+        height: 50px;
+        line-height: 50px;
+    }
+    .stna{
+        position: absolute;
+        height: 50px;
+        line-height: 50px;
+        left: 50px;
+        width: 130px;
     }
 </style>

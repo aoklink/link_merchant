@@ -1,11 +1,10 @@
 // const PREFIX = process.env.NODE_ENV === 'production' ? 'http://www.linkfeeling.cn' : 'http://www.linkfeeling.cn';
-const PREFIX = process.env.NODE_ENV === 'production' ? 'http://bg.linkfeeling.cn' : 'http://bg.linkfeeling.cn';
-// const PREFIX = process.env.NODE_ENV === 'production' ? 'http://test.linkfeeling.cn' : 'http://test.linkfeeling.cn';
+// const PREFIX = process.env.NODE_ENV === 'production' ? 'http://bg.linkfeeling.cn' : 'http://bg.linkfeeling.cn';
+const PREFIX = process.env.NODE_ENV === 'production' ? 'http://test.linkfeeling.cn' : 'http://test.linkfeeling.cn';
 // const PREFIX =
 //     process.env.NODE_ENV === 'production'
 //         ? 'http://47.99.180.180:11002'
 //         : 'http://192.168.9.37:10002';
-
 
 export const LOGIN = `${PREFIX}/api/account/platform/login`;
 // export const GET_OSS_SESSION = `http://47.111.161.136:3990`;
