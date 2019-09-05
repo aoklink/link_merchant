@@ -173,6 +173,7 @@ export default {
     font-weight:400;
     color:rgba(91,99,126,1);
     line-height:0.47rem;
+    text-align: left;
 }
 .login-form-input-row input{
     padding-left: 1rem;

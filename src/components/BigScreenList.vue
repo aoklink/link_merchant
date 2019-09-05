@@ -3,10 +3,19 @@
         <div class="table">
             <div class="crumbs">
                 <div class="oo">
-                    手环管理
+                    大屏管理
                 </div>
                 <div class="celllist">
-                    手环列表
+                    大屏管理
+                    <!-- <div @click="yhhy" class="addccb">
+                                        添加大屏
+                                        <svg width="14px" height="14px" class="svgg">
+                                            <line x1="7" y1="0" x2="7" y2="14"
+                    style="stroke:#888EA7;stroke-width:1"/>
+                                            <line x1="0" y1="7" x2="14" y2="7"
+                    style="stroke:#888EA7;stroke-width:1"/>
+                                        </svg>
+                                    </div> -->
                 </div>
             </div>
             <div class="container">
@@ -24,55 +33,19 @@
                           class="table" @selection-change="handleSelectionChange"
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
-                    <el-table-column prop="id" label="手环编号"
-                                     style="color: red !important"
+                    <el-table-column prop="screen_code" label="编号"
                     />
-                    <el-table-column prop="bracelet_id" label="手环ID"
-                                     style="color: red !important"
-                    />
-                    <el-table-column prop="uwb_id" label="配置uwb">
-                        <template slot-scope="scope">
-                            <div type="text">
-                                {{ tableData[scope.$index].status == 1?tableData[scope.$index].uwb_id:'-' }}
-                            </div>
-                        </template>
+                    <el-table-column prop="screen_id" label="大屏ID">
                     </el-table-column>
-                    <!-- <el-table-column prop="status" label="状态" width="150">
-                        <template slot-scope="scope">
-                            <div type="text" :class="tableData[scope.$index].status == 1?'aa':'bb'">
-                                {{ tableData[scope.$index].status == 1?'使用中':'空闲' }}
-                            </div>
-                        </template>
-                    </el-table-column> -->
-                    <el-table-column prop="user_name" label="领取会员">
-                        <template slot-scope="scope">
-                            <div type="text">
-                                {{ tableData[scope.$index].status == 1?decodeURIComponent(tableData[scope.$index].user_name.replace(/\+/g, '%20')):'-' }}
-                            </div>
-                        </template>
+                    <el-table-column prop="device_name" label="显示器械">
                     </el-table-column>
-                    <el-table-column prop="phone_num" label="会员手机">
-                        <template slot-scope="scope">
-                            <div type="text">
-                                {{ tableData[scope.$index].status == 1?tableData[scope.$index].phone_num:'-' }}
-                            </div>
-                        </template>
+                    <el-table-column prop="remark" label="备注">
                     </el-table-column>
-                    <el-table-column prop="bind_time" label="绑定时间">
-                        <template slot-scope="scope">
-                            <div type="text">
-                                {{ tableData[scope.$index].status == 1?getDd(new Date(parseInt(tableData[scope.$index].bind_time))):'-' }}
-                            </div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="操作" align="center" padding="0"
+                    <el-table-column label="操作" align="center"
                                      prop="status"
                     >
                         <template slot-scope="scope">
-                            <div :class="tableData[scope.$index].status == 0?'cc':'dd'" type="text" @click="handleEdit(scope.$index, scope.row,tableData[scope.$index].status)">
-                                {{ tableData[scope.$index].status==0?'绑定':'解绑' }}
-                            </div>
-                            <!-- <div :class="tableData[scope.$index].status == 0?'ee':'ee'" type="text" class="red" @click="handleDelete(scope.$index, scope.row)">删除</div> -->
+                            <div :class="tableData[scope.$index].status == 0?'cc':'cc'" type="text" class="red" @click="yhhyb(scope.$index, scope.row)">编辑</div>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -83,118 +56,159 @@
             </div>
 
             <!-- 解绑弹出框 -->
-            <div v-if="unBindVisible" class="bindlog">
-                <div class="unbindbox">
-                    <div class="ubdup">
-                        <div>
-                            解除绑定
-                            <span />
-                            <span @click="unBindVisible=false">
+            <el-dialog title="解除绑定" :visible.sync="unBindVisible" width="30%">
+                <el-form ref="form" :model="form" label-width="50px">
+                    <el-form-item label="手环">
+                        <div v-model="form.id">
+                            {{ form.id }}
+                        </div>
+                    </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="unBindVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="saveUn">确 定</el-button>
+                </span>
+            </el-dialog>
+
+            <!-- 添加大屏 -->
+            <div class="bindloga" v-if="editVisiblep">
+                <div class="bindboxa">
+                    <div class="bdup">
+                        <div>添加大屏
+                            <span></span>
+                            <span @click="editVisiblep=false">
                                 <svg width="10px" height="10px" class="svg">
-                                    <line x1="0" y1="0" x2="10"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
-                                    <line x1="10" y1="0" x2="0"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
+                                    <line x1="0" y1="0" x2="10" y2="10"
+            style="stroke:#888EA7;stroke-width:1"/>
+                                    <line x1="10" y1="0" x2="0" y2="10"
+            style="stroke:#888EA7;stroke-width:1"/>
                                 </svg>
                             </span>
                         </div>
                     </div>
-                    <div class="ubdmd">
-                        <span class="unce" />
-                        <div class="ubdta">
-                            是否确认解除手环绑定？
+                    <div class="bdmd">
+                        <div class="bdta bdtb">
+                            <span class="icuu">大屏ID</span>
+                            <input type="text" v-model="form.screen_id" placeholder="请输入大屏ID">
                         </div>
-                        <div class="ubdtb">
-                            手环解除绑定后，将结束本次运动并生成运动报告
+                        <div class="bdta bdtb">
+                            <span class="icuu">编号</span>
+                            <input type="text" v-model="form.screen_code" placeholder="请输入编号">
+                        </div>
+                        <div class="bdta bdtb">
+                            <span class="icuu">人数设定</span>
+                            <input type="text" v-model="form.people_num" readonly placeholder="请选择人数设定">
+                            <el-dropdown split-button type="primary" class="drop">
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item @click.native="sect(1)">1</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sect(2)">2</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sect(3)">3</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sect(4)">4</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sect(5)">5</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sect(6)">6</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sect(7)">7</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sect(8)">8</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </div>
+                        <div class="bdta bdtb">
+                            <span class="icuu">备注</span>
+                            <input type="text" v-model="form.remark" placeholder="请填写备注">
                         </div>
                     </div>
-                    <div class="ubdbt">
-                        <span @click="unBindVisible=false">取消</span>
-                        <span @click="saveUn">解除绑定</span>
+                    <div class="midtit">
+                        <span>器械</span>
+                        <span>请勾选此大屏上需要显示的数据所对应的器械</span>
+                    </div>
+                    <template>
+                        <el-checkbox-group v-model="checkList">
+
+                            <el-checkbox 
+                                v-for="(item, index) in devicelist"
+                                :key="index"
+                                :label="item"
+                            ></el-checkbox>
+                        </el-checkbox-group>
+                    </template>
+                    <div class="bdbt">
+                        <span @click="editVisiblep=false">取消</span>
+                        <span @click="saveAdd">确定</span>
                     </div>
                 </div>
             </div>
-            <!-- 绑定弹出框 -->
-            <div v-if="editVisible" class="bindlog">
-                <div class="bindbox">
+            <!-- 编辑大屏 -->
+            <div class="bindloga" v-if="editVisiblepb">
+                <div class="bindboxa">
                     <div class="bdup">
-                        <div>
-                            手环绑定
-                            <span />
-                            <span @click="editVisible=false">
+                        <div>编辑大屏
+                            <span></span>
+                            <span @click="editVisiblepb=false">
                                 <svg width="10px" height="10px" class="svg">
-                                    <line x1="0" y1="0" x2="10"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
-                                    <line x1="10" y1="0" x2="0"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
+                                    <line x1="0" y1="0" x2="10" y2="10"
+            style="stroke:#888EA7;stroke-width:1"/>
+                                    <line x1="10" y1="0" x2="0" y2="10"
+            style="stroke:#888EA7;stroke-width:1"/>
                                 </svg>
                             </span>
                         </div>
                     </div>
                     <div class="bdmd">
                         <div class="bdta">
-                            <span>手环编号</span>
-                            <span>{{ form.id }}</span>
+                            <span class="icuu">大屏ID</span>
+                            <div class="bdttn" v-model="formb.screen_id">{{formb.screen_id}}</div>
                         </div>
-                        <div class="bdta">
-                            <span>手环ID</span>
-                            <span>{{ form.bracelet_id }}</span>
+                        <div class="bdta bdtb">
+                            <span class="icuu">编号</span>
+                            <input type="text" v-model="formb.screen_code" placeholder="请输入编号">
                         </div>
-                        <div class="bdta">
-                            <span>配置uwb</span>
-                            <span>{{ form.uwb_id }}</span>
+                        <div class="bdta bdtb">
+                            <span class="icuu">人数设定</span>
+                            <input type="text" v-model="formb.people_num" readonly placeholder="请选择人数设定">
+                            <el-dropdown split-button type="primary" class="drop">
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item @click.native="sectb(1)">1</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sectb(2)">2</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sectb(3)">3</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sectb(4)">4</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sectb(5)">5</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sectb(6)">6</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sectb(7)">7</el-dropdown-item>
+                                    <el-dropdown-item @click.native="sectb(8)">8</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
                         </div>
-                        <!-- <div class="bdta bdtb">
-                            <span>配置uwb</span>
-                            <input type="text" v-model="form.uwb_id" placeholder="请输入定位模块的id">
-                        </div> -->
-                        <div class="bdta bdtb ccyb">
-                            <span>领取会员</span>
-                            <el-row class="demo-autocomplete">
-                                <el-col :span="12">
-                                    <el-autocomplete
-                                        v-model="state2"
-                                        popper-class="my-autocomplete"
-                                        class="inline-input"
-                                        :fetch-suggestions="querySearch"
-                                        placeholder="请输入会员手机号"
-                                        :trigger-on-focus="true"
-                                        @select="handleSelect"
-                                    >
-                                        <template slot-scope="props" width="400">
-                                            <div class="name">
-                                                <span class="shead" :style="{ 'background': 'url(' +props.item.head + ') no-repeat left center'}" /><span class="stna">{{ props.item.name }}</span><span class="sttk">{{ props.item.value }}</span><span class="addr">{{ props.item.date }}</span>
-                                            </div>
-                                        </template>
-                                    </el-autocomplete>
-                                </el-col>
-                            </el-row>
+                        <div class="bdta bdtb">
+                            <span class="icuu">备注</span>
+                            <input type="text" v-model="formb.remark" placeholder="请填写备注">
                         </div>
                     </div>
+                    <div class="midtit">
+                        <span>器械</span>
+                        <span>请勾选此大屏上需要显示的数据所对应的器械</span>
+                    </div>
+                    <template>
+                        <el-checkbox-group v-model="checkListb">
+
+                            <el-checkbox 
+                                v-for="(item, index) in devicelist"
+                                :key="index"
+                                :label="item"
+                            ></el-checkbox>
+                        </el-checkbox-group>
+                    </template>
                     <div class="bdbt">
-                        <span @click="editVisible=false">取消</span>
-                        <span @click="saveEdit">确定</span>
+                        <span @click="editVisiblepb=false">取消</span>
+                        <span @click="saveAddb">确定</span>
                     </div>
                 </div>
             </div>
-
             <!-- 删除提示框 -->
-            <!-- <el-dialog title="提示" :visible.sync="delVisible" width="300px"
-                    center
+            <el-dialog title="提示" :visible.sync="delVisible" width="300px"
+                       center
             >
                 <el-form ref="form" :model="form" label-width="50px">
                     <el-form-item label="手环">
-                        <div v-model="form.bracelet_id">
-                            {{ form.bracelet_id }}
-                        </div>
+                        <el-input v-model="form.id" />
                     </el-form-item>
                 </el-form>
                 <div class="del-dialog-cnt">
@@ -204,84 +218,64 @@
                     <el-button @click="delVisible = false">取 消</el-button>
                     <el-button type="primary" @click="deleteRow">确 定</el-button>
                 </span>
-            </el-dialog> -->
-            <div v-if="delVisible" class="bindlog">
-                <div class="unbindbox">
-                    <div class="ubdup">
-                        <div>
-                            删除手环
-                            <span />
-                            <span @click="delVisible=false">
-                                <svg width="10px" height="10px" class="svg">
-                                    <line x1="0" y1="0" x2="10"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
-                                    <line x1="10" y1="0" x2="0"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="ubdmd">
-                        <span class="dece" />
-                        <div class="ubdta">
-                            是否确认删除手环
-                        </div>
-                    </div>
-                    <div class="ubdbt">
-                        <span @click="delVisible=false">取消</span>
-                        <span @click="deleteRow">删除手环</span>
-                    </div>
-                </div>
-            </div>
+            </el-dialog>
         </div>
     </div>
 </template>
 
 <script>
 import global from '../components/Global';
-// this.$axios.defaults.headers.post['Content-Type'] = 'application/json'
 export default {
-    name: 'Basebind',
+    name: 'Basemember',
     data () {
         return {
-            localhost: 'http://bg.linkfeeling.cn',
             localhost: 'http://test.linkfeeling.cn',
+            // localhost: 'https://dev.linkfeeling.cn',
+            // url: './static/vuetable.json',
+            url: this.localhost + '/api/platform/members',
             tableData: [],
+            checkList: [],
+            devicelist: [],
+            checkListb: [],
+            devicelistb: [],
             yybox: {},
             ttbox: [],
             cur_page: 1,
+            inquiry: '',
             multipleSelection: [],
             select_cate: '',
             select_word: '',
             del_list: [],
             is_search: false,
+            editVisiblep: false,
+            editVisiblepb: false,
             editVisible: false,
             unBindVisible: false,
             taddVisible: false,
             delVisible: false,
             taddcellnumber: '',
             form: {
-                user_name: '',
-                date: '',
-                address: '',
-                bracelet_id: '',
-                phone_num: '',
+                device_name: '',
+                name: '',
+                screen_code: '',
+                screen_id: '',
+                people_num: '',
                 status: '',
-                bind_time: '',
-                id: '',
-                uwb_id: ''
+                remark: '',
+                checkList: []
             },
-            idx: -1,
-            dataList: [],
-            tableDdd: '',
-            restaurants: [],
-            state1: '',
-            state2: '',
-            des: ['']
+            formb: {
+                device_name: '',
+                name: '',
+                screen_code: '',
+                screen_id: '',
+                people_num: '',
+                status: '',
+                remark: '',
+                checkList: [],
+                usb: []
+            },
+            idx: -1
         };
     },
     computed: {
@@ -289,14 +283,15 @@ export default {
             return this.tableData.filter((d) => {
                 let is_del = false;
                 for (let i = 0; i < this.del_list.length; i++) {
-                    if (d.bracelet_id === this.del_list[i].bracelet_id) {
+                    if (d.screen_id === this.del_list[i].screen_id) {
                         is_del = true;
                         break;
                     }
                 }
                 if (!is_del) {
                     console.log(d);
-                    if (d.bracelet_id.indexOf(this.select_cate) > -1) {
+                    // console.log(this.select_cate)
+                    if (d.screen_id.indexOf(this.select_cate) > -1) {
                         return d;
                     }
                 }
@@ -305,85 +300,23 @@ export default {
     },
     created () {
         this.getData();
-        var that = this;
-        this.dataList = [];
-        let datt = {
-            gym_name: global.gym_name || localStorage.getItem('gym_name'),
-            page: this.cur_page
-        };
-        this.$axios.post(this.localhost + '/api/platform/members', JSON.stringify(datt), {headers: {'Content-Type': 'application/json;charset=UTF-8'}})
-            .then((res) => {
-                if (res.data.code == 200) {
-                    console.log(res.data.data);
-                    var aDiv = [];
-                    for (var i = 0; i < res.data.data.length; i++) {
-                        aDiv.push(res.data.data[i]);
-                    }
-                    aDiv.sort(function (a, b) { return new Date(b.bind_time || 0) - new Date(a.bind_time || 0); });
-                    console.log(aDiv);
-                    var byby;
-                    for (var i = 0; i < aDiv.length; i++) {
-                        byby = {};
-                        byby.value = aDiv[i].phone_num;
-                        byby.date = aDiv[i].bind_time;
-                        byby.head = aDiv[i].head_icon || '';
-                        byby.name = decodeURIComponent(aDiv[i].nick_name.replace(/\+/g, '%20'));
-                        that.dataList.push(byby);
-                    }
-                    console.log(this.dataList);
-                    that.$set(that.dataList);
-                } else {
-                    that.$message.success('会员列表请求失败');
-                }
-            })
-            .catch((res) => {
-                console.log(res);
-            });
-        this.tableDdd = this.dataList;
+        this.getDev()
     },
     mounted () {
-        this.restaurants = this.loadAll();
-        console.log(this.restaurants);
+
     },
     updated () {
         console.log(this.del_list);
     },
     methods: {
-        // 分页导航
+        mon () {
+            console.log(999)
+        },
         handleCurrentChange (val) {
             this.cur_page = val;
             this.getData();
         },
         getDd: function (no) {
-            var date = no;
-            var seperator1 = '-';
-            var seperator2 = ':';
-            var month = date.getMonth() + 1;
-            var strDate = date.getDate();
-            var hours = date.getHours();
-            var mins = date.getMinutes();
-            var secs = date.getSeconds();
-            if (month >= 1 && month <= 9) {
-                month = '0' + month;
-            }
-            if (strDate >= 0 && strDate <= 9) {
-                strDate = '0' + strDate;
-            }
-            if (hours >= 1 && hours <= 9) {
-                hours = '0' + hours;
-            }
-            if (mins >= 0 && mins <= 9) {
-                mins = '0' + mins;
-            }
-            if (secs >= 0 && secs <= 9) {
-                secs = '0' + secs;
-            }
-            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
-                        ' ' + hours + seperator2 + mins +
-                        seperator2 + secs;
-            return currentdate;
-        },
-        getYd: function (no) {
             var date = no;
             var seperator1 = '-';
             var seperator2 = ':';
@@ -400,78 +333,52 @@ export default {
                         seperator2 + date.getSeconds();
             return currentdate;
         },
-        // 获取 easy-mock 的模拟数据
-        getData () {
-            // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-            // if (process.env.NODE_ENV === 'development') {
-            //     this.url = '/ms/table/list';
-            // };
+        // 获取器械
+        getDev () {
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 page: this.cur_page
             };
             console.log(this);
-            this.$axios.post(this.localhost + '/api/platform/bracelet/data', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
-            )
+            this.$axios.post(this.localhost + '/api/platform/gym/devices/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
-                    console.log(res.data.data);
+                    console.log(res)
                     var xbox = res.data.data;
-                    console.log(xbox);
-                    var aDiv = [];
-                    for (var i = 0; i < xbox.length; i++) {
-                        aDiv.push(xbox[i]);
-                    }
-                    aDiv.sort(function (a, b) { return a.id - b.id; });
-                    console.log(aDiv);
-                    this.tableData = aDiv;
-                    console.log(this.tableData.filter((d) => {
-                        let is_del = false;
-                        for (let i = 0; i < this.del_list.length; i++) {
-                            if (d.bracelet_id === this.del_list[i].bracelet_id) {
-                                is_del = true;
-                                break;
-                            }
-                        }
-                        if (!is_del) {
-                            console.log(d);
-                            if (d.bracelet_id.indexOf(this.select_cate) > -1) {
-                                return d;
-                            }
-                        }
-                    }));
+                    this.devicelist = xbox;
+                    this.devicelistb = xbox;
                 })
                 .catch((res) => {
                     console.log(res);
                 });
         },
-        querySearch_front (queryString, cb) {
-            let restaurants = this.restaurants;
-            let results = queryString ? restaurants.filter(this.createFilter_front(queryString)) : restaurants;
-            console.log(results);
-            // 调用 callback 返回建议列表的数据
-            cb(results);
-        },
-        createFilter_front (queryString) {
-            return (restaurant) => {
-                return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0 || restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        // 获取 easy-mock 的模拟数据
+        getData () {
+            let datt = {
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
+                page: this.cur_page
             };
-        },
-        querySearch (queryString, cb) {
-            let restaurants = this.restaurants;
-            let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-            // 调用 callback 返回建议列表的数据
-            cb(results);
-        },
-        createFilter (queryString) {
-            return (restaurant) => {
-                return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1 || restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
-            };
-        },
-        loadAll () {
-            return this.dataList;
-        },
-        handleSelect (item) {
-            console.log(item);
+            console.log(this);
+            this.$axios.post(this.localhost + '/api/platform/gym/screen/setting/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+                .then((res) => {            
+                    console.log(res)
+                    var xbox = res.data.data
+                    console.log(xbox);
+                    // console.log(new Date(xbox[0].bind_time));
+                    var aDiv = [];
+                    for (var i = 0; i < xbox.length; i++) {
+                        // xbox[i].device_name=xbox[i].device_name.split(',');  
+                        aDiv.push(xbox[i]);
+                    }
+                    aDiv.sort(function (a, b) { return new Date(b.id || 0) - new Date(a.id || 0); });
+                    for (var i = 0; i < aDiv.length; i++) {
+                        aDiv[i].ncc = (i + 1);
+                    }
+                    this.tableData = aDiv;
+                    console.log(this.tableData);
+                })
+                .catch((res) => {
+                    console.log(res);
+                });
         },
         yzy () {
             console.log('yzy');
@@ -481,8 +388,8 @@ export default {
         //     let that =this;
         //     let datt = {
         //         gym_name: 'link_office',
-        //         bracelet_id: this.taddcellnumber,
-        //         user_name: '',
+        //         id: this.taddcellnumber,
+        //         nick_name: '',
         //         phone_num: '',
         //         bind_time: '',
         //         page: this.cur_page
@@ -504,24 +411,12 @@ export default {
         // 绑定手环请求接口
         getedit () {
             let that = this;
-            if (!(/^1[3456789]\d{9}$/.test(that.state2))) {
-                that.$message.error(`手机号格式错误`);
-                return;
-            }
-            console.log(that.tableData);
-            for (var i = 0; i < that.tableData.length; i++) {
-                if (that.state2 == that.tableData[i].phone_num) {
-                    that.$message.error(`该手机号已绑定手环,请先解绑`);
-                    return;
-                }
-            }
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
-                bracelet_id: this.form.bracelet_id,
                 id: this.form.id,
-                uwb_id: this.form.uwb_id,
-                user_name: this.form.user_name,
-                phone_num: this.state2,
+                uid: this.form.uid,
+                nick_name: this.form.nick_name,
+                phone_num: this.form.phone_num,
                 bind_time: Date.parse(new Date()),
                 page: this.cur_page
             };
@@ -533,26 +428,33 @@ export default {
                         that.editVisible = false;
                         that.$message.success(`绑定手环成功`);
                         that.getData();
-                    }
-                    if (res.data.code == 103) {
-                        that.$message.error(`手机号未注册`);
-                    }
-                    if (res.data.code == 112) {
-                        that.$message.error(res.data.message);
+                    } else {
+                        console.log(res.data);
                     }
                 })
                 .catch((res) => {
                     console.log(res);
                 });
         },
+        sect(index) {
+            console.log(index)
+            this.form.people_num = index
+            console.log(this.form.people_num)
+            this.$set(this.form);
+        },
+        sectb(index) {
+            console.log(index)
+            this.formb.people_num = index
+            this.$set(this.formb);
+        },
         // 解绑手环请求接口
         getfalseedit () {
+            this.$route.path(editor);
             let that = this;
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
-                bracelet_id: this.form.bracelet_id,
-                phone_num: this.form.phone_num,
-                unbind_time: Date.parse(new Date()),
+                id: this.form.id,
+                end_time: Date.parse(new Date()),
                 page: this.cur_page
             };
             this.$axios.post(this.localhost + '/api/platform/bracelet/unbind', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
@@ -571,12 +473,109 @@ export default {
                     console.log(res);
                 });
         },
+        // 添加大屏请求接口
+        saveAdd () {
+            let that = this;
+            console.log(this.form)
+            // if(this.form.id.length == 0){
+            //     that.$message.error(`大屏ID不能为空`);
+            //     return;
+            // }
+            if(this.form.screen_code.length == 0){
+                that.$message.error(`大屏ID不能为空`);
+                return;
+            }
+            if(this.form.people_num.length == 0){
+                that.$message.error(`人数不能为空`);
+                return;
+            }
+            if(this.checkList.length == 0){
+                that.$message.error(`器械不能为空`);
+                return;
+            }
+            var cckbu = this.checkList.join(',')
+            console.log(cckbu)
+            console.log(typeof(cckbu))
+            let datt = {
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                id: this.form.id,
+                screen_code: this.form.screen_code,
+                people_num: this.form.people_num,
+                device_name: cckbu,
+                remark: this.form.remark
+            };
+            this.$axios.post(this.localhost + '/api/platform/gym/screen/setting/save', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+                .then((res) => {
+                    console.log(res.data.code);
+                    if (res.data.code == 200) {
+                        that.$set(that.tableData, that.idx, that.form);
+                        that.editVisiblep = false;
+                        that.$message.success(`添加大屏成功`);
+                        that.getData();
+                    }
+                    if (res.data.code == 101) {
+                        that.$message.error(res.data.msg);
+                    }
+                })
+                .catch((res) => {
+                    console.log(res);
+                });
+        },
+        // 添加大屏请求接口
+        saveAddb () {
+            let that = this;
+            console.log(this.formb)
+            // if(this.formb.screen_id.length == 0){
+            //     that.$message.error(`大屏ID不能为空`);
+            //     return;
+            // }
+            if(this.formb.screen_code.length == 0){
+                that.$message.error(`编号不能为空`);
+                return;
+            }
+            if(this.formb.people_num.length == 0){
+                that.$message.error(`人数不能为空`);
+                return;
+            }
+            if(this.checkListb.length == 0){
+                that.$message.error(`器械不能为空`);
+                return;
+            }
+            var cckbu = this.checkListb.join(',')
+            console.log(cckbu)
+            console.log(typeof(cckbu))
+            let datt = {
+                id: this.formb.id,
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                screen_id: this.formb.screen_id,
+                screen_code: this.formb.screen_code,
+                people_num: this.formb.people_num,
+                device_name: cckbu,
+                remark: this.formb.remark
+            };
+            this.$axios.post(this.localhost + '/api/platform/gym/screen/setting/save', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+                .then((res) => {
+                    console.log(res.data.code);
+                    if (res.data.code == 200) {
+                        that.$set(that.tableData, that.idx, that.form);
+                        that.editVisiblepb = false;
+                        that.$message.success(`编辑大屏成功`);
+                        that.getData();
+                    }
+                    if (res.data.code == 101) {
+                        that.$message.error(res.data.msg);
+                    }
+                })
+                .catch((res) => {
+                    console.log(res);
+                });
+        },
         // 删除手环请求接口
         getdel () {
             let that = this;
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
-                bracelet_id: this.form.bracelet_id,
+                id: this.form.id,
                 page: this.cur_page
             };
             console.log('del');
@@ -584,11 +583,9 @@ export default {
                 .then((res) => {
                     if (res.data.code == 200) {
                         that.$message.success('删除成功');
-                        that.tableData.splice(this.idx, 1);
                         that.delVisible = false;
-                    } else if (res.data.code == 106) {
-                        that.$message.success('请先解绑');
-                        that.delVisible = false;
+                    } else {
+                        console.log(res.data);
                     }
                 })
                 .catch((res) => {
@@ -604,44 +601,17 @@ export default {
         filterTag (value, row) {
             return row.tag === value;
         },
-        handleEdit (index, row, status) {
-            let that = this;
-
-            this.idx = index;
-            console.log(status);
-            const item = this.tableData[index];
-            if (status == 0) {
-                this.editVisible = true;
-                that.state2 = '';
-                that.form = {
-                    bracelet_id: item.bracelet_id,
-                    id: item.id,
-                    uwb_id: item.uwb_id,
-                    user_name: item.user_name,
-                    date: item.date,
-                    address: item.address,
-                    phone_num: item.phone_num,
-                    status: item.status,
-                    bind_time: Date.parse(new Date())
-                };
-                // that.getedit()
-                console.log('status = 0');
-            } else if (status == 1) {
-                this.unBindVisible = true;
-                that.state2 = '';
-                that.form = {
-                    bracelet_id: item.bracelet_id,
-                    id: item.id,
-                    user_name: item.user_name,
-                    date: item.date,
-                    address: item.address,
-                    phone_num: item.phone_num,
-                    status: item.status,
-                    bind_time: Date.parse(new Date())
-                };
-                // that.getfalseedit()
-                console.log('status = 1');
-            }
+        handleEdit (uid) {
+            // this.inquiry = phone_num
+            // console.log(this.inquiry)
+            // this.$router.push('/info');
+            this.$router.push({
+                path: '/info',
+                name: '/info',
+                params: {
+                    uid: uid
+                }
+            });
         },
         tadd () {
             this.taddVisible = true;
@@ -650,7 +620,6 @@ export default {
             this.idx = index;
             const item = this.tableData[index];
             this.form = {
-                bracelet_id: item.bracelet_id,
                 id: item.id
             };
             this.delVisible = true;
@@ -660,13 +629,26 @@ export default {
             let str = '';
             this.del_list = this.del_list.concat(this.multipleSelection);
             for (let i = 0; i < length; i++) {
-                str += this.multipleSelection[i].bracelet_id + ' ';
+                str += this.multipleSelection[i].id + ' ';
             }
             this.$message.error('删除了' + str);
             this.multipleSelection = [];
         },
         handleSelectionChange (val) {
             this.multipleSelection = val;
+        },
+        yhhy () {
+            this.editVisiblep = true;
+            this.form = [];
+            this.checkList = []
+        },
+        yhhyb (index,row) {
+            this.editVisiblepb = true;
+            this.formb = this.tableData[index]
+            this.formb.usb = JSON.parse(JSON.stringify(this.formb.device_name));
+            this.checkListb = this.formb.usb.split(',');  
+            console.log(this.formb)
+            this.$set(this.formb);
         },
         // 确定添加
         saveTadd () {
@@ -685,6 +667,7 @@ export default {
         },
         // 确定删除
         deleteRow () {
+            this.tableData.splice(this.idx, 1);
             this.getdel();
         }
     }
@@ -693,6 +676,85 @@ export default {
 </script>
 
 <style>
+    .container .el-table thead{
+        color: #5A6286;
+        font-size:12px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(90,98,134,1);
+
+    }
+    .el-table th{
+        background: #E9EEF6;
+        margin-left: 1px;
+        height: 35px;
+        box-sizing: content-box;
+        padding: 0;
+    }
+    .el-table tr{
+        height: 50px;
+    }
+    .el-table td, .el-table th.is-leaf{
+        border:1px solid rgba(198,204,220,1);
+        border-left: 0;
+        border-top: 0;
+    }
+    .el-table tr:nth-child(even){
+        background: #F9FAFC;
+    }
+    .el-table--small td, .el-table--small th{
+        padding: 5px 0;
+        box-sizing: content-box !important;
+    }
+    .el-table--small td{
+        font-size:14px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(48,56,73,1);
+        font-size:12px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(90,98,134,1);
+    }
+    .el-table--small th{
+        font-size:12px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(90,98,134,1);
+    }
+    .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+        padding-left: 30px;
+        box-sizing: border-box;
+    }
+    .has-gutter tr{
+    }
+    .el-table__row .cell{
+        width: 130px;
+        height: 25px;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        text-align: left;
+    }
+    tbody tr td:last-child .cell{
+        margin: 0 auto;
+    }
+    tbody tr td:nth-of-type(1) .cell{
+        margin-left: 0;
+    }
+    .has-gutter tr th:last-of-type .cell{
+        padding: 0 !important;
+    }
+    .el-table td.is-center, .el-table th.is-center .cell{
+        padding: 0 !important;
+    }
+    tbody{
+        overflow: auto;
+    }
+    .el-table__body-wrapper{
+        overflow: overlay !important;
+        height: 435px !important;
+    }
     .my-autocomplete{
         position: fixed;
         left: 50% !important;
@@ -797,6 +859,14 @@ export default {
         box-sizing: border-box;
         background: #fff;
         margin: 1.38rem auto 0;
+        padding: 0 30px 0;
+    }
+    .bindboxa{
+        width: 500px;
+        height: auto;
+        box-sizing: border-box;
+        background: #fff;
+        margin: .56rem auto 0;
         padding: 0 30px 0;
     }
     .unbindbox{
@@ -919,7 +989,6 @@ export default {
         line-height:20px;
     }
     .bdbt{
-        margin-top: 30px;
         height: 70px;
         border-top:1px solid rgba(229,231,235,1);
         position: relative;
@@ -1015,8 +1084,23 @@ export default {
         line-height:20px;
         width: 200px;
     }
+    .bdttn{
+        position: absolute;
+        height: 17px;
+        font-family:PingFangSC-Regular;
+        color:rgba(91,99,126,1);
+        top: 35px;
+        left: 20px;
+        font-size:14px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(48,56,73,1);
+        line-height:20px;
+        width: 200px;
+    }
     .bdtb{
         background: #fff;
+        position: relative;
     }
     .bdtb input{
         outline: none;
@@ -1094,12 +1178,200 @@ export default {
     .el-autocomplete-suggestion{
         width: 13rem !important;
     }
-    /* .my-autocomplete{
-        width: 500px !important;
-    } */
+    .drop .el-button-group>.el-button:first-child{
+        display: none;
+    }
+    .drop .el-button-group>.el-button:last-child{
+        width: 0;
+        visibility: hidden;
+        position: absolute;
+        right: 0;
+    }
+    .drop span{
+        visibility: visible;
+        position: absolute;
+        right: 1rem;
+    }
+    .bindloga .el-checkbox__input{
+        float: right;
+    }
 </style>
 
 <style scoped>
+    .handle-box {
+        margin-bottom: 20px;
+    }
+
+    .handle-select {
+        width: 120px;
+    }
+
+    .handle-input {
+        width: 300px;
+        display: inline-block;
+    }
+    .del-dialog-cnt{
+        font-size: 16px;
+        text-align: center
+    }
+    .table{
+        width: 100%;
+        font-size: 14px;
+    }
+    .red{
+        color: #ff0000;
+    }
+    .oo{
+        width: 240px;
+        height: 46px;
+        background: #fff;
+        text-indent: 22px;
+        line-height: 46px;
+        border:1px solid rgba(198,204,220,1);
+        border-bottom: 0px;
+        box-sizing: border-box;
+        font-size: 12px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(60,68,86,1);
+    }
+    .el-breadcrumb__inner{
+        width: 240px;
+        height: 46px;
+    }
+    .content{
+        padding-top: 20px;
+        padding-left: 20px;
+    }
+    .crumbs{
+        margin: 0;
+    }
+    .celllist{
+        width: 100%;
+        background: #fff;
+        height: 60px;
+        text-indent: 20px;
+        line-height: 60px;
+        box-sizing: border-box;
+        border:1px solid rgba(198,204,220,1);
+        font-size: 14px;
+        border-bottom: 0;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(60,68,86,1);
+        position: relative;
+    }
+    .container{
+        border-radius: 0;
+        padding: 0;
+    }
+    .aa{
+        background: #5780FF;
+        height: 25px;
+        width: 60px;
+        display: inline-block;
+        color: #fff;
+        font-size: 12px;
+        text-indent: 10px;
+        letter-spacing: 2px;
+        line-height: 25px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+    }
+    .bb{
+        background: #E8EAEE;
+        height: 25px;
+        width: 60px;
+        display: inline-block;
+        color: rgba(90,98,134,1);
+        letter-spacing: 2px;
+        font-size: 12px;
+        text-indent: 10px;
+        line-height: 25px;
+        font-family:PingFangSC-Medium;
+    }
+    .cc{
+        background: #FFC001;
+        height: 25px;
+        width: 60px;
+        display: inline-block;
+        color: rgba(60,68,86,1);
+        font-size: 12px;
+        text-align: center;
+        line-height: 25px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        letter-spacing: 2px;
+        margin: 0 auto;
+        text-decoration: none;
+        border-radius: 0.05rem;
+    }
+    .dd{
+        background: #3C4456;
+        height: 25px;
+        width: 60px;
+        display: inline-block;
+        font-size: 12px;
+        text-align: center;
+        line-height: 25px;
+        font-weight:500;
+        text-align: center;
+        color:#fff;
+        letter-spacing: 2px;
+        font-family:PingFangSC-Medium;
+    }
+    .ee{
+        background: #fff;
+        border: 1px solid #3C4456;
+        height: 25px;
+        width: 60px;
+        letter-spacing: 2px;
+        display: inline-block;
+        font-size: 12px;
+        text-align: center;
+        line-height: 25px;
+        font-weight:500;
+        color:#3C4456;
+        font-family:PingFangSC-Medium;
+    }
+    .table{
+        height: 550px;
+    }
+    .content{
+        background: #F6F7F8;
+        height: 670px;
+    }
+    .addccb{
+        width: 3rem;
+        height: 0.9rem;
+        line-height: 0.9rem;
+        background: #3C4456;
+        color: #fff;
+        position: absolute;
+        right: 0.45rem;
+        font-size:0.35rem;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        top: 0.375rem;
+        text-indent: 1.173rem;
+        cursor: pointer;
+    }
+    .svgg{
+        position: absolute;
+        top: 0.275rem;
+        left: 0.475rem;
+    }
+    .bindloga{
+        z-index: 99;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: 0 auto;
+        background: rgba(0,0,0,.2);
+        height: min-content;
+    }
     .handle-box {
         margin-bottom: 20px;
     }
@@ -1160,6 +1432,7 @@ export default {
         font-family:PingFangSC-Medium;
         font-weight:500;
         color:rgba(60,68,86,1);
+        position: relative;
     }
     .container{
         border-radius: 0;
@@ -1301,4 +1574,84 @@ export default {
         width: 130px;
         overflow: hidden;
     }
-</style>
+    .addccb{
+        width: 3rem;
+        height: 0.9rem;
+        line-height: 0.9rem;
+        background: #3C4456;
+        color: #fff;
+        position: absolute;
+        right: 0.45rem;
+        font-size:0.35rem;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        top: 0.375rem;
+        text-indent: 1.173rem;
+        cursor: pointer;
+    }
+    .svgg{
+        position: absolute;
+        top: 0.275rem;
+        left: 0.475rem;
+    }
+    @media screen and (max-height: 850px){
+        .bindloga{
+            z-index: 99;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: 0 auto;
+            background: rgba(0,0,0,.2);
+            height: min-content;
+            width: 100%;
+        }
+    }
+    .drop{
+        position: absolute;
+        right: 1.1rem;
+        width: 0;
+        height: 0;
+        top: .75rem;
+    }
+    .drop .el-button-group{
+        width: 0;
+        height: 0;
+        display: none;
+    }
+    .midtit{
+        position: relative;
+        height: 47px;
+        width: 100%;
+    }
+    .midtit span:nth-of-type(1){
+        height: 47px;
+        font-size: 12px;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        color: rgba(91,99,126,1);
+        line-height: 47px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: inline-block;
+    }
+    .midtit span:nth-of-type(2){
+        height: 47px;
+        font-size:12px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(191,196,209,1);
+        line-height:47px;
+        position: absolute;
+        left: 35px;
+        top: 0;
+        display: inline-block;
+    }
+    .bindloga .el-checkbox{
+        width: 100%;
+        padding: 13px 0 13px;
+        border-top: 1px solid rgba(229,231,235,1);
+    }
+</style> 

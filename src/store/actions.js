@@ -173,7 +173,7 @@ export default {
         let result = await nets.gymCoachUpdateMe(payload);
         return result;
     },
-  async [types.LIST_GYM_PLAY_COACH] (_, payload) {
+    async [types.LIST_GYM_PLAY_COACH] (_, payload) {
         let result = await nets.gymPlayCoachList(payload);
         return result;
     },

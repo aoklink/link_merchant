@@ -70,33 +70,6 @@ export default {
 </script>
 
 <style>
-    /* .container{
-        display: flex;
-        flex-direction: row;
-        flex:1;
-        height: 100%;
-    }
-    .menu{
-        padding-top: 1rem;
-        width: 6.11rem;
-        min-width: 6.11rem;
-        background:rgba(255,255,255,1);
-    }
-    .menu-item{
-        border-right: 0.22rem solid rgba(255,192,1,1);
-        background:rgba(255,236,178,1);
-        font-size:0.39rem;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(60,68,86,1);
-        line-height:1.39rem;
-        text-align: left;
-    }
-    .menu-item img{
-        display: inline-block;
-        margin:0 .5rem 0 1rem;
-        vertical-align: middle;
-    } */
     .content{
         display: flex;
         flex-direction: column;

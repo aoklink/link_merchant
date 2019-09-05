@@ -9,7 +9,7 @@
                     <Nav v-if="headerShow" />
                 </keep-alive>
                 <div class="main-container">
-                    <router-view />
+                    <router-view v-if="isRouterAlive" />
                 </div>
             </div>
         </template>
@@ -20,14 +20,29 @@
 import Banner from './components/Banner';
 import Nav from './components/nav';
 export default {
+    name: 'app',
+    provide () {
+        return {
+            reload: this.reload
+        }
+    },
     components: {
         Nav,
         Banner
     },
     data () {
         return {
-            headerShow: true
+            headerShow: true,
+            isRouterAlive: true
         };
+    },
+    methods: {
+        reload () {
+            this.isRouterAlive = false
+            this.$nextTick(function(){
+                this.isRouterAlive = true
+            })
+        }
     }
 };
 </script>

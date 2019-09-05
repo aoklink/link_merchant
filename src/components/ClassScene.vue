@@ -3,10 +3,24 @@
         <div class="table">
             <div class="crumbs">
                 <div class="oo">
-                    会员管理
+                    教练管理
                 </div>
                 <div class="celllist">
-                    会员列表
+                    上课统计
+                    <template>
+                        <div class="date_sec">
+                            <el-date-picker
+                            v-model="value2"
+                            type="datetimerange"
+                            :picker-options="pickerOptions"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            align="right">
+                            </el-date-picker>
+                        </div>
+                    </template>
+                    <div class="serch" @click="serch">搜索</div>
                 </div>
             </div>
             <div class="container">
@@ -24,42 +38,35 @@
                           class="table" @selection-change="handleSelectionChange"
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
-                    <el-table-column prop="ncc" label="会员编号"
-                                     style="color: red !important"
+                    <el-table-column prop="user_name" label="教练姓名"
                     />
-                    <el-table-column prop="nick_name" label="昵称">
-                        <template slot-scope="scope">
-                            <div type="text">
-                                {{ decodeURIComponent(tableData[scope.$index].nick_name.replace(/\+/g, '%20')) }}
-                            </div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="phone_num" label="注册手机">
-                        <template slot-scope="scope">
-                            <div type="text">
-                                {{ tableData[scope.$index].phone_num }}
-                            </div>
-                        </template>
-                    </el-table-column>
-                    <!-- <el-table-column prop="bind_time" label="上一次绑定时间" width="270">
-                        <template slot-scope="scope">
-                            <div type="text">{{getDd(new Date(parseInt(tableData[scope.$index].bind_time)))}}</div>
-                        </template>
-                    </el-table-column> -->
-                    <el-table-column prop="bind_time" label="上一次绑定时间">
-                        <template slot-scope="scope">
-                            <div type="text">
-                                {{ new Date(tableData[scope.$index].bind_time).getTime()>0?tableData[scope.$index].bind_time:'--' }}
-                            </div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="操作" align="center"
-                                     prop="status"
+                    <el-table-column prop="phone_num" label="教练手机"
+                    />
+                    <el-table-column prop="student_num" label="学员数量"
+                    />
+                    <el-table-column prop="ncc" label="学员出勤率"
                     >
                         <template slot-scope="scope">
-                            <router-link :class="tableData[scope.$index].status == 0?'cc':'cc'" :to="{ path: '/baseinfo', query: { inquiry: tableData[scope.$index].uid }}">
-                                查看
-                            </router-link>
+                            <div>
+                                {{ tableData[scope.$index].course_student_num +'/'+ tableData[scope.$index].student_num}}
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="ncc" label="备课率"
+                    >
+                        <template slot-scope="scope">
+                            <div>
+                                {{ tableData[scope.$index].prepare_course_num +'/'+ tableData[scope.$index].course_num}}
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="course_num" label="累计上课"
+                    />
+                    <el-table-column prop="avg_course_day" label="平均上课次数/天">
+                        <template slot-scope="scope">
+                            <div type="text">
+                                {{ tableData[scope.$index].avg_course_day }}
+                            </div>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -129,7 +136,7 @@
 <script>
 import global from '../components/Global';
 export default {
-    name: 'Basemember',
+    name: 'classscene',
     data () {
         return {
             localhost: 'http://bg.linkfeeling.cn',
@@ -161,7 +168,38 @@ export default {
                 bind_time: '',
                 uid: ''
             },
-            idx: -1
+            idx: -1,
+            pickerOptions: {
+                shortcuts: [{
+                    text: '最近一周',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                    picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三个月',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                    picker.$emit('pick', [start, end]);
+                    }
+                }]
+            },
+            value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
+            value2: [new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 30),new Date()],
+            startTime: new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 30),
+            endTime: new Date(),
         };
     },
     computed: {
@@ -169,14 +207,14 @@ export default {
             return this.tableData.filter((d) => {
                 let is_del = false;
                 for (let i = 0; i < this.del_list.length; i++) {
-                    if (d.id === this.del_list[i].id) {
+                    if (d.phone_num === this.del_list[i].phone_num) {
                         is_del = true;
                         break;
                     }
                 }
                 if (!is_del) {
                     console.log(d);
-                    if (d.id.indexOf(this.select_cate) > -1) {
+                    if (d.phone_num.indexOf(this.select_cate) > -1) {
                         return d;
                     }
                 }
@@ -190,10 +228,19 @@ export default {
 
     },
     updated () {
-        console.log(this.del_list);
+        // console.log(this.value2);
+        // console.log(this.getDd(new Date(this.value2[0])))
+        // console.log(this.getDd(new Date(this.value2[1])))
     },
     methods: {
-        // 分页导航
+        serch () {
+            var ta = this.value2 || -1
+            if(ta==-1){
+                this.$message.error('请选择时间区间');
+                return
+            }
+            this.getData()
+        },
         handleCurrentChange (val) {
             this.cur_page = val;
             this.getData();
@@ -204,29 +251,38 @@ export default {
             var seperator2 = ':';
             var month = date.getMonth() + 1;
             var strDate = date.getDate();
+            var hours = date.getHours();
+            var mins = date.getMinutes();
+            var secs = date.getSeconds();
             if (month >= 1 && month <= 9) {
                 month = '0' + month;
             }
             if (strDate >= 0 && strDate <= 9) {
                 strDate = '0' + strDate;
             }
+            if (hours >= 1 && hours <= 9) {
+                hours = '0' + hours;
+            }
+            if (mins >= 1 && mins <= 9) {
+                mins = '0' + mins;
+            }
+            if (secs >= 1 && secs <= 9) {
+                secs = '0' + secs;
+            }
             var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
-                        ' ' + date.getHours() + seperator2 + date.getMinutes() +
-                        seperator2 + date.getSeconds();
+                        ' ' + hours + seperator2 + mins +
+                        seperator2 + secs;
             return currentdate;
         },
         // 获取 easy-mock 的模拟数据
         getData () {
-            // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-            // if (process.env.NODE_ENV === 'development') {
-            //     this.url = '/ms/table/list';
-            // };
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
-                page: this.cur_page
+                start: this.getDd(new Date(parseFloat(this.value2[0]))),
+                end: this.getDd(this.value2[1])
             };
             console.log(this);
-            this.$axios.post(this.localhost + '/api/platform/members', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost + '/api/coach/web/course/statistics/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
                     var xbox = res.data.data;
@@ -516,6 +572,28 @@ export default {
         overflow: overlay !important;
         height: 435px !important;
     }
+    .date_sec .el-date-editor .el-range__icon{
+        position: relative;
+        text-indent: 0;
+    }
+    .date_sec .el-input__icon{
+        width: 1rem;
+    }
+    .date_sec .el-range-separator{
+        text-indent: 0;
+    }
+    .el-picker-panel{
+        position: absolute !important;
+        top: 100px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+    .date_sec .el-range__close-icon .el-input__icon:after{
+        text-indent: 0;
+    }
+    .date_sec .el-range__close-icon{
+        text-indent: 0;
+    }
 </style>
 
 <style scoped>
@@ -580,6 +658,7 @@ export default {
         font-family:PingFangSC-Medium;
         font-weight:500;
         color:rgba(60,68,86,1);
+        position: relative;
     }
     .container{
         border-radius: 0;
@@ -660,5 +739,29 @@ export default {
     .content{
         background: #F6F7F8;
         height: 670px;
+    }
+    .date_sec{
+        display: inline-block;
+        width: 400px;
+        height: 40px;
+        box-sizing: content-box;
+    }
+    .serch{
+        width:60px;
+        height:27px;
+        background:rgba(60,68,86,1);
+        border-radius:2px;
+        display: inline-block;
+        position: absolute;
+        top: 16px;
+        left: 520px;
+        text-align: center;
+        text-indent: 0;
+        line-height: 27px;
+        color: #fff;
+        font-size: 12px;
+        font-family: PingFangSC-Medium;
+        font-weight: 500;
+        cursor: pointer;
     }
 </style>

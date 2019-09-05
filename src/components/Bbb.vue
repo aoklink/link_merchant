@@ -21,14 +21,14 @@
                     <el-button type="primary" icon="search" @click="tadd">添加手环</el-button>
                 </div> -->
                 <el-table ref="multipleTable" :data="data" border
-                          class="table" @selection-change="handleSelectionChange"
+                        class="table" @selection-change="handleSelectionChange"
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
-                    <el-table-column prop="id" label="手环编号"
-                                     style="color: red !important"
+                    <el-table-column prop="id" label="手环编号" 
+                                    style="color: red !important"
                     />
                     <el-table-column prop="bracelet_id" label="手环ID"
-                                     style="color: red !important"
+                                    style="color: red !important"
                     />
                     <el-table-column prop="uwb_id" label="配置uwb">
                         <template slot-scope="scope">
@@ -66,7 +66,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column label="操作" align="center" padding="0"
-                                     prop="status"
+                                    prop="status"
                     >
                         <template slot-scope="scope">
                             <div :class="tableData[scope.$index].status == 0?'cc':'dd'" type="text" @click="handleEdit(scope.$index, scope.row,tableData[scope.$index].status)">
@@ -83,34 +83,25 @@
             </div>
 
             <!-- 解绑弹出框 -->
-            <div v-if="unBindVisible" class="bindlog">
+            <div class="bindlog" v-if="unBindVisible">
                 <div class="unbindbox">
                     <div class="ubdup">
-                        <div>
-                            解除绑定
-                            <span />
+                        <div>解除绑定
+                            <span></span>
                             <span @click="unBindVisible=false">
                                 <svg width="10px" height="10px" class="svg">
-                                    <line x1="0" y1="0" x2="10"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
-                                    <line x1="10" y1="0" x2="0"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
+                                    <line x1="0" y1="0" x2="10" y2="10"
+            style="stroke:#888EA7;stroke-width:1"/>
+                                    <line x1="10" y1="0" x2="0" y2="10"
+            style="stroke:#888EA7;stroke-width:1"/>
                                 </svg>
                             </span>
                         </div>
                     </div>
                     <div class="ubdmd">
-                        <span class="unce" />
-                        <div class="ubdta">
-                            是否确认解除手环绑定？
-                        </div>
-                        <div class="ubdtb">
-                            手环解除绑定后，将结束本次运动并生成运动报告
-                        </div>
+                        <span class="unce"></span>
+                        <div class="ubdta">是否确认解除手环绑定？</div>
+                        <div class="ubdtb">手环解除绑定后，将结束本次运动并生成运动报告</div>
                     </div>
                     <div class="ubdbt">
                         <span @click="unBindVisible=false">取消</span>
@@ -119,22 +110,17 @@
                 </div>
             </div>
             <!-- 绑定弹出框 -->
-            <div v-if="editVisible" class="bindlog">
+            <div class="bindlog" v-if="editVisible">
                 <div class="bindbox">
                     <div class="bdup">
-                        <div>
-                            手环绑定
-                            <span />
+                        <div>手环绑定
+                            <span></span>
                             <span @click="editVisible=false">
                                 <svg width="10px" height="10px" class="svg">
-                                    <line x1="0" y1="0" x2="10"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
-                                    <line x1="10" y1="0" x2="0"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
+                                    <line x1="0" y1="0" x2="10" y2="10"
+            style="stroke:#888EA7;stroke-width:1"/>
+                                    <line x1="10" y1="0" x2="0" y2="10"
+            style="stroke:#888EA7;stroke-width:1"/>
                                 </svg>
                             </span>
                         </div>
@@ -161,18 +147,15 @@
                             <el-row class="demo-autocomplete">
                                 <el-col :span="12">
                                     <el-autocomplete
-                                        v-model="state2"
-                                        popper-class="my-autocomplete"
-                                        class="inline-input"
-                                        :fetch-suggestions="querySearch"
-                                        placeholder="请输入会员手机号"
-                                        :trigger-on-focus="true"
-                                        @select="handleSelect"
-                                    >
-                                        <template slot-scope="props" width="400">
-                                            <div class="name">
-                                                <span class="shead" :style="{ 'background': 'url(' +props.item.head + ') no-repeat left center'}" /><span class="stna">{{ props.item.name }}</span><span class="sttk">{{ props.item.value }}</span><span class="addr">{{ props.item.date }}</span>
-                                            </div>
+                                    popper-class="my-autocomplete"
+                                    class="inline-input"
+                                    v-model="state2"
+                                    :fetch-suggestions="querySearch"
+                                    placeholder="请输入会员手机号"
+                                    :trigger-on-focus="true"
+                                    @select="handleSelect">
+                                        <template slot-scope="props" width=400>
+                                            <div class="name"><span class="shead" :style="{ 'background': 'url(' +props.item.head + ') no-repeat left center'}" ></span><span class="stna">{{ props.item.name }}</span><span class="sttk">{{ props.item.value }}</span><span class="addr">{{ props.item.date }}</span></div>
                                         </template>
                                     </el-autocomplete>
                                 </el-col>
@@ -205,31 +188,24 @@
                     <el-button type="primary" @click="deleteRow">确 定</el-button>
                 </span>
             </el-dialog> -->
-            <div v-if="delVisible" class="bindlog">
+            <div class="bindlog" v-if="delVisible">
                 <div class="unbindbox">
                     <div class="ubdup">
-                        <div>
-                            删除手环
-                            <span />
+                        <div>删除手环
+                            <span></span>
                             <span @click="delVisible=false">
                                 <svg width="10px" height="10px" class="svg">
-                                    <line x1="0" y1="0" x2="10"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
-                                    <line x1="10" y1="0" x2="0"
-                                          y2="10"
-                                          style="stroke:#888EA7;stroke-width:1"
-                                    />
+                                    <line x1="0" y1="0" x2="10" y2="10"
+            style="stroke:#888EA7;stroke-width:1"/>
+                                    <line x1="10" y1="0" x2="0" y2="10"
+            style="stroke:#888EA7;stroke-width:1"/>
                                 </svg>
                             </span>
                         </div>
                     </div>
                     <div class="ubdmd">
-                        <span class="dece" />
-                        <div class="ubdta">
-                            是否确认删除手环
-                        </div>
+                        <span class="dece"></span>
+                        <div class="ubdta">是否确认删除手环</div>
                     </div>
                     <div class="ubdbt">
                         <span @click="delVisible=false">取消</span>
@@ -242,7 +218,7 @@
 </template>
 
 <script>
-import global from '../components/Global';
+import global from '../components/Global'
 // this.$axios.defaults.headers.post['Content-Type'] = 'application/json'
 export default {
     name: 'Basebind',
@@ -250,6 +226,7 @@ export default {
         return {
             localhost: 'http://bg.linkfeeling.cn',
             localhost: 'http://test.linkfeeling.cn',
+            url: 'http://ll.linkfeeling.cn/api/platform/bracelet/data',
             tableData: [],
             yybox: {},
             ttbox: [],
@@ -305,45 +282,45 @@ export default {
     },
     created () {
         this.getData();
-        var that = this;
-        this.dataList = [];
+        var that = this
+        this.dataList = []
         let datt = {
-            gym_name: global.gym_name || localStorage.getItem('gym_name'),
-            page: this.cur_page
-        };
-        this.$axios.post(this.localhost + '/api/platform/members', JSON.stringify(datt), {headers: {'Content-Type': 'application/json;charset=UTF-8'}})
-            .then((res) => {
-                if (res.data.code == 200) {
-                    console.log(res.data.data);
-                    var aDiv = [];
-                    for (var i = 0; i < res.data.data.length; i++) {
-                        aDiv.push(res.data.data[i]);
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
+                page: this.cur_page
+            };
+            this.$axios.post(this.localhost+'/api/platform/members', JSON.stringify(datt), {headers: {'Content-Type':'application/json;charset=UTF-8'}})
+                .then((res) => {
+                    if (res.data.code == 200) {
+                        console.log(res.data.data)
+                        var aDiv = [];
+                        for (var i = 0; i < res.data.data.length; i++) {
+                            aDiv.push(res.data.data[i]);
+                        }
+                        aDiv.sort(function (a, b) { return new Date(b.bind_time || 0) - new Date(a.bind_time || 0)});
+                        console.log(aDiv)
+                        var byby
+                        for(var i=0;i<aDiv.length;i++){
+                            byby = {}
+                            byby.value = aDiv[i].phone_num
+                            byby.date = aDiv[i].bind_time
+                            byby.head = aDiv[i].head_icon || ''
+                            byby.name = decodeURIComponent(aDiv[i].nick_name.replace(/\+/g, '%20'))
+                            that.dataList.push(byby)
+                        }
+                        console.log(this.dataList)
+                        that.$set(that.dataList);
+                    } else{
+                        that.$message.success('会员列表请求失败');
                     }
-                    aDiv.sort(function (a, b) { return new Date(b.bind_time || 0) - new Date(a.bind_time || 0); });
-                    console.log(aDiv);
-                    var byby;
-                    for (var i = 0; i < aDiv.length; i++) {
-                        byby = {};
-                        byby.value = aDiv[i].phone_num;
-                        byby.date = aDiv[i].bind_time;
-                        byby.head = aDiv[i].head_icon || '';
-                        byby.name = decodeURIComponent(aDiv[i].nick_name.replace(/\+/g, '%20'));
-                        that.dataList.push(byby);
-                    }
-                    console.log(this.dataList);
-                    that.$set(that.dataList);
-                } else {
-                    that.$message.success('会员列表请求失败');
-                }
-            })
-            .catch((res) => {
-                console.log(res);
-            });
-        this.tableDdd = this.dataList;
+                })
+                .catch((res) => {
+                    console.log(res);
+                });
+        this.tableDdd = this.dataList
     },
     mounted () {
-        this.restaurants = this.loadAll();
-        console.log(this.restaurants);
+        this.restaurants = this.loadAll()
+        console.log(this.restaurants)
     },
     updated () {
         console.log(this.del_list);
@@ -407,11 +384,11 @@ export default {
             //     this.url = '/ms/table/list';
             // };
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem('gym_name'),
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 page: this.cur_page
             };
             console.log(this);
-            this.$axios.post(this.localhost + '/api/platform/bracelet/data', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
+            this.$axios.post(this.localhost+'/api/platform/bracelet/data', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
             )
                 .then((res) => {
                     console.log(res.data.data);
@@ -445,33 +422,33 @@ export default {
                 });
         },
         querySearch_front (queryString, cb) {
-            let restaurants = this.restaurants;
-            let results = queryString ? restaurants.filter(this.createFilter_front(queryString)) : restaurants;
-            console.log(results);
+            let restaurants = this.restaurants
+            let results = queryString ? restaurants.filter(this.createFilter_front(queryString)) : restaurants
+            console.log(results)
             // 调用 callback 返回建议列表的数据
-            cb(results);
-        },
-        createFilter_front (queryString) {
+              cb(results)
+            },
+            createFilter_front (queryString) {
             return (restaurant) => {
-                return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0 || restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-            };
+                return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0 || restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+            }
         },
         querySearch (queryString, cb) {
-            let restaurants = this.restaurants;
-            let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-            // 调用 callback 返回建议列表的数据
-            cb(results);
+        let restaurants = this.restaurants
+        let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
+        // 调用 callback 返回建议列表的数据
+        cb(results)
         },
         createFilter (queryString) {
-            return (restaurant) => {
-                return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1 || restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
-            };
+        return (restaurant) => {
+            return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1 || restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) > -1)
+        }
         },
         loadAll () {
-            return this.dataList;
+        return this.dataList
         },
         handleSelect (item) {
-            console.log(item);
+        console.log(item)
         },
         yzy () {
             console.log('yzy');
@@ -506,17 +483,17 @@ export default {
             let that = this;
             if (!(/^1[3456789]\d{9}$/.test(that.state2))) {
                 that.$message.error(`手机号格式错误`);
-                return;
+                return
             }
-            console.log(that.tableData);
-            for (var i = 0; i < that.tableData.length; i++) {
-                if (that.state2 == that.tableData[i].phone_num) {
+            console.log(that.tableData)
+            for(var i=0;i<that.tableData.length;i++){
+                if(that.state2 == that.tableData[i].phone_num){
                     that.$message.error(`该手机号已绑定手环,请先解绑`);
-                    return;
+                    return
                 }
             }
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem('gym_name'),
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 bracelet_id: this.form.bracelet_id,
                 id: this.form.id,
                 uwb_id: this.form.uwb_id,
@@ -549,7 +526,7 @@ export default {
         getfalseedit () {
             let that = this;
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem('gym_name'),
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 bracelet_id: this.form.bracelet_id,
                 phone_num: this.form.phone_num,
                 unbind_time: Date.parse(new Date()),
@@ -575,12 +552,12 @@ export default {
         getdel () {
             let that = this;
             let datt = {
-                gym_name: global.gym_name || localStorage.getItem('gym_name'),
+                gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 bracelet_id: this.form.bracelet_id,
                 page: this.cur_page
             };
             console.log('del');
-            this.$axios.post(this.localhost + '/api/platform/bracelet/delete', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
+            this.$axios.post(this.localhost+'/api/platform/bracelet/delete', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     if (res.data.code == 200) {
                         that.$message.success('删除成功');
@@ -606,13 +583,15 @@ export default {
         },
         handleEdit (index, row, status) {
             let that = this;
-
+            
+            
+            
             this.idx = index;
             console.log(status);
             const item = this.tableData[index];
             if (status == 0) {
                 this.editVisible = true;
-                that.state2 = '';
+                that.state2 = ''
                 that.form = {
                     bracelet_id: item.bracelet_id,
                     id: item.id,
@@ -628,7 +607,7 @@ export default {
                 console.log('status = 0');
             } else if (status == 1) {
                 this.unBindVisible = true;
-                that.state2 = '';
+                that.state2 = ''
                 that.form = {
                     bracelet_id: item.bracelet_id,
                     id: item.id,
@@ -651,7 +630,7 @@ export default {
             const item = this.tableData[index];
             this.form = {
                 bracelet_id: item.bracelet_id,
-                id: item.id
+                id: item.id,
             };
             this.delVisible = true;
         },
@@ -693,11 +672,12 @@ export default {
 </script>
 
 <style>
-    .my-autocomplete{
+    .el-popper{
         position: fixed;
         left: 50% !important;
         transform: translateX(-50%) !important;
         top: 58% !important;
+        /* left: 4.44rem !important; */
     }
     .container .el-table thead{
         color: #5A6286;
@@ -1024,7 +1004,7 @@ export default {
     }
     .bdtb input::-webkit-input-placeholder{
         color: #BFC4D1;
-    }
+    } 
     .ubdta{
         text-align: left;
         text-indent: 49px;
@@ -1299,6 +1279,5 @@ export default {
         line-height: 50px;
         left: 50px;
         width: 130px;
-        overflow: hidden;
     }
 </style>

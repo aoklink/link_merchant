@@ -105,8 +105,8 @@ export default {
     name: 'Baseaccount',
     data () {
         return {
-            localhost: 'http://test.linkfeeling.cn',
-            // localhost: 'http://bg.linkfeeling.cn',
+            localhost: 'http://bg.linkfeeling.cn',
+            // localhost: 'http://test.linkfeeling.cn',
             url: 'https://ll.linkfeeling.cn/api/platform/bracelet/data',
             tableData: [],
             yybox: {},
@@ -625,7 +625,6 @@ export default {
         padding: 0;
         display: flex;
         justify-content: space-between;
-        margin-left: 30px;
     }
     tbody tr td:last-child .cell{
         margin: 0 auto;

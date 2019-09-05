@@ -43,8 +43,13 @@
                         <el-table ref="multipleTable" :data="tableData" border
                                   class="table"
                         >
-                            <el-table-column prop="user_name" label="教练姓名" style="color: red !important" />
-
+                            <el-table-column prop="user_name" label="教练姓名" >
+                                <template slot-scope="scope">
+                                    <div type="text">
+                                        {{ decodeURIComponent(tableData[scope.$index].user_name.replace(/\+/g, '%20'))}}
+                                    </div>
+                                </template>
+                            </el-table-column>
                             <el-table-column prop="phone_num" label="手机号">
                                 <!-- <template slot-scope="scope">
                             <div type="text">
