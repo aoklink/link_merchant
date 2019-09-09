@@ -13,7 +13,7 @@ import PhotoShop from './components/PhotoShop.vue';
 import CoachManage from './components/CoachManage.vue';
 import Pp from './components/Pp.vue';
 import AccountManagement from './components/AccountManagement.vue';
-
+import Battery from './components/Battery.vue';
 
 import {
     isLogin
@@ -160,6 +160,16 @@ const router = new Router({
             path: '/Pp',
             component: Pp,
             displayName: '账户管理',
+            meta: {
+                requiresAuth: true,
+                keepAlive: true
+            }
+        },
+        {
+            name: 'battery',
+            path: '/Battery',
+            component: Battery,
+            displayName: '设备管理',
             meta: {
                 requiresAuth: true,
                 keepAlive: true

@@ -30,6 +30,10 @@
                     <el-table-column prop="bracelet_id" label="手环ID"
                                      style="color: red !important"
                     />
+                    <el-table-column prop="batteryStr" label="电量"
+                                     style="color: red !important"
+                    />
+                    <!--
                     <el-table-column prop="uwb_id" label="配置uwb">
                         <template slot-scope="scope">
                             <div type="text">
@@ -37,6 +41,8 @@
                             </div>
                         </template>
                     </el-table-column>
+
+                    -->
                     <!-- <el-table-column prop="status" label="状态" width="150">
                         <template slot-scope="scope">
                             <div type="text" :class="tableData[scope.$index].status == 1?'aa':'bb'">
@@ -419,7 +425,16 @@ export default {
                     console.log(xbox);
                     var aDiv = [];
                     for (var i = 0; i < xbox.length; i++) {
-                        aDiv.push(xbox[i]);
+                        var m = xbox[i];
+                        m.batteryStr = '-';
+                        if (m.battery = parseInt(m.battery)) {
+                            switch (m.battery) {
+                            case -1: m.batteryStr = '已离线'; break;
+                            case -2: m.batteryStr = '在线'; break;
+                            default: m.batteryStr = m.battery + '%'; break;
+                            }
+                        }
+                        aDiv.push(m);
                     }
                     aDiv.sort(function (a, b) { return a.id - b.id; });
                     console.log(aDiv);
