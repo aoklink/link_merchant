@@ -1,113 +1,121 @@
 <template>
     <div class="menu">
-        <router-link  
+        <router-link
             :to="{path:'/'}"
             class="menu-hidden"
             :class="[ok1==1?'menu-item':'menu-hidden']"
             @click.native="clik(0)"
-            > 
+        >
             <img src="../assets/nava.png">
             店铺管理
             <span class="click-area" @click="scal(0)">
                 <svg width="8px" height="8px" class="svg">
-                    <polygon points="0,0 8,0 4,8" style="fill:#000;stroke:#000;stroke-width:1" /> 
+                    <polygon points="0,0 8,0 4,8" style="fill:#000;stroke:#000;stroke-width:1" />
                 </svg>
             </span>
         </router-link>
-        <router-link  
+        <router-link
             v-show="v1==true"
             :to="{path:'/'}"
             :class="[in1==1?'menu-item-chil':'menu-hidden']"
             @click.native="clia(0)"
-            > 
+        >
             店铺列表
-            <span class="spaa"></span>
+            <span class="spaa" />
         </router-link>
-        <router-link  
+        <router-link
             v-show="v1==true"
             :to="{path:'/BigScreenList'}"
             :class="[in2==1?'menu-item-chil':'menu-hidden']"
             @click.native="clia(1)"
-            > 
+        >
             大屏管理
-            <span class="spaa"></span>
+            <span class="spaa" />
         </router-link>
-        <router-link  
+        <router-link
             :to="{path:'/BaseMember'}"
             :class="[ok2==1?'menu-item':'menu-hidden']"
             @click.native="clik(1)"
-            > 
+        >
             <img src="../assets/nava.png">
             会员管理
         </router-link>
-        <router-link  
+        <router-link
             :to="{path:'/BaseBind'}"
             :class="[ok3==1?'menu-item':'menu-hidden']"
             @click.native="clik(2)"
-            > 
+        >
             <img src="../assets/nava.png">
             手环管理
         </router-link>
-        <router-link  
+        <router-link
             :to="{path:'/CoachManage'}"
             :class="[ok4==1?'menu-item':'menu-hidden']"
             @click.native="clik(3)"
-            > 
+        >
             <img src="../assets/nava.png">
             教练管理
             <span class="click-area" @click="scal(1)">
                 <svg width="8px" height="8px" class="svg">
-                    <polygon points="0,0 8,0 4,8" style="fill:#000;stroke:#000;stroke-width:1" /> 
+                    <polygon points="0,0 8,0 4,8" style="fill:#000;stroke:#000;stroke-width:1" />
                 </svg>
             </span>
         </router-link>
-        <router-link  
+        <router-link
             v-show="v2==true"
             :to="{path:'/CoachManage'}"
             :class="[in3==1?'menu-item-chil':'menu-hidden']"
             @click.native="clia(2)"
-            > 
+        >
             教练列表
-            <span class="spaa"></span>
+            <span class="spaa" />
         </router-link>
-        <router-link  
+        <router-link
             v-show="v2==true"
             :to="{path:'/ClassScene'}"
             :class="[in4==1?'menu-item-chil':'menu-hidden']"
             @click.native="clia(3)"
-            > 
+        >
             上课统计
-            <span class="spaa"></span>
+            <span class="spaa" />
         </router-link>
-       <router-link  
+        <router-link
             v-show="v2==true"
             :to="{path:'/EffectScene'}"
             :class="[in5==1?'menu-item-chil':'menu-hidden']"
             @click.native="clia(4)"
-            > 
+        >
             效果统计
-            <span class="spaa"></span>
+            <span class="spaa" />
         </router-link>
-        <router-link  
+        <router-link
             :to="{path:'/AccountManagement'}"
             :class="[ok5==1?'menu-item':'menu-hidden']"
             @click.native="clik(4)"
-            > 
+        >
             <img src="../assets/nava.png">
             账户管理
         </router-link>
-        <!-- <router-link v-for="(item,index) in list" 
+        <router-link
+            :to="{path:'/Battery'}"
+            :class="[ok6==1?'menu-item':'menu-hidden']"
+            @click.native="clik(5)"
+        >
+            <img src="../assets/nav_battery.png">
+            设备管理
+        </router-link>
+        <!-- <router-link v-for="(item,index) in list"
             :key="item.value" :to="{path:item.path,query:{item:index}}"
             :class="{'menu-item':ind == index}"
             @click.native="changeBgc(index)"  class="menu-hidden"
             v-show="item.vv==0 || item.gg==true"
-            > 
+            >
             <img :src="item.img" v-show="item.vv==0">
             {{item.label}}
             <span class="spaa" v-show="item.kk==1"></span>
             <span class="click-area" @click="scal" v-show="item.kk==0">
                 <svg width="8px" height="8px" class="svg">
-                    <polygon points="0,0 8,0 4,8" style="fill:#000;stroke:#000;stroke-width:1" /> 
+                    <polygon points="0,0 8,0 4,8" style="fill:#000;stroke:#000;stroke-width:1" />
                 </svg>
             </span>
         </router-link>  -->
@@ -131,17 +139,22 @@ export default {
             //     {path:'/AccountManagement',label:'账户管理',img: require('../assets/nave.png'),vv:0}
             // ],
             list: [
-                {path:'/',label:'店铺管理',img: require('../assets/nava.png'),kk:0,vv:0,children: [
-                    {path:'/',label:'店铺列表',img: require('../assets/navb.png'),kk:1,gg:true,vv:1},
-                    {path:'/BaseMember',label:'大屏管理',img: require('../assets/navb.png'),kk:1,gg:true,vv:1}
-                ]},
-                {path:'/BaseMember',label:'会员管理',img: require('../assets/navb.png'),vv:0},
-                {path:'/BaseBind',label:'手环管理',img: require('../assets/navc.png'),vv:0},
-                {path:'/CoachManage',label:'教练管理',img: require('../assets/navd.png'),kk:0,vv:0},
-                {path:'/AccountManagement',label:'教练列表',img: require('../assets/navd.png'),kk:1,gg:true,vv:1},
-                {path:'/AccountManagement',label:'上课统计',img: require('../assets/navd.png'),kk:1,gg:true,vv:1},
-                {path:'/AccountManagement',label:'效果统计',img: require('../assets/navd.png'),kk:1,gg:true,vv:1},
-                {path:'/AccountManagement',label:'账户管理',img: require('../assets/nave.png'),vv:0}
+                {path: '/',
+                    label: '店铺管理',
+                    img: require('../assets/nava.png'),
+                    kk: 0,
+                    vv: 0,
+                    children: [
+                        {path: '/', label: '店铺列表', img: require('../assets/navb.png'), kk: 1, gg: true, vv: 1},
+                        {path: '/BaseMember', label: '大屏管理', img: require('../assets/navb.png'), kk: 1, gg: true, vv: 1}
+                    ]},
+                {path: '/BaseMember', label: '会员管理', img: require('../assets/navb.png'), vv: 0},
+                {path: '/BaseBind', label: '手环管理', img: require('../assets/navc.png'), vv: 0},
+                {path: '/CoachManage', label: '教练管理', img: require('../assets/navd.png'), kk: 0, vv: 0},
+                {path: '/AccountManagement', label: '教练列表', img: require('../assets/navd.png'), kk: 1, gg: true, vv: 1},
+                {path: '/AccountManagement', label: '上课统计', img: require('../assets/navd.png'), kk: 1, gg: true, vv: 1},
+                {path: '/AccountManagement', label: '效果统计', img: require('../assets/navd.png'), kk: 1, gg: true, vv: 1},
+                {path: '/AccountManagement', label: '账户管理', img: require('../assets/nave.png'), vv: 0}
             ],
             ind: '0',
             ok: 0,
@@ -159,96 +172,100 @@ export default {
             v2: false
         };
     },
+    mounted () {
+        // if(this.$route.query.item){
+        //     this.ind = this.$route.query.item;
+        // }else{
+        //     this.ind = 0;
+        // }
+    },
     methods: {
-        changeBgc(index){
+        changeBgc (index) {
             this.ind = index;
-            if(index==1 || index==2){
+            if (index == 1 || index == 2) {
 
             }
         },
         // scal () {
         //     for(var i=0;i<this.list.length;i++){
         //         if(this.list[i].gg == true || this.list[i].gg ==false){
-        //            this.list[i].gg  = !this.list[i].gg 
+        //            this.list[i].gg  = !this.list[i].gg
         //         }
         //     }
         // },
-        clik(index){
-            this.ok1 = 0
-            this.ok2 = 0
-            this.ok3 = 0
-            this.ok4 = 0
-            this.ok5 = 0
-            this.in1 = 0
-            this.in2 = 0
-            this.in3 = 0
-            this.in4 = 0
-            this.in5 = 0
-            if(index==0){
-              this.ok1 = 1 
-              this.in1 = 1 
+        clik (index) {
+            this.ok1 = 0;
+            this.ok2 = 0;
+            this.ok3 = 0;
+            this.ok4 = 0;
+            this.ok5 = 0;
+            this.ok6 = 0;
+            this.in1 = 0;
+            this.in2 = 0;
+            this.in3 = 0;
+            this.in4 = 0;
+            this.in5 = 0;
+            if (index == 0) {
+                this.ok1 = 1;
+                this.in1 = 1;
             }
-            if(index==1){
-              this.ok2 = 1  
+            if (index == 1) {
+                this.ok2 = 1;
             }
-            if(index==2){
-              this.ok3 = 1  
+            if (index == 2) {
+                this.ok3 = 1;
             }
-            if(index==3){
-              this.ok4 = 1  
-              this.in3 = 1
+            if (index == 3) {
+                this.ok4 = 1;
+                this.in3 = 1;
             }
-            if(index==4){
-              this.ok5 = 1  
+            if (index == 4) {
+                this.ok5 = 1;
             }
-        },
-        clia(index){
-            this.ok1 = 0
-            this.ok2 = 0
-            this.ok3 = 0
-            this.ok4 = 0
-            this.ok5 = 0
-            this.in1 = 0
-            this.in2 = 0
-            this.in3 = 0
-            this.in4 = 0
-            this.in5 = 0
-            if(index==0){
-                this.in1 = 1
-                this.ok1 = 1
-            }
-            if(index==1){
-                this.in2 = 1
-                this.ok1 = 1
-            }
-            if(index==2){
-                this.in3 = 1
-                this.ok4 = 1
-            }
-            if(index==3){
-                this.in4 = 1
-                this.ok4 = 1
-            }
-            if(index==4){
-                this.in5 = 1
-                this.ok4 = 1
+            if (index == 5) {
+                this.ok6 = 1;
             }
         },
-        scal(index){
-          if(index==0){
-              this.v1 = !this.v1
-          }
-          if(index==1){
-              this.v2 = !this.v2
-          }  
+        clia (index) {
+            this.ok1 = 0;
+            this.ok2 = 0;
+            this.ok3 = 0;
+            this.ok4 = 0;
+            this.ok5 = 0;
+            this.in1 = 0;
+            this.in2 = 0;
+            this.in3 = 0;
+            this.in4 = 0;
+            this.in5 = 0;
+            if (index == 0) {
+                this.in1 = 1;
+                this.ok1 = 1;
+            }
+            if (index == 1) {
+                this.in2 = 1;
+                this.ok1 = 1;
+            }
+            if (index == 2) {
+                this.in3 = 1;
+                this.ok4 = 1;
+            }
+            if (index == 3) {
+                this.in4 = 1;
+                this.ok4 = 1;
+            }
+            if (index == 4) {
+                this.in5 = 1;
+                this.ok4 = 1;
+            }
+        },
+        scal (index) {
+            if (index == 0) {
+                this.v1 = !this.v1;
+            }
+            if (index == 1) {
+                this.v2 = !this.v2;
+            }
         }
-    },
-    mounted(){
-        // if(this.$route.query.item){
-        //     this.ind = this.$route.query.item;
-        // }else{
-        //     this.ind = 0;
-        // }
     }
 };
 </script>
