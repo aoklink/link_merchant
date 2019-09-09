@@ -63,8 +63,13 @@
                     </el-table-column>
                     <el-table-column prop="phone_num" label="学员手机"
                     />
-                    <el-table-column prop="coach_name" label="教练姓名"
-                    />
+                    <el-table-column prop="coach_name" label="教练姓名">
+                        <template slot-scope="scope">
+                            <div type="text">
+                                {{ decodeURIComponent(tableData[scope.$index].coach_name.replace(/\+/g, '%20'))}}
+                            </div>
+                        </template>
+                    </el-table-column>
                     <template v-for="(item, index) in col">
                         <el-table-column
                         :show-overflow-tooltip="okl"

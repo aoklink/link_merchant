@@ -38,8 +38,13 @@
                           class="table" @selection-change="handleSelectionChange"
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
-                    <el-table-column prop="user_name" label="教练姓名"
-                    />
+                    <el-table-column prop="user_name" label="教练姓名">
+                        <template slot-scope="scope">
+                            <div type="text">
+                                {{ decodeURIComponent(tableData[scope.$index].user_name.replace(/\+/g, '%20'))}}
+                            </div>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="phone_num" label="教练手机"
                     />
                     <el-table-column prop="student_num" label="学员数量"
