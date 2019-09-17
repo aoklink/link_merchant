@@ -106,7 +106,7 @@ export default {
     data () {
         return {
             localhost: 'http://bg.linkfeeling.cn',
-            // localhost: 'http://test.linkfeeling.cn',
+            localhost: 'http://test.linkfeeling.cn',
             url: 'https://ll.linkfeeling.cn/api/platform/bracelet/data',
             tableData: [],
             yybox: {},

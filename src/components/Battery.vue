@@ -14,7 +14,6 @@
                           :data="tableData" border
                           class="table"
                           :row-class-name="tableRowClassName"
-                          @selection-change="handleSelectionChange"
                 >
                     <el-table-column prop="serial_no" label="编号"
                                      style="color: red !important"

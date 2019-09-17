@@ -163,6 +163,7 @@ export default {
             ok3: 0,
             ok4: 0,
             ok5: 0,
+            ok6: 0,
             in1: 1,
             in2: 0,
             in3: 0,
