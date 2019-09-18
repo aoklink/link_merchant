@@ -926,28 +926,28 @@ export default {
                     if(xbox.skeletal_muscle_dif>0){
                         xbox.kbo = '上升'+xbox.skeletal_muscle_dif+'kg'
                         xbox.ya = '上升'
-                        xbox.yb = xbox.skeletal_muscle_dif+'%'
+                        xbox.yb = xbox.skeletal_muscle_dif+'kg'
                     }else if(xbox.skeletal_muscle_dif == 0){
                         xbox.kbo = '-'
                         xbox.ya = '-'
-                        xbox.yb = '%'
+                        xbox.yb = 'kg'
                     }else{
                         xbox.kbo = '下降'+(-1*xbox.skeletal_muscle_dif)+'kg'
                         xbox.ya = '下降'
-                        xbox.yb = (-1*xbox.skeletal_muscle_dif)+'%'
+                        xbox.yb = (-1*xbox.skeletal_muscle_dif)+'kg'
                     }
                     if(xbox.weight_dif>0){
                         xbox.kco = '上升'+xbox.weight_dif+'kg'
                         xbox.za = '上升'
-                        xbox.zb = xbox.weight_dif+'%'
+                        xbox.zb = xbox.weight_dif+'kg'
                     }else if(xbox.weight_dif == 0){
                         xbox.kco = '-'
                         xbox.za = '-'
-                        xbox.zb = '%'
+                        xbox.zb = 'kg'
                     }else{
                         xbox.kco = '下降'+(-1*xbox.weight_dif)+'kg'
                         xbox.za = '下降'
-                        xbox.zb = (-1*xbox.weight_dif)+'%'
+                        xbox.zb = (-1*xbox.weight_dif)+'kg'
                     }
                     for(var i=0;i<xbox.images.length;i++){
                         this.imgList.push({
