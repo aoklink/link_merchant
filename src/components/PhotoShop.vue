@@ -886,6 +886,7 @@ export default {
             this.inquiry = this.$route.query.inquiry;
             this.nam = this.$route.query.nam;
             var that = this
+            that.imgList = []
             if(typeof(that.value2[0]) == 'number'){
                 var start_time = that.getDd(new Date(parseFloat(that.value2[0])))
             }else{
@@ -925,7 +926,7 @@ export default {
                     if(xbox.skeletal_muscle_dif>0){
                         xbox.kbo = '上升'+xbox.skeletal_muscle_dif+'kg'
                         xbox.ya = '上升'
-                        xbox.yb = xbox.bfr_dif+'%'
+                        xbox.yb = xbox.skeletal_muscle_dif+'%'
                     }else if(xbox.skeletal_muscle_dif == 0){
                         xbox.kbo = '-'
                         xbox.ya = '-'
@@ -933,12 +934,12 @@ export default {
                     }else{
                         xbox.kbo = '下降'+(-1*xbox.skeletal_muscle_dif)+'kg'
                         xbox.ya = '下降'
-                        xbox.yb = (-1*xbox.bfr_dif)+'%'
+                        xbox.yb = (-1*xbox.skeletal_muscle_dif)+'%'
                     }
                     if(xbox.weight_dif>0){
                         xbox.kco = '上升'+xbox.weight_dif+'kg'
                         xbox.za = '上升'
-                        xbox.zb = xbox.bfr_dif+'%'
+                        xbox.zb = xbox.weight_dif+'%'
                     }else if(xbox.weight_dif == 0){
                         xbox.kco = '-'
                         xbox.za = '-'
@@ -946,7 +947,7 @@ export default {
                     }else{
                         xbox.kco = '下降'+(-1*xbox.weight_dif)+'kg'
                         xbox.za = '下降'
-                        xbox.zb = (-1*xbox.bfr_dif)+'%'
+                        xbox.zb = (-1*xbox.weight_dif)+'%'
                     }
                     for(var i=0;i<xbox.images.length;i++){
                         this.imgList.push({
@@ -978,6 +979,7 @@ export default {
                         }
                     ]
                     this.form = xbox
+                    console.log(this.form)
                     // this.draw()
                 })
                 .catch((res) => {
@@ -1493,6 +1495,12 @@ export default {
         font-family: PingFangSC-Medium;
         font-weight: 500;
         cursor: pointer;
+        -moz-user-select:none; /*火狐*/
+        -webkit-user-select:none; /*webkit浏览器*/
+        -ms-user-select:none; /*IE10*/
+        -khtml-user-select:none; /*早期浏览器*/
+        user-select:none;
+
     }
     .showtab{
         width:120px;
