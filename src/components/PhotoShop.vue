@@ -328,8 +328,8 @@ export default {
         }
     },
     created () {   
-        this.value2[0] = this.$route.query.val1 || localStorage.getItem('val1')
-        this.value2[1] = this.$route.query.val2 || localStorage.getItem('val2');
+        this.value2[0] = parseInt(this.$route.query.val1) || parseInt(localStorage.getItem('val1'))
+        this.value2[1] = parseInt(this.$route.query.val2) || parseInt(localStorage.getItem('val2'));
         console.log(this.value2)
         this.getData();
     },
@@ -506,6 +506,10 @@ export default {
             console.log(msg) 
         },
         showcan () {
+            if(this.imgsta.length<2){
+                this.$message.error('请选择两张对比照');
+                return
+            }
             this.srcc = ''
             this.srcd = ''
             this.osvisi = true
@@ -652,7 +656,7 @@ export default {
                             }
                         }
                     }
-                    if(that.checkListc.length==2){
+                    if(that.checkListc.length==3){
                         for(var i=0;i<that.form.thre.length;i++){
                             if(that.form.thre[i].value == that.checkListc[0]){
                                 ctx.beginPath();
@@ -690,7 +694,7 @@ export default {
                                 ctx.fillText(that.form.thre[i].bb, 171 * ck, 415 * ck)
                                 ctx.stroke()
                             }
-                            if(that.form.thre[i].value == that.checkListc[3]){
+                            if(that.form.thre[i].value == that.checkListc[2]){
                                 ctx.beginPath();
                                 ctx.lineWidth = 0.5 * ck
                                 ctx.font="12px Arial";
@@ -836,13 +840,13 @@ export default {
             if (strDate >= 0 && strDate <= 9) {
                 strDate = '0' + strDate;
             }
-            if (hours >= 1 && hours <= 9) {
+            if (hours >= 0 && hours <= 9) {
                 hours = '0' + hours;
             }
-            if (mins >= 1 && mins <= 9) {
+            if (mins >= 0 && mins <= 9) {
                 mins = '0' + mins;
             }
-            if (secs >= 1 && secs <= 9) {
+            if (secs >= 0 && secs <= 9) {
                 secs = '0' + secs;
             }
             var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
@@ -881,11 +885,21 @@ export default {
         getData () {
             this.inquiry = this.$route.query.inquiry;
             this.nam = this.$route.query.nam;
-            console.log(this.value2)
+            var that = this
+            if(typeof(that.value2[0]) == 'number'){
+                var start_time = that.getDd(new Date(parseFloat(that.value2[0])))
+            }else{
+                var start_time = that.getDd(that.value2[0])
+            }
+            if(typeof(that.value2[1]) == 'number'){
+                var end_time = that.getDd(new Date(parseFloat(that.value2[1])))
+            }else{
+                var end_time = that.getDd(this.value2[1])
+            }
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
-                start: this.getDd(new Date(parseFloat(this.value2[0]))),
-                end: this.getDd(new Date(parseFloat(this.value2[1]))),
+                start: start_time,
+                end: end_time,
                 uid: this.inquiry
             };
             console.log(this);

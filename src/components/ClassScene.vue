@@ -265,13 +265,13 @@ export default {
             if (strDate >= 0 && strDate <= 9) {
                 strDate = '0' + strDate;
             }
-            if (hours >= 1 && hours <= 9) {
+            if (hours >= 0 && hours <= 9) {
                 hours = '0' + hours;
             }
-            if (mins >= 1 && mins <= 9) {
+            if (mins >= 0 && mins <= 9) {
                 mins = '0' + mins;
             }
-            if (secs >= 1 && secs <= 9) {
+            if (secs >= 0 && secs <= 9) {
                 secs = '0' + secs;
             }
             var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
@@ -281,10 +281,22 @@ export default {
         },
         // 获取 easy-mock 的模拟数据
         getData () {
+            var that = this
+            console.log(that.value2[1])
+            if(typeof(that.value2[0]) == 'number'){
+                var start_time = that.getDd(new Date(parseFloat(that.value2[0])))
+            }else{
+                var start_time = that.getDd(that.value2[0])
+            }
+            if(typeof(that.value2[1]) == 'number'){
+                var end_time = that.getDd(new Date(parseFloat(that.value2[1])))
+            }else{
+                var end_time = that.getDd(this.value2[1])
+            }  
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
-                start: this.getDd(new Date(parseFloat(this.value2[0]))),
-                end: this.getDd(this.value2[1])
+                start: start_time,
+                end: end_time
             };
             console.log(this);
             this.$axios.post(this.localhost + '/api/coach/web/course/statistics/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})

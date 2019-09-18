@@ -798,7 +798,7 @@ export default {
         openNewMemberList (coachItem) {
             let newTabName = ++this.tabIndex + '';
             this.editableTabs.push({
-                title: coachItem.user_name + '的学员',
+                title: decodeURIComponent(coachItem.user_name.replace(/\+/g, '%20')) + '的学员',
                 name: newTabName,
                 type: 2,
                 closable: true,

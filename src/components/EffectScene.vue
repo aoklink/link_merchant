@@ -30,9 +30,10 @@
                                 <template>
                                     <el-checkbox-group v-model="checkList" class="checkbox">
                                         <el-checkbox 
+                                            class=""
                                             v-for="(item, index) in coalist"
                                             :key="index"
-                                            :label="item"
+                                            :label="decodeURIComponent(item.replace(/\+/g, '%20'))"
                                         ></el-checkbox>
                                     </el-checkbox-group>
                                 </template>
@@ -331,13 +332,13 @@ export default {
             if (strDate >= 0 && strDate <= 9) {
                 strDate = '0' + strDate;
             }
-            if (hours >= 1 && hours <= 9) {
+            if (hours >= 0 && hours <= 9) {
                 hours = '0' + hours;
             }
-            if (mins >= 1 && mins <= 9) {
+            if (mins >= 0 && mins <= 9) {
                 mins = '0' + mins;
             }
-            if (secs >= 1 && secs <= 9) {
+            if (secs >= 0 && secs <= 9) {
                 secs = '0' + secs;
             }
             var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
@@ -347,14 +348,21 @@ export default {
         },
         // 获取 easy-mock 的模拟数据
         getData () {
-            // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-            // if (process.env.NODE_ENV === 'development') {
-            //     this.url = '/ms/table/list';
-            // };
+            var that = this
+            if(typeof(that.value2[0]) == 'number'){
+                var start_time = that.getDd(new Date(parseFloat(that.value2[0])))
+            }else{
+                var start_time = that.getDd(that.value2[0])
+            }
+            if(typeof(that.value2[1]) == 'number'){
+                var end_time = that.getDd(new Date(parseFloat(that.value2[1])))
+            }else{
+                var end_time = that.getDd(this.value2[1])
+            }
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
-                start: this.getDd(new Date(this.value2[0])),
-                end: this.getDd(new Date(this.value2[1]))
+                start: start_time,
+                end: end_time
             };
             this.$axios.post(this.localhost + '/api/coach/web/physical/examination/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
@@ -817,9 +825,13 @@ export default {
     }
     .checkbox .el-checkbox__input{
        padding-left: 12px;
+       text-align: left;
     }
     .checkbox .el-checkbox__label{
         /* float: left; */
+    }
+    .checkbox .el-checkbox{
+        text-align: left;
     }
     .knmg .el-checkbox{
         margin-top: 27px;

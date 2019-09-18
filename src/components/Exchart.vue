@@ -196,8 +196,8 @@ export default {
         }
     },
     created () {
-        this.value2[0] = this.$route.query.val1 || localStorage.getItem('val1')
-        this.value2[1] = this.$route.query.val2 || localStorage.getItem('val2');
+        this.value2[0] = parseInt(this.$route.query.val1) || parseInt(localStorage.getItem('val1'))
+        this.value2[1] = parseInt(this.$route.query.val2) || parseInt(localStorage.getItem('val2'));
         this.getData();
     },
     mounted () {
@@ -271,13 +271,13 @@ export default {
             if (strDate >= 0 && strDate <= 9) {
                 strDate = '0' + strDate;
             }
-            if (hours >= 1 && hours <= 9) {
+            if (hours >= 0 && hours <= 9) {
                 hours = '0' + hours;
             }
-            if (mins >= 1 && mins <= 9) {
+            if (mins >= 0 && mins <= 9) {
                 mins = '0' + mins;
             }
-            if (secs >= 1 && secs <= 9) {
+            if (secs >= 0 && secs <= 9) {
                 secs = '0' + secs;
             }
             var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
@@ -289,115 +289,26 @@ export default {
         getData () {
             this.inquiry = this.$route.query.inquiry;
             this.nam = this.$route.query.nam;
-            console.log(this.$route.query)
-            
+            var that = this
+            if(typeof(that.value2[0]) == 'number'){
+                var start_time = that.getDd(new Date(parseFloat(that.value2[0])))
+            }else{
+                var start_time = that.getDd(that.value2[0])
+            }
+            if(typeof(that.value2[1]) == 'number'){
+                var end_time = that.getDd(new Date(parseFloat(that.value2[1])))
+            }else{
+                var end_time = that.getDd(this.value2[1])
+            }
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
-                start: this.getDd(new Date(parseFloat(this.value2[0]))),
-                end: this.getDd(new Date(parseFloat(this.value2[1]))),
-                uid: this.inquiry
+                start: start_time,
+                end: end_time,
+                uid: that.inquiry
             };
             console.log(this);
             this.$axios.post(this.localhost + '/api/coach/web/physical/examination/detail/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
-                    // var res = 
-                // {
-                //     "msg": "ok",
-                //     "code": "200",
-                //     "data": 
-                //         [
-                //             {
-                //                 "date": "20180811",
-                //                 "ka": "10",
-                //                 "kb": "20",
-                //                 "kc": "10",
-                //                 "kd": "10",
-                //                 "ke": "10",
-                //                 "kf": "10",
-                //                 "kg": "10",
-                //                 "kh": "10",
-                //                 "ki": "10",
-                //                 "kj": "10",
-                //                 "kk": "10",
-                //                 "kl": "10",
-                //                 "km": "10",
-                //                 "kn": "10",
-                //                 "ko": "10",
-                //             },
-                //             {
-                //                 "date": "20180812",
-                //                 "ka": "20",
-                //                 "kb": "40",
-                //                 "kc": "20",
-                //                 "kd": "20",
-                //                 "ke": "20",
-                //                 "kf": "20",
-                //                 "kg": "20",
-                //                 "kh": "20",
-                //                 "ki": "20",
-                //                 "kj": "20",
-                //                 "kk": "20",
-                //                 "kl": "20",
-                //                 "km": "20",
-                //                 "kn": "20",
-                //                 "ko": "20",
-                //             },
-                //             {
-                //                 "date": "20180813",
-                //                 "ka": "30",
-                //                 "kb": "60",
-                //                 "kc": "30",
-                //                 "kd": "30",
-                //                 "ke": "30",
-                //                 "kf": "30",
-                //                 "kg": "30",
-                //                 "kh": "30",
-                //                 "ki": "30",
-                //                 "kj": "30",
-                //                 "kk": "30",
-                //                 "kl": "30",
-                //                 "km": "30",
-                //                 "kn": "30",
-                //                 "ko": "30",
-                //             },
-                //             {
-                //                 "date": "20180814",
-                //                 "ka": "40",
-                //                 "kb": "80",
-                //                 "kc": "40",
-                //                 "kd": "40",
-                //                 "ke": "40",
-                //                 "kf": "40",
-                //                 "kg": "40",
-                //                 "kh": "40",
-                //                 "ki": "40",
-                //                 "kj": "40",
-                //                 "kk": "40",
-                //                 "kl": "40",
-                //                 "km": "40",
-                //                 "kn": "40",
-                //                 "ko": "40",
-                //             },
-                //             {
-                //                 "date": "20180815",
-                //                 "ka": "50",
-                //                 "kb": "100",
-                //                 "kc": "50",
-                //                 "kd": "50",
-                //                 "ke": "50",
-                //                 "kf": "50",
-                //                 "kg": "50",
-                //                 "kh": "50",
-                //                 "ki": "50",
-                //                 "kj": "50",
-                //                 "kk": "50",
-                //                 "kl": "50",
-                //                 "km": "50",
-                //                 "kn": "50",
-                //                 "ko": "50",
-                //             }
-                //         ]
-                // }
                     console.log(res.data.data);
                     var xbox = res.data.data;
                     var prp = []
@@ -405,6 +316,9 @@ export default {
                     this.formThead = []
                     var yby
                     //canvas
+                    var c=document.getElementById("yzycan");
+                    var cxt=c.getContext("2d")
+                    cxt.clearRect(0,0,c.width,c.height)
                     var d = document.getElementById('yzycan');
                     var lcl = d.getContext('2d');
                     var ck = 1
