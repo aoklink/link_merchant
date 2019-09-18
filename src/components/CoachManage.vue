@@ -160,7 +160,7 @@
                                                             <polygon points="0,0 300,0" style="fill:#E1E3E8;stroke:#E1E3E8;stroke-width:1" />
                                                         </svg>
                                                     </span>
-                                                    {{ coach.user_name }}
+                                                    {{ decodeURIComponent(coach.user_name.replace(/\+/g, '%20')) }}
                                                 </el-radio>
                                             </div>
                                         </el-row>
