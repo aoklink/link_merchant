@@ -33,7 +33,7 @@
                                             class=""
                                             v-for="(item, index) in coalist"
                                             :key="index"
-                                            :label="decodeURIComponent(item.replace(/\+/g, '%20'))"
+                                            :label="item"
                                         ></el-checkbox>
                                     </el-checkbox-group>
                                 </template>
@@ -58,7 +58,7 @@
                     <el-table-column prop="user_name" label="学员昵称">
                         <template slot-scope="scope">
                             <div>
-                                 {{decodeURIComponent(tableData[scope.$index].user_name.replace(/\+/g, '%20'))}}
+                                 {{tableData[scope.$index].user_name}}
                             </div>
                         </template>
                     </el-table-column>
@@ -67,7 +67,7 @@
                     <el-table-column prop="coach_name" label="教练姓名">
                         <template slot-scope="scope">
                             <div type="text">
-                                {{ decodeURIComponent(tableData[scope.$index].coach_name.replace(/\+/g, '%20'))}}
+                                {{ tableData[scope.$index].coach_name}}
                             </div>
                         </template>
                     </el-table-column>
@@ -289,6 +289,8 @@ export default {
                     this.tableData = []
                     for(var i=0;i<this.checkList.length;i++){
                         for(var j=0;j<this.coaar.length;j++){
+                            console.log(this.coaar[j].coach_name)
+                            console.log(this.checkList[i])
                             if(this.coaar[j].coach_name==this.checkList[i]){
                                 this.tableData.push(this.coaar[j])
                             }
@@ -296,9 +298,13 @@ export default {
                     }
                 }
                 if(this.checkList.length==1){
+                    console.log(this.checkList)
+                    console.log(this.coaar)
                     this.kval = this.checkList[0]
                     this.tableData = []
                     for(var i=0;i<this.coaar.length;i++){
+                        console.log(this.coaar[i].coach_name)
+                        console.log(this.checkList[i])
                         if(this.coaar[i].coach_name==this.checkList[0]){
                             this.tableData.push(this.coaar[i])
                         }
@@ -366,91 +372,13 @@ export default {
             };
             this.$axios.post(this.localhost + '/api/coach/web/physical/examination/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
-                    // var res = 
-// {
-//     "msg": "ok",
-//     "code": "200",
-//     "data": 
-//         [
-//             {
-//                 "studentName": "张泉眼1",
-//                 "uid": "1332332323232",
-//                 "cellNum": "13399889988",
-//                 "coachName": "教练壹号",
-//                 "classNum": "12",
-//                 "ka": "10%",
-//                 "kaa": "1%",
-//                 "kb": "11%",
-//                 "kbb": "2%",
-//                 "kc": "12%",
-//                 "kcc": "3%",
-//                 "kd": "13%",
-//                 "kdd": "4%",
-//                 "ke": "14%",
-//                 "kee": "5%",
-//                 "kf": "15%",
-//                 "kff":  "6%",
-//                 "kg": "16%",
-//                 "kgg": "7%",
-//                 "kh": "17%",
-//                 "khh": "8%",
-//                 "ki": "18%",
-//                 "kii": "9%",
-//                 "kj": "19%",
-//                 "kjj": "12%",
-//                 "kk": "20%",
-//                 "kkk": "20%",
-//                 "kl": "21%",
-//                 "kll": "21%",
-//                 "km": "22%",
-//                 "kmm": "22%",
-//                 "kn": "23%",
-//                 "knn": "23%",
-//                 "ko": "24%",
-//                 "koo": "24%",
-//             },
-//             {
-//                 "studentName": "张泉眼1",
-//                 "uid": "1332332323232",
-//                 "cellNum": "13399889988",
-//                 "coachName": "教练壹号",
-//                 "classNum": "12",
-//                 "ka": "10%",
-//                 "kaa": "1%",
-//                 "kb": "11%",
-//                 "kbb": "2%",
-//                 "kc": "12%",
-//                 "kcc": "2%",
-//                 "kd": "13%",
-//                 "kdd": "2%",
-//                 "ke": "11%",
-//                 "kee": "2%",
-//                 "kf": "11%",
-//                 "kff":  "2%",
-//                 "kg": "11%",
-//                 "kgg": "2%",
-//                 "kh": "11%",
-//                 "khh": "2%",
-//                 "ki": "11%",
-//                 "kii": "2%",
-//                 "kj": "11%",
-//                 "kjj": "2%",
-//                 "kk": "11%",
-//                 "kkk": "2%",
-//                 "kl": "11%",
-//                 "kll": "2%",
-//                 "km": "11%",
-//                 "kmm": "2%",
-//                 "kn": "11%",
-//                 "knn": "2%",
-//                 "ko": "11%",
-//                 "koo": "2%",
-//             }
-//         ]
-// }
                     console.log(res.data);
                     var ybx=[["体重"],["体脂率"],["骨骼肌"],["胸围"],["腰围"],["臀围"],["肩宽"],["身高"],["BMI"],["上臀围(左)"],["上臀围(右)"],["大腿围(左)"],["大腿围(右)"],["小腿围(左)"],["小腿围(右)"]]
                     var xbox = res.data.data;
+                    for(var i = 0; i < xbox.length; i++){
+                        xbox[i].coach_name = decodeURIComponent(xbox[i].coach_name.replace(/\+/g, '%20'))
+                        xbox[i].user_name = decodeURIComponent(xbox[i].user_name.replace(/\+/g, '%20'))
+                    }
                     var prp = []
                     this.col = []
                     this.formThead = []
@@ -541,6 +469,9 @@ export default {
             this.$axios.post(this.localhost + '/api/coach/web/gym/coach/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                    this.coalist = res.data.data
+                   for(var i=0;i<this.coalist.length;i++){
+                       this.coalist[i] = decodeURIComponent(this.coalist[i].replace(/\+/g, '%20'))
+                   }
                 })
                 .catch((res) => {
                     console.log(res);
