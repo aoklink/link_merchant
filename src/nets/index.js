@@ -29,7 +29,11 @@ axios.interceptors.response.use(
                 break;
             }
             mes = mes || res.message;
-            return Promise.reject(mes);
+            if(mes == "access denied on /api/platform/gym_info/get_me"){
+                return Promise.reject("对不起,请输入正确的账号密码");
+            }else{
+                return Promise.reject(mes);
+            }
         } else {
             return response;
         }

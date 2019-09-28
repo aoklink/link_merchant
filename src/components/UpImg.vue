@@ -205,13 +205,11 @@
     
     
   }
-  .oper-dv {
+   .oper-dv {
       height:20px;
       text-align:right;
       margin-right:100px;
-      
     }
-
   a {
         font-weight: 500;
         
@@ -272,3 +270,8 @@
         margin-left: 40px;
       }
 </style>
+ 
+ <style scoped>
+
+ </style>
+ 

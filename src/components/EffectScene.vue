@@ -91,10 +91,10 @@
                     </el-table-column>
                     <el-table-column label="操作" align="center" width=200>
                         <template slot-scope="scope">
-                            <router-link class="bb" :to="{ path: '/exchart', query: { inquiry: tableData[scope.$index].uid, nam: tableData[scope.$index].user_name,val1: value2[0],val2: value2[1].getTime()}}">
+                            <router-link class="bb" :to="{ path: '/exchart', query: { inquiry: tableData[scope.$index].uid, nam: tableData[scope.$index].user_name,val1: value_pre,val2: value2[1].getTime()}}">
                                 查看数据
                             </router-link>
-                            <router-link class="dels" :to="{ path: '/photoshop', query: { inquiry: tableData[scope.$index].uid, nam: tableData[scope.$index].user_name,val1: value2[0],val2: value2[1].getTime()}}">
+                            <router-link class="dels" :to="{ path: '/photoshop', query: { inquiry: tableData[scope.$index].uid, nam: tableData[scope.$index].user_name,val1: value_pre,val2: value2[1].getTime()}}">
                                 查看照片
                             </router-link>
                         </template>
@@ -156,6 +156,7 @@ export default {
             // url: './static/vuetable.json',
             url: this.localhost + '/api/platform/members',
             tableData: [],
+            value_pre: '',
             yybox: {},
             ttbox: [],
             inquiry: '',
@@ -258,6 +259,15 @@ export default {
 
     },
     updated () {
+        console.log(this.value2[0])
+        var that = this
+        if(typeof(that.value2[0]) == 'number'){
+            that.value_pre = that.value2[0]
+            console.log(value_pre)
+        }else{
+            that.value_pre = that.value2[0].getTime()
+            console.log(value_pre)
+        }
         console.log(this.checkList)
         if(this.checkList.length>1 && this.checkList.length<this.coalist.length){
             this.kval = this.checkList[0]+'...'

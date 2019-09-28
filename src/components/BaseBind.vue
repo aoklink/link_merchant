@@ -708,7 +708,7 @@ export default {
 </script>
 
 <style>
-    .my-autocomplete{
+    /* .my-autocomplete{
         position: fixed;
         left: 50% !important;
         transform: translateX(-50%) !important;
@@ -1108,10 +1108,7 @@ export default {
     }
     .el-autocomplete-suggestion{
         width: 13rem !important;
-    }
-    /* .my-autocomplete{
-        width: 500px !important;
-    } */
+    }*/
 </style>
 
 <style scoped>

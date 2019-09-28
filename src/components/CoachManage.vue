@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="content tabbox">
         <el-tabs v-model="editableTabsValue" type="card" closable
                  @tab-remove="removeTab"
         >
@@ -9,7 +9,7 @@
                 :label="item.title"
                 :name="item.name"
                 :closable="item.closable"
-                :lazy="true"
+                :lazy="false"
             >
                 <!-- 教练管理 -->
                 <div v-if="item.type === 1" class="table">
@@ -288,6 +288,8 @@
                                     <span>教练手机号</span>
                                     <input v-model="coachPhoneToAdd" type="text" placeholder="请输入手机号">
                                 </div>
+                                <div class="bd_tit">教练需要在平板端先注册账号
+</div>
                             </div>
                             <div class="bdbt">
                                 <span @click="addCoachVisible=false">取消</span>
@@ -1158,6 +1160,9 @@ export default {
   font-family: 'DINEngschriftStd';
   src: local('DINEngschriftStd'), url('../assets/DIN1451Std Engschrift.TTF') format('truetype');
 }
+.tabbox .el-tabs__item.is-active{
+    color: #3c4456;
+}
 a{
     cursor:pointer;
 }
@@ -1798,7 +1803,6 @@ tbody tr td:last-child .cell button span{
     left: 30px;
 }
 .el-row--flex.is-justify-space-between{
-    padding: 0 46px 14px 30px;
     position: relative;
 }
 .el-row--flex.is-justify-space-between .el-checkbox .el-checkbox__input span{
@@ -1984,7 +1988,7 @@ tbody tr td:last-child .cell button span{
     height: 300px;
 }
 .bdmd{
-    height: 103px;
+    height: 127px;
 }
 .svgd{
     display: inline-block;
@@ -2036,5 +2040,11 @@ tbody tr td:last-child .cell button span{
 }
 .thabb{
     height: 485px;
+}
+.bd_tit{
+    text-align: center;
+    height: 56px;
+    line-height: 56px;
+    color: rgba(191,196,209,1);
 }
 </style>

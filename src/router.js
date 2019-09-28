@@ -11,7 +11,6 @@ import BaseInfo from './components/BaseInfo.vue';
 import Exchart from './components/Exchart.vue';
 import PhotoShop from './components/PhotoShop.vue';
 import CoachManage from './components/CoachManage.vue';
-import Pp from './components/Pp.vue';
 import AccountManagement from './components/AccountManagement.vue';
 import Battery from './components/Battery.vue';
 
@@ -149,16 +148,6 @@ const router = new Router({
             name: 'baseaccount',
             path: '/BaseAccount',
             component: AccountManagement,
-            displayName: '账户管理',
-            meta: {
-                requiresAuth: true,
-                keepAlive: true
-            }
-        },
-        {
-            name: 'pp',
-            path: '/Pp',
-            component: Pp,
             displayName: '账户管理',
             meta: {
                 requiresAuth: true,

@@ -41,6 +41,7 @@
                     <span :style="{color:(parseFloat(form.weight_dif)>=0?'#FF6464':'#27C986')}">{{form.kco}}</span>
                 </div>
                 <div class="probox" v-if="visibb==true">
+                    <div class="secnum">选择显示数值</div>
                     <span>体脂率</span>
                     <span>{{form.bfr}}%</span>
                     <span :style="{color:(parseFloat(form.bfr_dif)>=0?'#FF6464':'#27C986')}">{{form.kao}}</span>
@@ -65,6 +66,7 @@
                     </div>
                 </div>
                 <div class="imgbox" v-if="visibb==true">
+                    <div class="secnumb">选择生成图素材</div>
                     <div class="secimg" 
                         v-for="(item, index) in imgList"
                         :key="index"
@@ -116,17 +118,16 @@
                 </div>
             </div>
         </div>
-        <div class="bcby" v-if="showimg">
-            <div class="bboq">
-                <canvas id="canvas" width="374" height="527"></canvas>
-                <img id="imgkk">
-                <a class="bbtn" download :href="npc" @click="showimg=false">保存至电脑</a>
-                <div class="exit" @click="clle">点击取消</div>
-            </div>
-        </div>
         <!-- 裁剪 -->
         <div class="box" v-if='osvisi'>
-            <div class="llff">
+            <div class="bboq" v-if='showimg'>
+                <div class="cb_td">生成对比照(3/3)</div>
+                <canvas id="canvas" width="374" height="527"></canvas>
+                <img id="imgkk">
+                <a class="bbtn" download :href="npc" @click="showimg=false;osvisi=false">保存至电脑</a>
+                <div class="exit" @click="clle">点击取消</div>
+            </div>
+            <div class="llff" style="display:none;">
                 <div class="lltit">点击选择裁剪图片</div>
                 <div class="llup" :style="{ 'background': 'url(' + srca + ') no-repeat center'}" 
                     @click="pssec(0)"
@@ -139,44 +140,51 @@
             <!-- <label class="btn btn-orange" for="uploads" style="display:inline-block;width: 70px;padding: 0;text-align: center;line-height: 28px;">选择图片</label> -->
             <!-- <input type="file" id="uploads" :value="imgFile" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 1)"> -->
             <!-- <input type="button" class="btn btn-blue" value="上传头像" @click="finish('blob')"> -->
-            <div class="line" style="margin-left: -280px;margin-top: 85px;">
+            <div class="line" style="margin-top: 85px;">
                 <div class="cropper-content" style="margin-top:-60px;">
-                <div class="cropper">
-                    <vueCropper
-                    ref="cropper"
-                    :img="option.src"
-                    :outputSize="option.size"
-                    :outputType="option.outputType"
-                    :info="true"
-                    :full="option.full"
-                    :canMove="option.canMove"
-                    :canMoveBox="option.canMoveBox"
-                    :original="option.original"
-                    :autoCrop="option.autoCrop"
-                    :autoCropWidth="option.autoCropWidth"
-                    :autoCropHeight="option.autoCropHeight"
-                    :fixedBox="option.fixedBox"
-                    @realTime="realTime"
-                    @imgLoad="imgLoad"
-                    ></vueCropper>
+                <div class="cb_box" v-if='!showimg'>
+                    <div class="cb_ta">{{cb_ta}}</div>
+                    <div class="cb_tb">{{cb_tb}}</div>
+                    <div class="cropper">
+                        <vueCropper
+                        ref="cropper"
+                        :img="option.src"
+                        :outputSize="option.size"
+                        :outputType="option.outputType"
+                        :info="true"
+                        :full="option.full"
+                        :canMove="option.canMove"
+                        :canMoveBox="option.canMoveBox"
+                        :original="option.original"
+                        :autoCrop="option.autoCrop"
+                        :autoCropWidth="option.autoCropWidth"
+                        :autoCropHeight="option.autoCropHeight"
+                        :fixedBox="option.fixedBox"
+                        @realTime="realTime"
+                        @imgLoad="imgLoad"
+                        ></vueCropper>
+                    </div>
+                    <div v-if='blob_ok==0' class="cb_tc" @click="down('blob')">下一步</div>
+                    <div v-if='blob_ok==1' class="cb_tc" @click="downb('blob')">下一步</div>
+                    <!-- <div v:if='!blob_ok' class="cb_tc" @click="down('blob')">保存至电脑</div> -->
                 </div>
                 <div style="margin-left:20px;">
                     <div class="show-preview" :style="{'width': '187px', 'height':'360px',  'overflow': 'hidden', 'margin': '5px'}">
-                    <div :style="previews.div" class="preview">
+                    <div :style="previews.div" class="preview" style="visibility:hidden">
                         <img :src="previews.url" :style="previews.img">
                     </div>
                     </div>
                 </div>
                 </div>
             </div>
-            <input type="button" class="oper" style="height:20px;width:23px;font-size:10px;margin-left:300px;margin-top: 85px;" value="+" title="放大" @click="changeScale(1)">
+            <!-- <input type="button" class="oper" style="height:20px;width:23px;font-size:10px;margin-left:300px;margin-top: 85px;" value="+" title="放大" @click="changeScale(1)">
             <input type="button" class="oper" style="height:20px;width:23px;font-size:10px;" value="-" title="缩小" @click="changeScale(-1)">
             <input type="button" class="oper" style="height:20px;width:23px;font-size:10px;" value="↺" title="左旋转" @click="rotateLeft">
             <input type="button" class="oper" style="height:20px;width:23px;font-size:10px;" value="↻" title="右旋转" @click="rotateRight">
             <input type="button" class="oper osave" style="height:20px;width:53px;font-size:10px;" value="保存" title="保存" @click="down('blob')">
-            <span class="scs" @click="start">合成照片</span>
+            <span class="scs" @click="start">合成照片</span> -->
             </div>
-            <div class="rrff">
+            <div class="rrff" style="display:none;">
                 <div class="rrtit">素材图</div>
                 <div class="rrup" :style="{ 'background': 'url(' + srcc + ') no-repeat center'}"><span>1</span></div>
                 <div class="rrdo" :style="{ 'background': 'url(' + srcd + ') no-repeat center'}"><span>2</span></div>              
@@ -200,6 +208,9 @@ export default {
             tableData: [],
             yybox: {},
             aac: 2,
+            cb_ta: '生成对比照(1/3)',
+            cb_tb: '裁剪第一张照片',
+            blob_ok: -1,
             minc: 1,
             bbc: 2,
             ttbox: [],
@@ -342,8 +353,10 @@ export default {
     methods: {
         //点击取消，画布清空
         clle () {
+            console.log(99)
             this.clearCanvas()
             this.showimg = false
+            this.osvisi = false
         },
         clearCanvas () {  
             var c=document.getElementById("canvas");  
@@ -359,7 +372,7 @@ export default {
                 this.$message.error(`请裁剪保存2号图片`);
                 return
             }
-            this.osvisi = false
+            // this.osvisi = false
             this.showimg=true
             var that =this
             setTimeout(function(){
@@ -439,6 +452,45 @@ export default {
         //下载图片
         down(type) { 
             console.log('down')
+            var that = this
+            var aLink = document.createElement('a') 
+            aLink.download = 'author-img' 
+            if (type === 'blob') { 
+                this.$refs.cropper.getCropBlob((data) => { 
+                    this.downImg = window.URL.createObjectURL(data)
+                    aLink.href = window.URL.createObjectURL(data) 
+                    console.log(this.pscur)
+                    if(this.pscur == 0){
+                        console.log(0)
+                        this.srcc = aLink.href
+                    }else{
+                        console.log(1)
+                        this.srcd = aLink.href
+                    }
+                    that.blob_ok = 1
+                    that.cb_ta = '生成对比照（2/3）'
+                    that.cb_tb = '裁剪第二张照片'
+                    console.log(that.blob_ok)
+                    that.option.src = that.srcb
+                    that.pscur = 1
+                    // aLink.click() 
+                }) 
+            } else { 
+                this.$refs.cropper.getCropData((data) => { 
+                    this.downImg = data;
+                    aLink.href = data; 
+                    if(this.pscur == 0){
+                        this.srcc = aLink.href
+                    }else{
+                        this.srcd = aLink.href
+                    }
+                    // aLink.click() 
+                }) 
+            } 
+        }, 
+        downb(type) { 
+            var that = this
+            console.log('downb')
             var aLink = document.createElement('a') 
             aLink.download = 'author-img' 
             if (type === 'blob') { 
@@ -453,6 +505,9 @@ export default {
                     console.log(1)
                     this.srcd = aLink.href
                 }
+                that.blob_ok = -1
+                that.showimg = true
+                that.start()
                 
                 // aLink.click() 
             }) 
@@ -465,9 +520,13 @@ export default {
                 }else{
                     this.srcd = aLink.href
                 }
+                that.blob_ok = -1
+                that.showimg = true
+                that.start()
                 // aLink.click() 
             }) 
             } 
+            this.blob_ok = 2  
         }, 
         //选择本地图片
         uploadImg(e, num) { 
@@ -514,15 +573,22 @@ export default {
             this.srcd = ''
             this.osvisi = true
             var that = this
+            that.blob_ok = 0
+            console.log(that.imgsta)
+            console.log(this.imgList)
             if(that.imgsta[0]>that.imgsta[1]){
-                this.srca = this.imgList[that.imgsta[1]].src
-                this.srcb = this.imgList[that.imgsta[0]].src
+                that.srca = that.imgList[that.imgsta[1]].src+"?"+new Date().getTime()
+                that.srcb = that.imgList[that.imgsta[0]].src+"?"+new Date().getTime()
+                console.log(that.srca)
+                console.log(that.srcb)
             }else{
-                this.srca = this.imgList[that.imgsta[0]].src
-                this.srcb = this.imgList[that.imgsta[1]].src
+                that.srca = that.imgList[that.imgsta[0]].src+"?"+new Date().getTime()
+                that.srcb = that.imgList[that.imgsta[1]].src+"?"+new Date().getTime()
+                console.log(that.srca)
+                console.log(that.srcb)
             }
-            // this.srcc = this.imgList[that.imgsta[0]].src
-            // this.srcd = this.imgList[that.imgsta[1]].src
+            // this.srca =  require('../assets/bbg.png')
+            // this.srcb = require('../assets/bbk.png')
             this.option.src = this.srca
             this.pscur = 0
             console.log(this.option.src)
@@ -564,17 +630,24 @@ export default {
             var ffb = this.imgsta[1]
             var ima =  new Image()
             // ima.src = this.imgList[ffa].src
+            ima.crossOrigin = "Anonymous";
+            // ima.src = this.srcc+"?"+new Date().getTime()
             ima.src = this.srcc
+            console.log(ima.src)
             var that = this
             ima.onload = function(){
+                console.log(ima.src)
                 // ctx.drawImage(ima,0,0,187,360,0,0,187,360)
                 ctx.drawImage(ima,0,0,187,360)
                 var imb =  new Image()
                 console.log(that.imgList[1])
                 // imb.src = that.imgList[ffb].src
+                imb.crossOrigin = "Anonymous";
+                // imb.src = that.srcd+"?"+new Date().getTime()
+                console.log(imb.src)
                 imb.src = that.srcd
                 imb.onload = function(){
-                    console.log(that.checkListc)
+                    console.log(imb.src)
                     // ctx.drawImage(imb,0,0,187,360,187,0,187,360)
                     ctx.drawImage(imb,187,0,187,360)
                     // if(that.checkListc.length==1){
@@ -1328,7 +1401,7 @@ export default {
     }
     .probox .el-checkbox-group{
         position: absolute;
-        top: 20px;
+        top: 37px;
     }
     .probox .el-checkbox:nth-of-type(1){
         position: absolute;
@@ -1345,6 +1418,20 @@ export default {
 </style>
 
 <style scoped>
+    .secnum{
+        height: 30px;
+        line-height: 30px;
+        font-size: 13px;
+        text-indent: 20px;
+    }
+    .secnumb{
+        height: 20px;
+        line-height: 20px;
+        font-size: 13px;
+        text-indent: 8px;
+        position: absolute;
+        top: -30px;
+    }
     .handle-box {
         margin-bottom: 20px;
     }
@@ -1674,7 +1761,7 @@ export default {
     }
     .probox{
         width: 100%;
-        height: 110px;
+        height: 125px;
         position: relative;
     }
     .probox span:nth-of-type(1){
@@ -1687,7 +1774,7 @@ export default {
         line-height:17px;
         display: inline-block;
         left: 28px;
-        top: 20px;
+        top: 35px;
     }
     .probox span:nth-of-type(4){
         position: absolute;
@@ -1699,7 +1786,7 @@ export default {
         line-height:17px;
         display: inline-block;
         left: 184px;
-        top: 20px;
+        top: 35px;
     }
     .probox span:nth-of-type(7){
         position: absolute;
@@ -1711,7 +1798,7 @@ export default {
         line-height:17px;
         display: inline-block;
         left: 355px;
-        top: 20px;
+        top: 35px;
     }
     .probox span:nth-of-type(2){
         height:29px;
@@ -1722,7 +1809,7 @@ export default {
         line-height:29px;
         position: absolute;
         left: 28px;
-        top: 42px;
+        top: 57px;
     }
     .probox span:nth-of-type(5){
         height:29px;
@@ -1733,7 +1820,7 @@ export default {
         line-height:29px;
         position: absolute;
         left: 183px;
-        top: 42px;
+        top: 57px;
     }
     .probox span:nth-of-type(8){
         height:29px;
@@ -1744,7 +1831,7 @@ export default {
         line-height:29px;
         position: absolute;
         left: 355px;
-        top: 42px;
+        top: 57px;
     }
     .probox span:nth-of-type(3){
         height:16px;
@@ -1755,7 +1842,7 @@ export default {
         line-height:16px;
         position: absolute;
         left: 90px;
-        top: 53px;
+        top: 68px;
     }
     .probox span:nth-of-type(6){
         height:16px;
@@ -1766,7 +1853,7 @@ export default {
         line-height:16px;
         position: absolute;
         left: 256px;
-        top: 53px;
+        top: 68px;
     }
     .probox span:nth-of-type(9){
         height:16px;
@@ -1777,16 +1864,17 @@ export default {
         line-height:16px;
         position: absolute;
         left: 427px;
-        top: 53px;
+        top: 68px;
     }
     .imgbox{
         float: left;
         margin-left: 13px;
+        position: relative;
     }
     .secimg{
         width:150px;
         height:200px;
-        border:3px solid rgba(48,92,217,1);
+        border:3px solid transparent;
         box-sizing: border-box;
         float: left;
         margin-right: 10px;
@@ -1800,11 +1888,11 @@ export default {
     }
     .secin{
         position: absolute;
-        left: 13px;
+        right: 13px;
         top: 11px;
         width: 22px;
         height: 22px;
-        border-radius: 50%;
+        border-radius: 3px;
         background: #D6D6D6;
         color: #fff;
         text-align: center;
@@ -1854,7 +1942,7 @@ export default {
     }
     .bboq{
         width:508px;
-        height:650px;
+        height:729px;
         background:rgba(51,60,77,1);
         position: absolute;
         top: 50%;
@@ -1874,7 +1962,7 @@ export default {
         background:rgba(255,192,1,1);
         border-radius:2px;
         position: absolute;
-        bottom: 20px;
+        top: 653px;
         left: 50%;
         transform: translateX(-50%);
         font-size:12px;
@@ -1890,7 +1978,7 @@ export default {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        top: 35px;
+        top: 79px;
     }
     .info {
     width: 720px;
@@ -1943,10 +2031,16 @@ export default {
     display: -webkit-flex;
     justify-content: flex-end;
     -webkit-justify-content: flex-end;
+    height: 0;
   }
   .cropper{
-      width: 460px;
-      height: 460px;
+    position: absolute;
+    width: 345px;
+    height: 452px;
+    left: 50%;
+    transform: translateX(-50%); 
+    box-sizing: border-box;
+    top: 130px;
     }
   .show-preview{
       flex: 1;
@@ -1973,11 +2067,14 @@ export default {
     bottom: 0;
     left: 0;
     margin: 0 auto;
-    background: rgba(255,255,255,1);
+    background:rgba(60,68,86,.2);
 }
 .handle{
-  width: 830px;
-  float: left;
+    width: 830px;
+    float: left;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .llff{
   float: left;
@@ -2079,14 +2176,80 @@ export default {
 }
 .exit{
     position: absolute;
-    right: -151px;
-    top: 63px;
+    right: 20px;
+    top: 23px;
     background: #305CD9;
     color: #fff;
     text-align: center;
-    line-height: 30px;
+    line-height: 31px;
     height: 30px;
     font-size: 16px;
     width: 90px;
+    z-index: 1000;
+}
+.cb_box{
+    width:508px;
+    height:729px;
+    background: #fff;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.cb_ta{
+    height:25px;
+    font-size:18px;
+    font-family:PingFangSC-Medium,PingFangSC;
+    font-weight:500;
+    color:rgba(0,0,0,1);
+    line-height:25px;
+    position: absolute;
+    top: 33px;
+    left: 37px;
+}
+.cb_tb{
+    width:100%;
+    text-align: center;
+    height:20px;
+    font-size:14px;
+    font-family:PingFangSC-Medium,PingFangSC;
+    font-weight:500;
+    color:rgba(0,0,0,1);
+    line-height:20px;
+    top: 82px;
+    left: 0;
+    position: absolute;
+}
+.cb_tc{   
+    font-size:12px;
+    font-family:PingFangSC-Medium,PingFangSC;
+    font-weight:500;
+    color:rgba(60,68,86,1);
+    line-height:40px;
+    width:166px;
+    height:40px;
+    background:rgba(255,192,1,1);
+    border-radius:2px;
+    top: 639px;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+}
+.cb_td{
+    height:25px;
+    font-size:18px;
+    font-family:PingFangSC-Medium,PingFangSC;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:25px;
+    position: absolute;
+    top: 33px;
+    left: 37px;
+}
+.line{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 </style>
