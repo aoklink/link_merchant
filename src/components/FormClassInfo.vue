@@ -253,8 +253,11 @@ export default {
     .app-form-item.form-class-info-content{
         margin-top:.5rem;
         margin-right: 0!important;
-        width: 25rem;
+        width: 25.3rem;
         height: 5.56rem;
         box-sizing: border-box;
+    }
+    .app-form-item{
+        width: 12.1rem;
     }
 </style>

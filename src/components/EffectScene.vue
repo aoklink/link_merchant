@@ -81,7 +81,7 @@
                         >
                             <template slot-scope="scope">
                                 <div class="tbo">
-                                    <span>{{tableData[scope.$index].pro[item.ind][1]}}</span>
+                                    <span>{{tableData[scope.$index].pro[item.ind][1]>0?tableData[scope.$index].pro[item.ind][1]:'--'}}</span>
                                     <span :style="{color:(parseFloat(tableData[scope.$index].pro[item.ind][2])>=0?'#FF6464':'#27C986')}">{{tableData[scope.$index].pro[item.ind][3]}}</span>
                                 </div>
                             </template>

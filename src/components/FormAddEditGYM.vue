@@ -17,7 +17,7 @@
                                    placeholder="联系电话"
                             >
                         </div>
-                        <div class="app-form-item">
+                        <div class="app-form-item pad_do">
                             <label>所在城市</label>
                             <div class="select-group">
                                 <el-select v-model="formArea.province" placeholder="省">
@@ -37,7 +37,7 @@
                                 </el-select>
                             </div>
                         </div>
-                        <div class="app-form-item">
+                        <div class="app-form-item pad_do">
                             <label>标签</label>
                             <input v-model="formGYMInfo.label" autocomplete="false" type="text"
                                    placeholder="请输入标签，用空格隔开"
@@ -419,7 +419,7 @@ export default {
     .app-form-item.gym-info-address{
         margin: .5rem 0;
         margin-right: 0!important;
-        width: 25.44rem;
+        width: 25.3rem;
         box-sizing: border-box;
     }
     .form-add-store,.form-add-coach, .form-add-account{
@@ -459,3 +459,16 @@ export default {
         margin-left: .83rem;
     }
 </style>
+
+<style scoped>
+.app-form-item:nth-of-type(2n-1){
+    margin-bottom: .1rem;
+}
+.pad_do{
+    padding-bottom: .3rem;
+}
+.app-form-item{
+    width: 12.1rem;
+}
+</style>
+

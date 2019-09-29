@@ -6,6 +6,7 @@
                     店铺管理
                 </div>
                 <div class="celllist">
+                    日期选择
                     <template>
                         <div class="date_sec">
                             <el-date-picker
@@ -31,13 +32,13 @@
                 </div>
                 <div class="probox" v-if="visibb==false">
                     <span>体脂率</span>
-                    <span>{{form.bfr}}%</span>
+                    <span>{{form.bfr>0?form.bfr:'--'}}%</span>
                     <span :style="{color:(parseFloat(form.bfr_dif)>=0?'#FF6464':'#27C986')}">{{form.kao}}</span>
                     <span>骨骼肌</span>
-                    <span>{{form.skeletal_muscle}}kg</span>
+                    <span>{{form.skeletal_muscle>0?form.skeletal_muscle:'--'}}kg</span>
                     <span :style="{color:(parseFloat(form.skeletal_muscle_dif)>=0?'#FF6464':'#27C986')}">{{form.kbo}}</span>
                     <span>体重</span>
-                    <span>{{form.weight}}kg</span>
+                    <span>{{form.weight>0?form.weight:'--'}}kg</span>
                     <span :style="{color:(parseFloat(form.weight_dif)>=0?'#FF6464':'#27C986')}">{{form.kco}}</span>
                 </div>
                 <div class="probox" v-if="visibb==true">

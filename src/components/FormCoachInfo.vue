@@ -184,4 +184,13 @@ export default {
         margin-top: 1rem;
         text-align: center;
     }
+    .grey{
+        line-height: 0.54rem;
+    }
+    .plain{
+        line-height: 0.54rem;
+    }
+    .form-add-coach{
+        padding-top: .3rem; 
+    }
 </style>
