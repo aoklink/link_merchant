@@ -10,23 +10,11 @@
                 </div>
             </div>
             <div class="container">
-                <!-- <div class="handle-box">
-                    <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-                    <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
-                        <el-option key="1" label="广东省" value="广东省"></el-option>
-                        <el-option key="2" label="湖南省" value="湖南省"></el-option>
-                    </el-select>
-                    <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
-                    <el-button type="primary" icon="search" @click="search">搜索</el-button>
-                    <el-button type="primary" icon="search" @click="tadd">添加手环</el-button>
-                </div> -->
                 <el-table ref="multipleTable" :data="data" border
-                          class="table" @selection-change="handleSelectionChange"
+                          class="table table_list" @selection-change="handleSelectionChange"
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
-                    <el-table-column prop="ncc" label="会员编号"
-                                     style="color: red !important"
-                    />
+                    <!-- <el-table-column prop="id" label="会员编号"/> -->
                     <el-table-column prop="nick_name" label="昵称">
                         <template slot-scope="scope">
                             <div type="text">
@@ -41,11 +29,6 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <!-- <el-table-column prop="bind_time" label="上一次绑定时间" width="270">
-                        <template slot-scope="scope">
-                            <div type="text">{{getDd(new Date(parseInt(tableData[scope.$index].bind_time)))}}</div>
-                        </template>
-                    </el-table-column> -->
                     <el-table-column prop="bind_time" label="上一次绑定时间">
                         <template slot-scope="scope">
                             <div type="text">
@@ -63,10 +46,19 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <!-- <div class="pagination">
-                    <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                    </el-pagination>
-                </div> -->
+                <div class="page_list">
+                    <div class="pagination">
+                        <el-pagination background 
+                            @current-change="handleCurrentChange" 
+                            layout="prev, pager, next" 
+                            :total="pagep_total"
+                            :page-size="page_size"
+                            :pager-count="5"
+                            background
+                        >
+                        </el-pagination>
+                    </div>
+                </div>
             </div>
 
             <!-- 解绑弹出框 -->
@@ -161,8 +153,11 @@ export default {
                 bind_time: '',
                 uid: ''
             },
-            idx: -1
-        };
+            idx: -1,
+            page_num: 1,
+            page_size: 20,
+            pagep_total: 0
+        }
     },
     computed: {
         data () {
@@ -175,7 +170,7 @@ export default {
                     }
                 }
                 if (!is_del) {
-                    console.log(d);
+                    // console.log(d);
                     if (d.id.indexOf(this.select_cate) > -1) {
                         return d;
                     }
@@ -195,7 +190,7 @@ export default {
     methods: {
         // 分页导航
         handleCurrentChange (val) {
-            this.cur_page = val;
+            this.page_num = val;
             this.getData();
         },
         getDd: function (no) {
@@ -223,40 +218,27 @@ export default {
             // };
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
-                page: this.cur_page
+                page_num: this.page_num,
+                page_size: this.page_size
             };
             console.log(this);
             this.$axios.post(this.localhost + '/api/platform/members', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
-                    var xbox = res.data.data;
+                    this.pagep_total = parseInt(res.data.data.total)
+                    var xbox = res.data.data.list;
                     console.log(xbox);
                     // console.log(new Date(xbox[0].bind_time));
                     var aDiv = [];
                     for (var i = 0; i < xbox.length; i++) {
                         aDiv.push(xbox[i]);
                     }
-                    aDiv.sort(function (a, b) { return new Date(b.bind_time || 0) - new Date(a.bind_time || 0); });
-                    for (var i = 0; i < aDiv.length; i++) {
-                        aDiv[i].ncc = (i + 1);
-                    }
+                    // aDiv.sort(function (a, b) { return new Date(b.bind_time) - new Date(a.bind_time)});
+                    // for (var i = 0; i < aDiv.length; i++) {
+                    //     aDiv[i].ncc = (i + 1)+(this.page_num-1)*this.page_size;
+                    // }
                     console.log(aDiv);
                     this.tableData = aDiv;
-                    // console.log(this.tableData.filter((d) => {
-                    //     let is_del = false;
-                    //     for (let i = 0; i < this.del_list.length; i++) {
-                    //         if (d.id === this.del_list[i].id) {
-                    //             is_del = true;
-                    //             break;
-                    //         }
-                    //     }
-                    //     if (!is_del) {
-                    //         console.log(d);
-                    //         if (d.id.indexOf(this.select_cate) > -1) {
-                    //             return d;
-                    //         }
-                    //     }
-                    // }));
                 })
                 .catch((res) => {
                     console.log(res);
@@ -468,10 +450,6 @@ export default {
         box-sizing: content-box !important;
     }
     .el-table--small td{
-        font-size:14px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(48,56,73,1);
         font-size:12px;
         font-family:PingFangSC-Medium;
         font-weight:500;
@@ -486,8 +464,6 @@ export default {
     .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
         padding-left: 30px;
         box-sizing: border-box;
-    }
-    .has-gutter tr{
     }
     .el-table__row .cell{
         width: 130px;
@@ -514,7 +490,38 @@ export default {
     }
     .el-table__body-wrapper{
         overflow: overlay !important;
-        height: 435px !important;
+        height: calc(100% - 50px) !important;
+    }
+    .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li{
+        background-color: white !important;
+        margin-top: 12px !important;
+    }
+    .el-pagination.is-background .el-pager li:not(.disabled).active{
+        color: #fff !important;
+        background: #4F8CFF !important;
+    }
+    .pagination{
+        display: inline-block;
+        float: right;
+    }
+    .content{
+        background: #F6F7F8;
+        height: 100%;
+        box-sizing: border-box;
+        padding-bottom: 75px;
+    }
+    .table{
+        width: 100%;
+        font-size: 14px;
+        height: 100%;
+    }
+    .table_list{
+        height: 100%;
+    }
+    .container{
+        border-radius: 0;
+        padding: 0;
+        height: calc(100% - 106px);
     }
 </style>
 
@@ -534,10 +541,6 @@ export default {
     .del-dialog-cnt{
         font-size: 16px;
         text-align: center
-    }
-    .table{
-        width: 100%;
-        font-size: 14px;
     }
     .red{
         color: #ff0000;
@@ -580,10 +583,6 @@ export default {
         font-family:PingFangSC-Medium;
         font-weight:500;
         color:rgba(60,68,86,1);
-    }
-    .container{
-        border-radius: 0;
-        padding: 0;
     }
     .aa{
         background: #5780FF;
@@ -654,11 +653,10 @@ export default {
         color:#3C4456;
         font-family:PingFangSC-Medium;
     }
-    .table{
-        height: 550px;
-    }
     .content{
         background: #F6F7F8;
-        height: 670px;
+        height: 100%;
+        box-sizing: border-box;
+        padding-bottom: 75px;
     }
 </style>

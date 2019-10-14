@@ -10,18 +10,8 @@
                 </div>
             </div>
             <div class="container">
-                <!-- <div class="handle-box">
-                    <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-                    <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
-                        <el-option key="1" label="广东省" value="广东省"></el-option>
-                        <el-option key="2" label="湖南省" value="湖南省"></el-option>
-                    </el-select>
-                    <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
-                    <el-button type="primary" icon="search" @click="search">搜索</el-button>
-                    <el-button type="primary" icon="search" @click="tadd">添加手环</el-button>
-                </div> -->
                 <el-table ref="multipleTable" :data="data" border
-                          class="table" @selection-change="handleSelectionChange"
+                          class="table table_list" @selection-change="handleSelectionChange"
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
                     <el-table-column prop="id" label="手环编号"
@@ -33,23 +23,6 @@
                     <el-table-column prop="batteryStr" label="电量"
                                      style="color: red !important"
                     />
-                    <!--
-                    <el-table-column prop="uwb_id" label="配置uwb">
-                        <template slot-scope="scope">
-                            <div type="text">
-                                {{ tableData[scope.$index].status == 1?tableData[scope.$index].uwb_id:'-' }}
-                            </div>
-                        </template>
-                    </el-table-column>
-
-                    -->
-                    <!-- <el-table-column prop="status" label="状态" width="150">
-                        <template slot-scope="scope">
-                            <div type="text" :class="tableData[scope.$index].status == 1?'aa':'bb'">
-                                {{ tableData[scope.$index].status == 1?'使用中':'空闲' }}
-                            </div>
-                        </template>
-                    </el-table-column> -->
                     <el-table-column prop="user_name" label="领取会员">
                         <template slot-scope="scope">
                             <div type="text">
@@ -82,10 +55,19 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <!-- <div class="pagination">
-                    <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                    </el-pagination>
-                </div> -->
+                <div class="page_list">
+                    <div class="pagination">
+                        <el-pagination background 
+                            @current-change="handleCurrentChange" 
+                            layout="prev, pager, next" 
+                            :total="pagep_total"
+                            :page-size="page_size"
+                            :pager-count="5"
+                            background
+                        >
+                        </el-pagination>
+                    </div>
+                </div>
             </div>
 
             <!-- 解绑弹出框 -->
@@ -174,6 +156,7 @@
                                         placeholder="请输入会员手机号"
                                         :trigger-on-focus="true"
                                         @select="handleSelect"
+                                        v-on:input="find(state2)"
                                     >
                                         <template slot-scope="props" width="400">
                                             <div class="name">
@@ -191,26 +174,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 删除提示框 -->
-            <!-- <el-dialog title="提示" :visible.sync="delVisible" width="300px"
-                    center
-            >
-                <el-form ref="form" :model="form" label-width="50px">
-                    <el-form-item label="手环">
-                        <div v-model="form.bracelet_id">
-                            {{ form.bracelet_id }}
-                        </div>
-                    </el-form-item>
-                </el-form>
-                <div class="del-dialog-cnt">
-                    删除不可恢复，是否确定删除？
-                </div>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="delVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="deleteRow">确 定</el-button>
-                </span>
-            </el-dialog> -->
             <div v-if="delVisible" class="bindlog">
                 <div class="unbindbox">
                     <div class="ubdup">
@@ -287,7 +250,10 @@ export default {
             restaurants: [],
             state1: '',
             state2: '',
-            des: ['']
+            des: [''],
+            page_num: 1,
+            page_size: 20,
+            pagep_total: 0
         };
     },
     computed: {
@@ -301,7 +267,6 @@ export default {
                     }
                 }
                 if (!is_del) {
-                    console.log(d);
                     if (d.bracelet_id.indexOf(this.select_cate) > -1) {
                         return d;
                     }
@@ -311,13 +276,25 @@ export default {
     },
     created () {
         this.getData();
-        var that = this;
-        this.dataList = [];
-        let datt = {
-            gym_name: global.gym_name || localStorage.getItem('gym_name'),
-            page: this.cur_page
-        };
-        this.$axios.post(this.localhost + '/api/platform/members', JSON.stringify(datt), {headers: {'Content-Type': 'application/json;charset=UTF-8'}})
+    },
+    mounted () {
+        // this.restaurants = this.loadAll();
+        console.log(this.restaurants);
+    },
+    updated () {
+        console.log(this.del_list);
+    },
+    methods: {
+        find (val) {
+            console.log(val)
+            var val_zn = val
+            var that = this;
+            this.dataList = [];
+            let datt = {
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
+                text: encodeURIComponent(val)
+            };
+            this.$axios.post(this.localhost + '/api/platform/members/lenovo', JSON.stringify(datt), {headers: {'Content-Type': 'application/json;charset=UTF-8'}})
             .then((res) => {
                 if (res.data.code == 200) {
                     console.log(res.data.data);
@@ -325,7 +302,6 @@ export default {
                     for (var i = 0; i < res.data.data.length; i++) {
                         aDiv.push(res.data.data[i]);
                     }
-                    aDiv.sort(function (a, b) { return new Date(b.bind_time || 0) - new Date(a.bind_time || 0); });
                     console.log(aDiv);
                     var byby;
                     for (var i = 0; i < aDiv.length; i++) {
@@ -333,31 +309,36 @@ export default {
                         byby.value = aDiv[i].phone_num;
                         byby.date = aDiv[i].bind_time;
                         byby.head = aDiv[i].head_icon || '';
-                        byby.name = decodeURIComponent(aDiv[i].nick_name.replace(/\+/g, '%20'));
+                        byby.name = decodeURIComponent(aDiv[i].user_name.replace(/\+/g, '%20'));
                         that.dataList.push(byby);
                     }
                     console.log(this.dataList);
+                    var arr = this.dataList
+                    var arr2 = arr.filter((x, index,self)=>{
+                    var arrids = []
+                    arr.forEach((item,i) => {
+                        arrids.push(item.value)
+                    })
+                    return arrids.indexOf(x.value) === index
+                    })  
+                    console.log(arr2);
+                    that.dataList = arr2
                     that.$set(that.dataList);
                 } else {
-                    that.$message.success('会员列表请求失败');
+                    that.$message.error('会员查找失败');
                 }
             })
             .catch((res) => {
                 console.log(res);
             });
-        this.tableDdd = this.dataList;
-    },
-    mounted () {
-        this.restaurants = this.loadAll();
-        console.log(this.restaurants);
-    },
-    updated () {
-        console.log(this.del_list);
-    },
-    methods: {
+            this.tableDdd = this.dataList;
+            console.log(this.tableDdd)
+            // this.restaurants = this.loadAll();
+            this.restaurants = this.tableDdd;
+        },
         // 分页导航
         handleCurrentChange (val) {
-            this.cur_page = val;
+            this.page_num = val;
             this.getData();
         },
         getDd: function (no) {
@@ -414,14 +395,16 @@ export default {
             // };
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
-                page: this.cur_page
+                page_num: this.page_num,
+                page_size: this.page_size
             };
             console.log(this);
             this.$axios.post(this.localhost + '/api/platform/bracelet/data', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}}
             )
                 .then((res) => {
                     console.log(res.data.data);
-                    var xbox = res.data.data;
+                    this.pagep_total = parseInt(res.data.data.total)
+                    var xbox = res.data.data.list;
                     console.log(xbox);
                     var aDiv = [];
                     for (var i = 0; i < xbox.length; i++) {
@@ -448,7 +431,6 @@ export default {
                             }
                         }
                         if (!is_del) {
-                            console.log(d);
                             if (d.bracelet_id.indexOf(this.select_cate) > -1) {
                                 return d;
                             }
@@ -708,407 +690,6 @@ export default {
 </script>
 
 <style>
-    /* .my-autocomplete{
-        position: fixed;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        top: 58% !important;
-    }
-    .container .el-table thead{
-        color: #5A6286;
-        font-size:12px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(90,98,134,1);
-
-    }
-    .el-table th{
-        background: #E9EEF6;
-        margin-left: 1px;
-        height: 35px;
-        box-sizing: content-box;
-        padding: 0;
-    }
-    .el-table tr{
-        height: 50px;
-    }
-    .el-table td, .el-table th.is-leaf{
-        border:1px solid rgba(198,204,220,1);
-        border-left: 0;
-        border-top: 0;
-    }
-    .el-table tr:nth-child(even){
-        background: #F9FAFC;
-    }
-    .el-table--small td, .el-table--small th{
-        padding: 5px 0;
-        box-sizing: content-box !important;
-    }
-    .el-table--small td{
-        font-size:14px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(48,56,73,1);
-        font-size:12px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(90,98,134,1);
-    }
-    .el-table--small th{
-        font-size:12px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(90,98,134,1);
-    }
-    .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
-        padding-left: 30px;
-
-        box-sizing: border-box;
-    }
-    .has-gutter tr{
-        background: #E9EEF6;
-    }
-    .el-table__row .cell{
-        position: relative;
-        width: 150px;
-        height: 25px;
-        padding: 0;
-        display: flex;
-        justify-content: space-between;
-    }
-    tbody tr td:nth-of-type(1) .cell{
-        margin-left: 0;
-    }
-    .dialog-footer{
-        position: inherit;
-    }
-    .el-dialog__header{
-        padding: 20px 30px 20px !important;
-        text-align: center;
-    }
-    .el-dialog__title{
-        font-size:14px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(60,68,86,1);
-    }
-    .el-dialog__body{
-        padding: 40px 30px 30px !important;
-        box-shadow: 0px 5px 50px rgba(246,247,248,1) inset;
-    }
-    .bindlog{
-        z-index: 99;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        margin: 0 auto;
-        background: rgba(0,0,0,.2);
-    }
-    .bindbox{
-        width: 500px;
-        height: 13.39rem;
-        box-sizing: border-box;
-        background: #fff;
-        margin: 1.38rem auto 0;
-        padding: 0 30px 0;
-    }
-    .unbindbox{
-        width: 500px;
-        height: 300px;
-        box-sizing: border-box;
-        background: #fff;
-        margin: 50px auto 0;
-        padding: 0 30px 0;
-    }
-    .bdup{
-        height: 60px;
-        line-height: 60px;
-        box-sizing: border-box;
-        font-size:14px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(60,68,86,1);
-        text-align: left;
-        position: relative;
-    }
-    .ubdup{
-        height: 60px;
-        line-height: 60px;
-        box-sizing: border-box;
-        font-size:14px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(60,68,86,1);
-        text-align: left;
-        position: relative;
-    }
-    .ubdup div span:nth-of-type(1){
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        height: 4px;
-        width: 30px;
-        box-sizing: border-box;
-        background: #FF6464;
-    }
-    .bdup div span:nth-of-type(1){
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        height: 4px;
-        width: 30px;
-        box-sizing: border-box;
-        background: #FFC001;
-    }
-    .bdup div span:nth-of-type(2){
-        position: absolute;
-        right: -22px;
-        top: 50%;
-        transform: translateY(-50%);
-        height: 60px;
-        width: 60px;
-        box-sizing: border-box;
-        text-align: center;
-        cursor:pointer;
-    }
-    .ubdup div span:nth-of-type(2){
-        position: absolute;
-        right: -22px;
-        top: 50%;
-        transform: translateY(-50%);
-        height: 60px;
-        width: 60px;
-        box-sizing: border-box;
-        text-align: center;
-        cursor:pointer;
-    }
-    .svg{
-        margin: 0 auto;
-    }
-    .bdmd{
-        height: 280px;
-        width: 100%;
-        box-sizing: content-box;
-        padding: 40px 0 0px;
-        position: relative;
-    }
-    .ubdmd{
-        height: 130px;
-        width: 100%;
-        box-sizing: content-box;
-        padding: 40px 0 0px;
-        position: relative;
-        border-bottom: 1px solid #E5E7EB;
-    }
-    .bdta{
-        height: 70px;
-        box-sizing: border-box;
-        background:rgba(246,247,248,1);
-        position: relative;
-        border:1px solid rgba(225,227,232,1);
-    }
-    .bdta span:nth-of-type(1){
-        position: absolute;
-        height: 17px;
-        line-height: 17px;
-        font-size:12px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(91,99,126,1);
-        top: 11px;
-        left: 20px;
-    }
-    .bdta span:nth-of-type(2){
-        position: absolute;
-        height: 17px;
-        font-family:PingFangSC-Regular;
-        color:rgba(91,99,126,1);
-        top: 35px;
-        left: 20px;
-        font-size:14px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(48,56,73,1);
-        line-height:20px;
-    }
-    .bdbt{
-        margin-top: 30px;
-        height: 70px;
-        border-top:1px solid rgba(229,231,235,1);
-        position: relative;
-    }
-    .bdbt span:nth-of-type(1){
-        box-sizing: border-box;
-        width: 80px;
-        height: 40px;
-        position: absolute;
-        font-size:12px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(60,68,86,1);
-        line-height:40px;
-        top: 12px;
-        right: 146px;
-        font-weight:500;
-        border-radius:2px;
-        text-align: center;
-        border:1px solid rgba(192,199,216,1);
-        cursor:pointer;
-    }
-    .bdbt span:nth-of-type(2){
-        box-sizing: border-box;
-        width: 100px;
-        height: 40px;
-        position: absolute;
-        font-size:12px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(60,68,86,1);
-        line-height:40px;
-        top: 12px;
-        right: 36px;
-        background: rgba(255,192,1,1);
-        font-weight:500;
-        border-radius:2px;
-        text-align: center;
-        cursor:pointer;
-    }
-    .ubdbt{
-        height: 70px;
-        border-top:1px solid rgba(229,231,235,1);
-        position: relative;
-    }
-    .ubdbt span:nth-of-type(1){
-        box-sizing: border-box;
-        width: 80px;
-        height: 40px;
-        position: absolute;
-        font-size:12px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(60,68,86,1);
-        line-height:40px;
-        top: 12px;
-        right: 146px;
-        font-weight:500;
-        border-radius:2px;
-        border:1px solid rgba(192,199,216,1);
-        text-align: center;
-        cursor:pointer;
-    }
-    .ubdbt span:nth-of-type(2){
-        box-sizing: border-box;
-        width: 100px;
-        height: 40px;
-        position: absolute;
-        font-size:12px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:#fff;
-        line-height:40px;
-        top: 12px;
-        right: 36px;
-        background: #FF6464;
-        font-weight:500;
-        border-radius:2px;
-        text-align: center;
-        cursor:pointer;
-    }
-    .bdta input{
-        position: absolute;
-        height: 17px;
-        font-family:PingFangSC-Regular;
-        color:rgba(91,99,126,1);
-        top: 35px;
-        left: 20px;
-        font-size:14px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(48,56,73,1);
-        line-height:20px;
-        width: 200px;
-    }
-    .bdtb{
-        background: #fff;
-    }
-    .bdtb input{
-        outline: none;
-        border: 0;
-    }
-    .bdtb input::-webkit-input-placeholder{
-        color: #BFC4D1;
-    }
-    .ubdta{
-        text-align: left;
-        text-indent: 49px;
-        height:22px;
-        font-size:16px;
-        font-family:PingFangSC-Medium;
-        font-weight:500;
-        color:rgba(60,68,86,1);
-        line-height:22px;
-    }
-    .ubdtb{
-        margin-top: 10px;
-        height:17px;
-        font-size:12px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(91,99,126,1);
-        line-height:17px;
-        text-align: left;
-        text-indent: 49px;
-    }
-    .unce{
-        position: absolute;
-        top: 40px;
-        width: 30px;
-        height: 30px;
-        background: url('../assets/unce.png') no-repeat center;
-        left: 0;
-    }
-    .dece{
-        position: absolute;
-        top: 40px;
-        width: 30px;
-        height: 30px;
-        background: url('../assets/dele.png') no-repeat center;
-        left: 0;
-    }
-    .has-gutter tr th{
-        background: #E9EEF6;
-    }
-    .has-gutter tr td:last-child .cell{
-        padding: 0 !important;
-    }
-    tbody tr td:last-child .cell{
-        padding: 0 !important;
-        height: 25px;
-        margin: 0 auto;
-        width: 150px;
-        box-sizing: content-box;
-        padding: 0;
-    }
-    thead tr th:last-child .cell{
-        padding: 0 !important;
-    }
-    .has-gutter tr th:last-of-type .cell{
-        padding: 0 !important;
-    }
-    .ccyb{
-        position: relative;
-    }
-    .ccyb input{
-        position: absolute;
-        padding: 0;
-        top: 0.67rem;
-        cursor:pointer;
-    }
-    .el-autocomplete-suggestion{
-        width: 13rem !important;
-    }*/
 </style>
 
 <style scoped>
@@ -1152,9 +733,6 @@ export default {
     .el-breadcrumb__inner{
         width: 240px;
         height: 46px;
-    }
-    .table{
-        height: 550px;
     }
     .crumbs{
         margin: 0;
@@ -1251,10 +829,6 @@ export default {
         position: absolute;
         right: 0%;
         cursor:pointer;
-    }
-    .content{
-        background: #F6F7F8;
-        height: 670px;
     }
     .el-table--border th, .el-table__fixed-right-patch{
         background: red !important;

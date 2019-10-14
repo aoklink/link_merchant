@@ -722,10 +722,6 @@ export default {
     tbody{
         overflow: auto;
     }
-    .el-table__body-wrapper{
-        overflow: overlay !important;
-        height: 435px !important;
-    }
     .date_sec .el-date-editor .el-range__icon{
         position: relative;
         text-indent: 0;

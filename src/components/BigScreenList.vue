@@ -30,7 +30,7 @@
                     <el-button type="primary" icon="search" @click="tadd">添加手环</el-button>
                 </div> -->
                 <el-table ref="multipleTable" :data="data" border
-                          class="table" @selection-change="handleSelectionChange"
+                          class="table table_list" @selection-change="handleSelectionChange"
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
                     <el-table-column prop="screen_code" label="编号"
@@ -49,10 +49,19 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <!-- <div class="pagination">
-                    <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                    </el-pagination>
-                </div> -->
+                <div class="page_list">
+                    <div class="pagination">
+                        <el-pagination background 
+                            @current-change="handleCurrentChange" 
+                            layout="prev, pager, next" 
+                            :total="pagep_total"
+                            :page-size="page_size"
+                            :pager-count="5"
+                            background
+                        >
+                        </el-pagination>
+                    </div>
+                </div>
             </div>
 
             <!-- 解绑弹出框 -->
@@ -275,7 +284,10 @@ export default {
                 checkList: [],
                 usb: []
             },
-            idx: -1
+            idx: -1,
+            page_num: 1,
+            page_size: 20,
+            pagep_total: 0
         };
     },
     computed: {
@@ -313,7 +325,8 @@ export default {
             console.log(999)
         },
         handleCurrentChange (val) {
-            this.cur_page = val;
+            console.log(val)
+            this.page_num = val;
             this.getData();
         },
         getDd: function (no) {
@@ -355,13 +368,15 @@ export default {
         getData () {
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
-                page: this.cur_page
+                page_num: this.page_num,
+                page_size: this.page_size
             };
-            console.log(this);
+            console.log(this.localhost);
             this.$axios.post(this.localhost + '/api/platform/gym/screen/setting/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {            
                     console.log(res)
-                    var xbox = res.data.data
+                    this.pagep_total = parseInt(res.data.data.total)
+                    var xbox = res.data.data.list
                     console.log(xbox);
                     // console.log(new Date(xbox[0].bind_time));
                     var aDiv = [];
@@ -750,10 +765,6 @@ export default {
     }
     tbody{
         overflow: auto;
-    }
-    .el-table__body-wrapper{
-        overflow: overlay !important;
-        height: 435px !important;
     }
     .my-autocomplete{
         position: fixed;
@@ -1334,13 +1345,6 @@ export default {
         color:#3C4456;
         font-family:PingFangSC-Medium;
     }
-    .table{
-        height: 550px;
-    }
-    .content{
-        background: #F6F7F8;
-        height: 670px;
-    }
     .addccb{
         width: 3rem;
         height: 0.9rem;
@@ -1412,9 +1416,6 @@ export default {
     .el-breadcrumb__inner{
         width: 240px;
         height: 46px;
-    }
-    .table{
-        height: 550px;
     }
     .crumbs{
         margin: 0;
@@ -1512,10 +1513,6 @@ export default {
         position: absolute;
         right: 0%;
         cursor:pointer;
-    }
-    .content{
-        background: #F6F7F8;
-        height: 670px;
     }
     .el-table--border th, .el-table__fixed-right-patch{
         background: red !important;

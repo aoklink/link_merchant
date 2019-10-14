@@ -23,7 +23,7 @@
                     <div class="serch" @click="serch">搜索</div>
                 </div>
             </div>
-            <div class="container">
+            <div class="container class_box">
                 <!-- <div class="handle-box">
                     <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
                     <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
@@ -35,7 +35,7 @@
                     <el-button type="primary" icon="search" @click="tadd">添加手环</el-button>
                 </div> -->
                 <el-table ref="multipleTable" :data="data" border
-                          class="table" @selection-change="handleSelectionChange"
+                          class="table table_list" @selection-change="handleSelectionChange"
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
                     <el-table-column prop="user_name" label="教练姓名">
@@ -75,10 +75,19 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <!-- <div class="pagination">
-                    <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                    </el-pagination>
-                </div> -->
+                <div class="page_list">
+                    <div class="pagination">
+                        <el-pagination background 
+                            @current-change="handleCurrentChange" 
+                            layout="prev, pager, next" 
+                            :total="pagep_total"
+                            :page-size="page_size"
+                            :pager-count="5"
+                            background
+                        >
+                        </el-pagination>
+                    </div>
+                </div>
             </div>
 
             <!-- 解绑弹出框 -->
@@ -205,6 +214,9 @@ export default {
             value2: [new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 30),new Date()],
             startTime: new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 30),
             endTime: new Date(),
+            page_num: 1,
+            page_size: 20,
+            pagep_total: 0
         };
     },
     computed: {
@@ -247,7 +259,7 @@ export default {
             this.getData()
         },
         handleCurrentChange (val) {
-            this.cur_page = val;
+            this.page_num = val;
             this.getData();
         },
         getDd: function (no) {
@@ -296,13 +308,16 @@ export default {
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 start: start_time,
-                end: end_time
+                end: end_time,
+                page_num: this.page_num,
+                page_size: this.page_size
             };
             console.log(this);
             this.$axios.post(this.localhost + '/api/coach/web/course/statistics/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data.data);
-                    var xbox = res.data.data;
+                    this.pagep_total = parseInt(res.data.data.total)
+                    var xbox = res.data.data.list;
                     console.log(xbox);
                     // console.log(new Date(xbox[0].bind_time));
                     var aDiv = [];
@@ -585,10 +600,6 @@ export default {
     tbody{
         overflow: auto;
     }
-    .el-table__body-wrapper{
-        overflow: overlay !important;
-        height: 435px !important;
-    }
     .date_sec .el-date-editor .el-range__icon{
         position: relative;
         text-indent: 0;
@@ -610,6 +621,9 @@ export default {
     }
     .date_sec .el-range__close-icon{
         text-indent: 0;
+    }
+    .class_box tbody tr td:last-child .cell{
+        padding-left: 30px !important;
     }
 </style>
 
@@ -749,9 +763,6 @@ export default {
         font-weight:500;
         color:#3C4456;
         font-family:PingFangSC-Medium;
-    }
-    .table{
-        height: 550px;
     }
     .content{
         background: #F6F7F8;

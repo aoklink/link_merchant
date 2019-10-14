@@ -982,6 +982,9 @@ export default {
                 .then((res) => {
                     console.log(res.data.data);
                     var xbox = res.data.data;
+                    if(xbox.images.length>0){
+                        xbox.images = xbox.images.reverse()
+                    }
                     this.gym.code = xbox.gym_info.mini_program_code_url
                     this.gym.name = xbox.gym_info.name
                     if(xbox.bfr_dif>0){
@@ -1300,10 +1303,6 @@ export default {
     }
     tbody{
         overflow: auto;
-    }
-    .el-table__body-wrapper{
-        overflow: overlay !important;
-        height: 435px !important;
     }
     .date_sec .el-date-editor .el-range__icon{
         position: relative;

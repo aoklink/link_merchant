@@ -235,6 +235,9 @@ export function gymInfoDelete (payload) {
 export function gymPlayCoachList (payload) {
     return wrapAjaxToPromise(axios.post(api.GYM_PLAY_COACH_LIST, payload));
 }
+// export function gymPlayCoachList (payload) {
+//     return wrapAjaxToPromise(axios.post(api.GYM_PLAY_COACH_LIST, {'abc': 123}));
+// }
 
 export function gymPlayCoachDelete (payload) {
     return wrapAjaxToPromise(axios.post(api.GYM_PLAY_COACH_DELETE, payload));

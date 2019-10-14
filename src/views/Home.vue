@@ -38,7 +38,7 @@ export default {
 
 <style>
 .home{
-    min-height: 100%;
+    height: 100%;
     background:rgba(246,247,248,1);
     display: flex;
     flex-direction: column;

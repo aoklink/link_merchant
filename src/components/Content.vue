@@ -96,6 +96,7 @@ export default {
         flex: 1;
         background:rgba(255,255,255,1);
         border-radius:0.11rem;
+        height: 100%;
         border:0.01rem solid rgba(198,204,220,1);
     }
     .tab-content .el-tabs__content{

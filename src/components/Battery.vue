@@ -12,7 +12,7 @@
             <div class="container">
                 <el-table ref="multipleTable"
                           :data="tableData" border
-                          class="table"
+                          class="table table_list"
                           :row-class-name="tableRowClassName"
                 >
                     <el-table-column prop="serial_no" label="编号"
@@ -35,6 +35,19 @@
                         </template>-->
                     </el-table-column>
                 </el-table>
+                <div class="page_list">
+                    <div class="pagination">
+                        <el-pagination background 
+                            @current-change="handleCurrentChange" 
+                            layout="prev, pager, next" 
+                            :total="pagep_total"
+                            :page-size="page_size"
+                            :pager-count="5"
+                            background
+                        >
+                        </el-pagination>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -49,20 +62,31 @@ export default {
         return {
             localhost: 'http://bg.linkfeeling.cn',
             localhost: 'http://test.linkfeeling.cn',
-            tableData: []
+            tableData: [],
+            page_num: 1,
+            page_size: 20,
+            pagep_total: 0
         };
     },
     created () {
-        var that = this;
-        let datt = {
-            gym_name: global.gym_name || localStorage.getItem('gym_name')
-        };
-        this.$axios.post(this.localhost + '/api/platform/coulometry/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json;charset=UTF-8'}})
+        this.getData();
+    },
+    methods: {
+        getData () {
+            var that = this;
+            let datt = {
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
+                page_num: this.page_num,
+                page_size: this.page_size
+            };
+            this.$axios.post(this.localhost + '/api/platform/coulometry/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json;charset=UTF-8'}})
             .then((res) => {
                 if (res.data.code == 200) {
+                    this.pagep_total = parseInt(res.data.data.total)
+                    var xbox = res.data.data.list;
                     var aDiv = [];
-                    for (var i = 0; i < res.data.data.length; i++) {
-                        var m = res.data.data[i];
+                    for (var i = 0; i < xbox.length; i++) {
+                        var m = xbox[i];
                         m.device = decodeURIComponent(m.device.replace(/\+/g, '%20'));
                         m.batteryStr = '-';
                         if (m.battery = parseInt(m.battery)) {
@@ -74,17 +98,20 @@ export default {
                         }
                         aDiv.push(m); 
                     }
-                    aDiv.sort(function (a, b) { return a.battery - b.battery; });
+                    // aDiv.sort(function (a, b) { return a.battery - b.battery; });
                     that.tableData = aDiv;
                 } else {
-                    that.$message.success('设备列表请求失败');
+                    that.$message.error('设备列表请求失败');
                 }
             })
             .catch((res) => {
                 console.log(res);
             });
-    },
-    methods: {
+        },
+        handleCurrentChange (val) {
+            this.page_num = val;
+            this.getData();
+        },
         tableRowClassName: function (row) {
             if (this.tableData[row.rowIndex].battery < 30) {
                 return 'battery-low';

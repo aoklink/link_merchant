@@ -52,8 +52,8 @@
             </el-table>
         </div> -->
         <div class="container" style="600px">
-            <el-table :data="accountList" style="height:600px;" border
-                    class="table"
+            <el-table :data="accountList" border
+                    class="table table_list"
             >
                 <el-table-column prop="name" label="负责人" 
                 />
@@ -326,6 +326,7 @@ export default {
   flex-direction: column;
   padding: 20px;
   background: #F6F7F8;
+  padding-bottom: 75px;
 }
 .account-management-top {
   display: flex;

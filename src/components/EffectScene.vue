@@ -52,7 +52,7 @@
             </div>
             <div class="container">
                 <el-table ref="multipleTable" :data="data" border
-                          class="table" @selection-change="handleSelectionChange"
+                          class="table table_list" @selection-change="handleSelectionChange"
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
                     <el-table-column prop="user_name" label="学员昵称">
@@ -100,6 +100,19 @@
                         </template>
                     </el-table-column>
                 </el-table>
+                <div class="page_list">
+                    <div class="pagination">
+                        <el-pagination background 
+                            @current-change="handleCurrentChange" 
+                            layout="prev, pager, next" 
+                            :total="pagep_total"
+                            :page-size="page_size"
+                            :pager-count="5"
+                            background
+                        >
+                        </el-pagination>
+                    </div>
+                </div>
             </div>
 
             <!-- 列表显示弹出框 -->
@@ -229,7 +242,10 @@ export default {
             value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
             value2: [new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 30),new Date()],
             col: [],
-            formThead: []
+            formThead: [],
+            page_num: 1,
+            page_size: 20,
+            pagep_total: 0
         };
     },
     computed: {
@@ -263,10 +279,8 @@ export default {
         var that = this
         if(typeof(that.value2[0]) == 'number'){
             that.value_pre = that.value2[0]
-            console.log(value_pre)
         }else{
             that.value_pre = that.value2[0].getTime()
-            console.log(value_pre)
         }
         console.log(this.checkList)
         if(this.checkList.length>1 && this.checkList.length<this.coalist.length){
@@ -329,10 +343,10 @@ export default {
         showtab () {
             this.editVisible = true
         },
-        // handleCurrentChange (val) {
-        //     this.cur_page = val;
-        //     this.getData();
-        // },
+        handleCurrentChange (val) {
+            this.page_num = val;
+            this.getData();
+        },
         getDd: function (no) {
             var date = no;
             var seperator1 = '-';
@@ -378,13 +392,16 @@ export default {
             let datt = {
                 gym_name: global.gym_name || localStorage.getItem('gym_name'),
                 start: start_time,
-                end: end_time
+                end: end_time,
+                page_num: this.page_num,
+                page_size: this.page_size
             };
             this.$axios.post(this.localhost + '/api/coach/web/physical/examination/list', JSON.stringify(datt), {headers: {'Content-Type': 'application/json'}})
                 .then((res) => {
                     console.log(res.data);
+                    this.pagep_total = parseInt(res.data.data.total)                    
                     var ybx=[["体重"],["体脂率"],["骨骼肌"],["胸围"],["腰围"],["臀围"],["肩宽"],["身高"],["BMI"],["上臀围(左)"],["上臀围(右)"],["大腿围(左)"],["大腿围(右)"],["小腿围(左)"],["小腿围(右)"]]
-                    var xbox = res.data.data;
+                    var xbox = res.data.data.list;
                     for(var i = 0; i < xbox.length; i++){
                         xbox[i].coach_name = decodeURIComponent(xbox[i].coach_name.replace(/\+/g, '%20'))
                         xbox[i].user_name = decodeURIComponent(xbox[i].user_name.replace(/\+/g, '%20'))
@@ -699,10 +716,6 @@ export default {
     tbody{
         overflow: auto;
     }
-    .el-table__body-wrapper{
-        overflow: overlay !important;
-        height: 435px !important;
-    }
     .date_sec .el-date-editor .el-range__icon{
         position: relative;
         text-indent: 0;
@@ -907,9 +920,6 @@ export default {
         font-weight:500;
         color:#3C4456;
         font-family:PingFangSC-Medium;
-    }
-    .table{
-        height: 550px;
     }
     .content{
         background: #F6F7F8;

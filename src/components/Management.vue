@@ -27,7 +27,7 @@
 
         <div class="container">
             <el-table :data="gymInfoList" border
-                    class="table"
+                    class="table table_list"
             >
                 <el-table-column prop="name" label="健身房名称" 
                 />
@@ -52,6 +52,19 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <!-- <div class="page_list">
+                <div class="pagination">
+                    <el-pagination background 
+                        @current-change="handleCurrentChange" 
+                        layout="prev, pager, next" 
+                        :total="pagep_total"
+                        :page-size="page_size"
+                        :pager-count="5"
+                        background
+                    >
+                    </el-pagination>
+                </div>
+            </div> -->
         </div>
 
         <el-dialog :key="dialogAddEditKey" :visible.sync="dialogAddEdit"
@@ -212,6 +225,10 @@ export default {
     .mmbox .el-table thead{
         padding: 0 !important;
     }
+    .el-tabs--border-card{
+        border: 0;
+        box-shadow: none !important; 
+    }
 </style>
 
 <style scoped>
@@ -223,8 +240,5 @@ export default {
     }
     .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
         border:1px solid rgba(198,204,220,1) !important;
-    }
-    .el-tabs--border-card{
-        border: 0;
     }
 </style>

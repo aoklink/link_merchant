@@ -12,7 +12,7 @@
                 :lazy="false"
             >
                 <!-- 教练管理 -->
-                <div v-if="item.type === 1" class="table">
+                <div v-if="item.type === 1" class="table table_listb">
                     <div class="crumbs">
                         <div class="celllist">
                             <el-row type="flex" class="row-bg" justify="space-between">
@@ -39,9 +39,9 @@
                             </el-row>
                         </div>
                     </div>
-                    <div class="container">
+                    <div class="container coach_box">
                         <el-table ref="multipleTable" :data="tableData" border
-                                  class="table"
+                                  class="table table_list"
                         >
                             <el-table-column prop="user_name" label="教练姓名" >
                                 <template slot-scope="scope">
@@ -87,10 +87,6 @@
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <!-- <div class="pagination">
-                    <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                    </el-pagination>
-            </div>-->
                     </div>
 
                     <!-- 转移学员弹出框 -->
@@ -348,7 +344,6 @@
                             </template>
                         </el-table-column>
                     </el-table>
-
                     <!-- <el-dialog title="添加学员" :visible.sync="addMemberVisible" width="300px"
                             center
                     >
@@ -605,6 +600,19 @@
                 </div>
             </el-tab-pane>
         </el-tabs>
+        <div class="page_list">
+            <div class="pagination">
+                <el-pagination background 
+                    @current-change="handleCurrentChange" 
+                    layout="prev, pager, next" 
+                    :total="pagep_total"
+                    :page-size="page_size"
+                    :pager-count="5"
+                    background
+                >
+                </el-pagination>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -686,7 +694,10 @@ export default {
                 class_num: 10
             },
             classList: [],
-            classStatusVisible: false
+            classStatusVisible: false,
+            page_num: 1,
+            page_size: 20,
+            pagep_total: 0
         };
     },
     computed: {
@@ -812,7 +823,7 @@ export default {
         },
         // 分页导航
         handleCurrentChange (val) {
-            this.cur_page = val;
+            this.page_num = val;
             this.getData();
         },
         getDd: function (no) {
@@ -845,11 +856,15 @@ export default {
         async getData () {
             // console.log(this);
             // console.log(this.$store.state.userInfo)
-            let result = await this.$store.dispatch(LIST_GYM_PLAY_COACH, {});
-
+            let result = await this.$store.dispatch(LIST_GYM_PLAY_COACH, {
+                page_num: this.page_num,
+                page_size: this.page_size                
+            });
+    
             if (result.success) {
                 console.log(result.data);
-                this.tableData = result.data;
+                this.pagep_total = parseInt(result.data.total)
+                this.tableData = result.data.list;
                 global.coaarr = this.tableData;
                 localStorage.setItem('coaarr', this.tableData);
 
@@ -1285,21 +1300,11 @@ tbody tr td:last-child .cell {
 tbody tr td:nth-of-type(1) .cell {
   margin-left: 0;
 }
-.content{
-    padding: 20px;
-    background: #F6F7F8;
-}
 .el-tabs--card>.el-tabs__header .el-tabs__item.is-active.is-closable{
     background: #fff;
 }
 .el-tabs__header{
     margin: 0 !important;
-}
-.content{
-    height: 582px;
-}
-.table{
-    height: 560px;
 }
 .el-dialog__body{
     padding: 0 !important;
@@ -1421,6 +1426,18 @@ tbody tr td:nth-of-type(1) .cell {
     color: rgba(255,192,1,1);
     border-radius:2px;
     border-color: rgba(255,192,1,1);
+}
+.table_listb{
+    // height: 504px;
+}
+.tabbox .el-tabs__content{
+    height: calc(100% - 40px);
+}
+.tabbox .el-tab-pane{
+    height: 100%;
+}
+.tabbox .coach_box{
+    height: calc(100% - 60px);
 }
 </style>
 
@@ -1759,9 +1776,9 @@ tbody tr td:last-child .cell button span{
     float: right;
     margin: 16px 17px 0 0;
 }
-</style>
-
-<style scoped>
+.tabbox .el-tabs{
+    height: 100%;
+}
 .class-status-store {
     margin-right: 14px;
     width: 114px;
