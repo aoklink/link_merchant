@@ -70,6 +70,7 @@ export default {
             return result;
         },
         async onSubmit () {
+            localStorage.clear();
             let result = await this.$store.dispatch(LOGIN, {
                 name: this.formItem.userName,
                 password: md5(this.formItem.password)

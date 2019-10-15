@@ -3,7 +3,7 @@
         <router-link
             :to="{path:'/'}"
             class="menu-hidden"
-            :class="[ok1==1?'menu-item':'menu-hidden']"
+            :class="[cur==1?'menu-item':'menu-hidden']"
             @click.native="clik(0)"
         >
             <img src="../assets/nava.png">
@@ -17,7 +17,7 @@
         <router-link
             v-show="v1==true"
             :to="{path:'/'}"
-            :class="[in1==1?'menu-item-chil':'menu-hidden']"
+            :class="[incur==1?'menu-item-chil':'menu-hidden']"
             @click.native="clia(0)"
         >
             店铺列表
@@ -26,7 +26,7 @@
         <router-link
             v-show="v1==true"
             :to="{path:'/BigScreenList'}"
-            :class="[in2==1?'menu-item-chil':'menu-hidden']"
+            :class="[incur==2?'menu-item-chil':'menu-hidden']"
             @click.native="clia(1)"
         >
             大屏管理
@@ -34,7 +34,7 @@
         </router-link>
         <router-link
             :to="{path:'/BaseMember'}"
-            :class="[ok2==1?'menu-item':'menu-hidden']"
+            :class="[cur==2?'menu-item':'menu-hidden']"
             @click.native="clik(1)"
         >
             <img src="../assets/nava.png">
@@ -42,7 +42,7 @@
         </router-link>
         <router-link
             :to="{path:'/BaseBind'}"
-            :class="[ok3==1?'menu-item':'menu-hidden']"
+            :class="[cur==3?'menu-item':'menu-hidden']"
             @click.native="clik(2)"
         >
             <img src="../assets/nava.png">
@@ -50,7 +50,7 @@
         </router-link>
         <router-link
             :to="{path:'/CoachManage'}"
-            :class="[ok4==1?'menu-item':'menu-hidden']"
+            :class="[cur==4?'menu-item':'menu-hidden']"
             @click.native="clik(3)"
         >
             <img src="../assets/nava.png">
@@ -64,7 +64,7 @@
         <router-link
             v-show="v2==true"
             :to="{path:'/CoachManage'}"
-            :class="[in3==1?'menu-item-chil':'menu-hidden']"
+            :class="[incur==3?'menu-item-chil':'menu-hidden']"
             @click.native="clia(2)"
         >
             教练列表
@@ -73,7 +73,7 @@
         <router-link
             v-show="v2==true"
             :to="{path:'/ClassScene'}"
-            :class="[in4==1?'menu-item-chil':'menu-hidden']"
+            :class="[incur==4?'menu-item-chil':'menu-hidden']"
             @click.native="clia(3)"
         >
             上课统计
@@ -82,7 +82,7 @@
         <router-link
             v-show="v2==true"
             :to="{path:'/EffectScene'}"
-            :class="[in5==1?'menu-item-chil':'menu-hidden']"
+            :class="[incur==5?'menu-item-chil':'menu-hidden']"
             @click.native="clia(4)"
         >
             效果统计
@@ -90,7 +90,7 @@
         </router-link>
         <router-link
             :to="{path:'/AccountManagement'}"
-            :class="[ok5==1?'menu-item':'menu-hidden']"
+            :class="[cur==5?'menu-item':'menu-hidden']"
             @click.native="clik(4)"
         >
             <img src="../assets/nava.png">
@@ -98,11 +98,11 @@
         </router-link>
         <router-link
             :to="{path:'/Battery'}"
-            :class="[ok6==1?'menu-item':'menu-hidden']"
+            :class="[cur==6?'menu-item':'menu-hidden']"
             @click.native="clik(5)"
         >
             <img src="../assets/nav_battery.png">
-            设备管理
+            电量管理
         </router-link>
         <!-- <router-link v-for="(item,index) in list"
             :key="item.value" :to="{path:item.path,query:{item:index}}"
@@ -157,21 +157,15 @@ export default {
                 {path: '/AccountManagement', label: '账户管理', img: require('../assets/nave.png'), vv: 0}
             ],
             ind: '0',
-            ok: 0,
-            ok1: 1,
-            ok2: 0,
-            ok3: 0,
-            ok4: 0,
-            ok5: 0,
-            ok6: 0,
-            in1: 1,
-            in2: 0,
-            in3: 0,
-            in4: 0,
-            in5: 0,
-            v1: true,
-            v2: false
+            cur: localStorage.getItem('cur') || 1,
+            incur: localStorage.getItem('incur') || 1,
+            v1: localStorage.getItem('v1')=='true'?true:false || true,
+            v2: localStorage.getItem('v2')=='true'?true:false || false
         };
+    },
+    created () {
+        console.log(typeof(this.v2))
+        console.log(this.v2==true?'123':'no')
     },
     mounted () {
         // if(this.$route.query.item){
@@ -195,69 +189,56 @@ export default {
         //     }
         // },
         clik (index) {
-            this.ok1 = 0;
-            this.ok2 = 0;
-            this.ok3 = 0;
-            this.ok4 = 0;
-            this.ok5 = 0;
-            this.ok6 = 0;
-            this.in1 = 0;
-            this.in2 = 0;
-            this.in3 = 0;
-            this.in4 = 0;
-            this.in5 = 0;
+            this.cur = 0;
+            this.incur = 0;
             if (index == 0) {
-                this.ok1 = 1;
-                this.in1 = 1;
+                this.cur = 1;
+                this.incur = 1;
             }
             if (index == 1) {
-                this.ok2 = 1;
+                this.cur = 2;
             }
             if (index == 2) {
-                this.ok3 = 1;
+                this.cur = 3;
             }
             if (index == 3) {
-                this.ok4 = 1;
-                this.in3 = 1;
+                this.cur = 4;
+                this.incur = 3;
             }
             if (index == 4) {
-                this.ok5 = 1;
+                this.cur = 5;
             }
             if (index == 5) {
-                this.ok6 = 1;
+                this.cur = 6;
             }
+            localStorage.setItem('cur',this.cur)
+            localStorage.setItem('incur',this.incur)
         },
         clia (index) {
-            this.ok1 = 0;
-            this.ok2 = 0;
-            this.ok3 = 0;
-            this.ok4 = 0;
-            this.ok5 = 0;
-            this.in1 = 0;
-            this.in2 = 0;
-            this.in3 = 0;
-            this.in4 = 0;
-            this.in5 = 0;
+            this.cur = 0;
+            this.incur = 0;
             if (index == 0) {
-                this.in1 = 1;
-                this.ok1 = 1;
+                this.incur = 1;
+                this.cur = 1;
             }
             if (index == 1) {
-                this.in2 = 1;
-                this.ok1 = 1;
+                this.incur = 2;
+                this.cur = 1;
             }
             if (index == 2) {
-                this.in3 = 1;
-                this.ok4 = 1;
+                this.incur = 3;
+                this.cur = 4;
             }
             if (index == 3) {
-                this.in4 = 1;
-                this.ok4 = 1;
+                this.incur = 4;
+                this.cur = 4;
             }
             if (index == 4) {
-                this.in5 = 1;
-                this.ok4 = 1;
+                this.incur = 5;
+                this.cur = 4;
             }
+            localStorage.setItem('cur',this.cur)
+            localStorage.setItem('incur',this.incur)
         },
         scal (index) {
             if (index == 0) {
@@ -266,6 +247,8 @@ export default {
             if (index == 1) {
                 this.v2 = !this.v2;
             }
+            localStorage.setItem('v1',this.v1)
+            localStorage.setItem('v2',this.v2)
         }
     }
 };

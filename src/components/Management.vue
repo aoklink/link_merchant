@@ -229,6 +229,9 @@ export default {
         border: 0;
         box-shadow: none !important; 
     }
+    .table_list table{
+        overflow: hidden;
+    }
 </style>
 
 <style scoped>

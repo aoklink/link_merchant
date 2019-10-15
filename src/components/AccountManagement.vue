@@ -327,6 +327,8 @@ export default {
   padding: 20px;
   background: #F6F7F8;
   padding-bottom: 75px;
+  box-sizing: border-box;
+  height: 100%;
 }
 .account-management-top {
   display: flex;

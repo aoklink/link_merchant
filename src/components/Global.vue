@@ -5,7 +5,7 @@ const gym_name='';
 const hasEnter='';
 const gym_id='';
 const coaarr='';
-const coolo=[]
+const coolo=[];
   export default
   {
     gym_id,//健身房id
