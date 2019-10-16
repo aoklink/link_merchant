@@ -15,7 +15,7 @@ Vue.prototype.$axios = axios;
 Vue.prototype.$qs = Qs;
 
 Vue.use(ElementUI);
-
+// axios.defaults.withCredentials=true //让ajax携带cookie
 Vue.config.productionTip = false;
 
 new Vue({

@@ -366,8 +366,7 @@ export default {
     name: 'Baseinfo',
     data () {
         return {
-            localhost: 'https://ll.linkfeeling.cn',
-            localhost: 'https://dev.linkfeeling.cn',
+            localhost: global.hostb,
             // url: './static/vuetable.json',
             url: 'https://ll.linkfeeling.cn/api/user/sport/category_data',
             tableData: [],

@@ -153,8 +153,8 @@ export default {
     name: 'classscene',
     data () {
         return {
-            localhost: 'http://bg.linkfeeling.cn',
-            localhost: 'https://dev.linkfeeling.cn',
+            localhost: global.hostb,
+            // localhost: 'https://dev.linkfeeling.cn',
             // url: './static/vuetable.json',
             url: this.localhost + '/api/platform/members',
             tableData: [],

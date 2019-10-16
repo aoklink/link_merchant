@@ -37,7 +37,7 @@
             :class="[cur==2?'menu-item':'menu-hidden']"
             @click.native="clik(1)"
         >
-            <img src="../assets/nava.png">
+            <img src="../assets/navb.png">
             会员管理
         </router-link>
         <router-link
@@ -45,7 +45,7 @@
             :class="[cur==3?'menu-item':'menu-hidden']"
             @click.native="clik(2)"
         >
-            <img src="../assets/nava.png">
+            <img src="../assets/navc.png">
             手环管理
         </router-link>
         <router-link
@@ -53,7 +53,7 @@
             :class="[cur==4?'menu-item':'menu-hidden']"
             @click.native="clik(3)"
         >
-            <img src="../assets/nava.png">
+            <img src="../assets/navd.png">
             教练管理
             <span class="click-area" @click="scal(1)">
                 <svg width="8px" height="8px" class="svg">
@@ -93,7 +93,7 @@
             :class="[cur==5?'menu-item':'menu-hidden']"
             @click.native="clik(4)"
         >
-            <img src="../assets/nava.png">
+            <img src="../assets/nave.png">
             账户管理
         </router-link>
         <router-link

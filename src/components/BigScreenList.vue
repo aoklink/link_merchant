@@ -238,8 +238,8 @@ export default {
     name: 'Basemember',
     data () {
         return {
-            localhost: 'https://ll.linkfeeling.cn',
-            localhost: 'http://test.linkfeeling.cn',
+            localhost: global.host,
+            // localhost: 'http://test.linkfeeling.cn',
             // url: './static/vuetable.json',
             url: this.localhost + '/api/platform/members',
             tableData: [],

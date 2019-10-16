@@ -217,8 +217,7 @@ export default {
     name: 'Basebind',
     data () {
         return {
-            localhost: 'http://bg.linkfeeling.cn',
-            localhost: 'http://test.linkfeeling.cn',
+            localhost: global.host,
             tableData: [],
             yybox: {},
             ttbox: [],

@@ -634,8 +634,8 @@ export default {
     name: 'CoachManage',
     data () {
         return {
-            localhost: 'https://ll.linkfeeling.cn',
-            localhost: 'https://dev.linkfeeling.cn',
+            localhost: global.hostb,
+            // localhost: 'https://dev.linkfeeling.cn',
             delVisiblea: '',
             delnum: '1',
             ikk: '',

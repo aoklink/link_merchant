@@ -224,8 +224,8 @@ export default {
     name: 'Basebind',
     data () {
         return {
-            localhost: 'http://bg.linkfeeling.cn',
-            localhost: 'http://test.linkfeeling.cn',
+            localhost: global.host,
+            // localhost: 'http://test.linkfeeling.cn',
             url: 'http://ll.linkfeeling.cn/api/platform/bracelet/data',
             tableData: [],
             yybox: {},
