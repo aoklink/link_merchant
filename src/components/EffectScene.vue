@@ -379,6 +379,7 @@ export default {
         // 获取 easy-mock 的模拟数据
         getData () {
             var that = this
+            this.porList = []
             if(typeof(that.value2[0]) == 'number'){
                 var start_time = that.getDd(new Date(parseFloat(that.value2[0])))
             }else{
@@ -474,7 +475,7 @@ export default {
                         }
                         
                     }
-                    console.log(this.col)
+                    console.log(this.porList)
                     console.log(this.formThead)
                     this.coaar = JSON.parse(JSON.stringify(xbox))
                     this.tableData = xbox;

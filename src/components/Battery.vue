@@ -61,7 +61,6 @@ export default {
     data () {
         return {
             localhost: global.host,
-            // localhost: 'http://test.linkfeeling.cn',
             tableData: [],
             page_num: 1,
             page_size: 20,
@@ -112,8 +111,8 @@ export default {
             this.page_num = val;
             this.getData();
         },
-        tableRowClassName: function (row) {
-            if (this.tableData[row.rowIndex].battery < 30) {
+        tableRowClassName: function (row) { 
+            if (this.tableData[row.rowIndex].battery >= 0 && this.tableData[row.rowIndex].battery < 30) {
                 return 'battery-low';
             }
             return '';
