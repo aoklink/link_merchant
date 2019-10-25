@@ -104,6 +104,14 @@
             <img src="../assets/nav_battery.png">
             电量管理
         </router-link>
+        <!-- <router-link
+            :to="{path:'/Bbb'}"
+            :class="[cur==6?'menu-item':'menu-hidden']"
+            @click.native="clik(5)"
+        >
+            <img src="../assets/nav_battery.png">
+            bbb
+        </router-link> -->
         <!-- <router-link v-for="(item,index) in list"
             :key="item.value" :to="{path:item.path,query:{item:index}}"
             :class="{'menu-item':ind == index}"

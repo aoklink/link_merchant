@@ -104,7 +104,7 @@
                             <span class="icuu">编号</span>
                             <input type="text" v-model="form.screen_code" placeholder="请输入编号">
                         </div>
-                        <div class="bdta bdtb">
+                        <!-- <div class="bdta bdtb">
                             <span class="icuu">人数设定</span>
                             <input type="text" v-model="form.people_num" readonly placeholder="请选择人数设定">
                             <el-dropdown split-button type="primary" class="drop">
@@ -119,7 +119,7 @@
                                     <el-dropdown-item @click.native="sect(8)">8</el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
-                        </div>
+                        </div> -->
                         <div class="bdta bdtb">
                             <span class="icuu">备注</span>
                             <input type="text" v-model="form.remark" placeholder="请填写备注">
@@ -161,7 +161,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="bdmd">
+                    <div class="bdmd bdmdbb">
                         <div class="bdta">
                             <span class="icuu">大屏ID</span>
                             <div class="bdttn" v-model="formb.screen_id">{{formb.screen_id}}</div>
@@ -170,7 +170,7 @@
                             <span class="icuu">编号</span>
                             <input type="text" v-model="formb.screen_code" placeholder="请输入编号">
                         </div>
-                        <div class="bdta bdtb">
+                        <!-- <div class="bdta bdtb">
                             <span class="icuu">人数设定</span>
                             <input type="text" v-model="formb.people_num" readonly placeholder="请选择人数设定">
                             <el-dropdown split-button type="primary" class="drop">
@@ -185,7 +185,7 @@
                                     <el-dropdown-item @click.native="sectb(8)">8</el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
-                        </div>
+                        </div> -->
                         <div class="bdta bdtb">
                             <span class="icuu">备注</span>
                             <input type="text" v-model="formb.remark" placeholder="请填写备注">
@@ -515,7 +515,7 @@ export default {
                 gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 id: this.form.id,
                 screen_code: this.form.screen_code,
-                people_num: this.form.people_num,
+                // people_num: this.form.people_num,
                 device_name: cckbu,
                 remark: this.form.remark
             };
@@ -548,10 +548,10 @@ export default {
                 that.$message.error(`编号不能为空`);
                 return;
             }
-            if(this.formb.people_num.length == 0){
-                that.$message.error(`人数不能为空`);
-                return;
-            }
+            // if(this.formb.people_num.length == 0){
+            //     that.$message.error(`人数不能为空`);
+            //     return;
+            // }
             if(this.checkListb.length == 0){
                 that.$message.error(`器械不能为空`);
                 return;
@@ -564,7 +564,7 @@ export default {
                 gym_name: global.gym_name || localStorage.getItem("gym_name"),
                 screen_id: this.formb.screen_id,
                 screen_code: this.formb.screen_code,
-                people_num: this.formb.people_num,
+                // people_num: this.formb.people_num,
                 device_name: cckbu,
                 remark: this.formb.remark
             };
@@ -1650,5 +1650,8 @@ export default {
         width: 100%;
         padding: 13px 0 13px;
         border-top: 1px solid rgba(229,231,235,1);
+    }
+    .bdmdbb{
+        height: 210px;
     }
 </style> 

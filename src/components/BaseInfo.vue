@@ -2474,10 +2474,9 @@ export default {
     }
     .content{
         background: #F6F7F8;
-        height: 735px;
+        padding-bottom: 20px;
     }
     .table{
-        height: 735px;
     }
     .chabox{
         width: 100%;

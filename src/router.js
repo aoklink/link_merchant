@@ -13,6 +13,7 @@ import PhotoShop from './components/PhotoShop.vue';
 import CoachManage from './components/CoachManage.vue';
 import AccountManagement from './components/AccountManagement.vue';
 import Battery from './components/Battery.vue';
+import Bbb from './components/Bbb.vue';
 
 import {
     isLogin
@@ -159,6 +160,16 @@ const router = new Router({
             path: '/Battery',
             component: Battery,
             displayName: '设备管理',
+            meta: {
+                requiresAuth: true,
+                keepAlive: true
+            }
+        },
+        {
+            name: 'bbb',
+            path: '/Bbb',
+            component: Bbb,
+            displayName: 'bbb',
             meta: {
                 requiresAuth: true,
                 keepAlive: true
