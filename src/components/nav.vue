@@ -1,6 +1,6 @@
 <template>
     <div class="menu">
-        <router-link
+        <!-- <router-link
             :to="{path:'/'}"
             class="menu-hidden"
             :class="[cur==1?'menu-item':'menu-hidden']"
@@ -103,7 +103,8 @@
         >
             <img src="../assets/nav_battery.png">
             电量管理
-        </router-link>
+        </router-link> -->
+
         <!-- <router-link
             :to="{path:'/Bbb'}"
             :class="[cur==6?'menu-item':'menu-hidden']"
@@ -115,7 +116,7 @@
         <!-- <router-link v-for="(item,index) in list"
             :key="item.value" :to="{path:item.path,query:{item:index}}"
             :class="{'menu-item':ind == index}"
-            @click.native="changeBgc(index)"  class="menu-hidden"
+            @click.native="selectItem(index)"  class="menu-hidden"
             v-show="item.vv==0 || item.gg==true"
             >
             <img :src="item.img" v-show="item.vv==0">
@@ -127,6 +128,28 @@
                 </svg>
             </span>
         </router-link>  -->
+       <router-link v-for="item in items"
+            :key="item.value" :to="{path:item.path,query:{item:item.id}}"
+            @click.native="selectItem(item.id)" 
+            :class="{'menu-item':index == item.id}"
+             class="menu-hidden"> 
+            <img :src="item.img" v-show="true">
+            {{item.label}} 
+              <span class="click-area" v-show="item.sub.length>0">
+                <svg width="8px" height="8px" class="svg">
+                    <polygon points="0,0 8,0 4,8" style="fill:#000;stroke:#000;stroke-width:1" />
+                </svg>
+            </span>
+            <router-link v-for="sub in item.sub"
+            :key="sub.value" :to="{path:sub.path,query:{item:sub.id}}" 
+            v-show="index == item.id"
+            @click.native="selectSub(sub.id)" 
+            class="menu-hidden"
+            :class="{'menu-item-chil':subindex == sub.id}" >
+            {{sub.label}}
+            <span class="spaa" v-show="true"></span>
+            </router-link>
+        </router-link>
     </div>
 </template>
 
@@ -134,46 +157,28 @@
 export default {
     data () {
         return {
-            // list: [
-            //     {path:'/',label:'店铺管理',img: require('../assets/nava.png'),kk:0,vv:0},
-            //     {path:'/',label:'店铺列表',img: require('../assets/navb.png'),kk:1,gg:true,vv:1},
-            //     {path:'/BaseMember',label:'大屏管理',img: require('../assets/navb.png'),kk:1,gg:true,vv:1},
-            //     {path:'/BaseMember',label:'会员管理',img: require('../assets/navb.png'),vv:0},
-            //     {path:'/BaseBind',label:'手环管理',img: require('../assets/navc.png'),vv:0},
-            //     {path:'/CoachManage',label:'教练管理',img: require('../assets/navd.png'),kk:0,vv:0},
-            //     {path:'/AccountManagement',label:'教练列表',img: require('../assets/navd.png'),kk:1,gg:true,vv:1},
-            //     {path:'/AccountManagement',label:'上课统计',img: require('../assets/navd.png'),kk:1,gg:true,vv:1},
-            //     {path:'/AccountManagement',label:'效果统计',img: require('../assets/navd.png'),kk:1,gg:true,vv:1},
-            //     {path:'/AccountManagement',label:'账户管理',img: require('../assets/nave.png'),vv:0}
-            // ],
-            list: [
-                {path: '/',
-                    label: '店铺管理',
-                    img: require('../assets/nava.png'),
-                    kk: 0,
-                    vv: 0,
-                    children: [
-                        {path: '/', label: '店铺列表', img: require('../assets/navb.png'), kk: 1, gg: true, vv: 1},
-                        {path: '/BaseMember', label: '大屏管理', img: require('../assets/navb.png'), kk: 1, gg: true, vv: 1}
-                    ]},
-                {path: '/BaseMember', label: '会员管理', img: require('../assets/navb.png'), vv: 0},
-                {path: '/BaseBind', label: '手环管理', img: require('../assets/navc.png'), vv: 0},
-                {path: '/CoachManage', label: '教练管理', img: require('../assets/navd.png'), kk: 0, vv: 0},
-                {path: '/AccountManagement', label: '教练列表', img: require('../assets/navd.png'), kk: 1, gg: true, vv: 1},
-                {path: '/AccountManagement', label: '上课统计', img: require('../assets/navd.png'), kk: 1, gg: true, vv: 1},
-                {path: '/AccountManagement', label: '效果统计', img: require('../assets/navd.png'), kk: 1, gg: true, vv: 1},
-                {path: '/AccountManagement', label: '账户管理', img: require('../assets/nave.png'), vv: 0}
-            ],
-            ind: '0',
-            cur: localStorage.getItem('cur') || 1,
-            incur: localStorage.getItem('incur') || 1,
-            v1: localStorage.getItem('v1')=='true'?true:false || true,
-            v2: localStorage.getItem('v2')=='true'?true:false || false
+            index: 0,
+            subindex: 0,
+            items:[
+                {id:1, path: '/', label: '店铺管理', img: require('../assets/nava.png'),sub:[
+                        {id:1, path: '/', label: '店铺列表', img: require('../assets/navb.png'),sub:[]},
+                        {id:2, path: '/BaseMember', label: '大屏管理', img: require('../assets/navb.png'),sub:[]},
+                ]},
+                {id:2, path: '/BaseMember', label: '会员管理', img: require('../assets/navb.png'),sub:[]},
+                {id:3, path: '/BaseBind', label: '手环管理', img: require('../assets/navc.png'),sub:[]},
+                {id:4, path: '/CoachManage', label: '教练管理', img: require('../assets/navd.png'),sub:[
+                        {id:1, path: '/AccountManagement', label: '教练列表', img: require('../assets/navd.png'),sub:[]},
+                        {id:2, path: '/ClassScene', label: '上课统计', img: require('../assets/navd.png'),sub:[]},
+                        {id:3, path: '/EffectScene', label: '效果统计', img: require('../assets/navd.png'),sub:[]},
+                        
+                ]},
+                {id:5, path: '/AccountManagement', label: '账户管理', img: require('../assets/nave.png'),sub:[]},
+                {id:6, path: '/Battery', label: '电量管理', img: require('../assets/nav_battery.png'),sub:[]},
+                 
+            ]
         };
     },
-    created () {
-        console.log(typeof(this.v2))
-        console.log(this.v2==true?'123':'no')
+    created () { 
     },
     mounted () {
         // if(this.$route.query.item){
@@ -183,80 +188,14 @@ export default {
         // }
     },
     methods: {
-        changeBgc (index) {
-            this.ind = index;
-            if (index == 1 || index == 2) {
-
-            }
+        selectItem (index) {
+            if (this.index != index) { 
+                this.subindex = 1;
+             }
+            this.index = index;
         },
-        // scal () {
-        //     for(var i=0;i<this.list.length;i++){
-        //         if(this.list[i].gg == true || this.list[i].gg ==false){
-        //            this.list[i].gg  = !this.list[i].gg
-        //         }
-        //     }
-        // },
-        clik (index) {
-            this.cur = 0;
-            this.incur = 0;
-            if (index == 0) {
-                this.cur = 1;
-                this.incur = 1;
-            }
-            if (index == 1) {
-                this.cur = 2;
-            }
-            if (index == 2) {
-                this.cur = 3;
-            }
-            if (index == 3) {
-                this.cur = 4;
-                this.incur = 3;
-            }
-            if (index == 4) {
-                this.cur = 5;
-            }
-            if (index == 5) {
-                this.cur = 6;
-            }
-            localStorage.setItem('cur',this.cur)
-            localStorage.setItem('incur',this.incur)
-        },
-        clia (index) {
-            this.cur = 0;
-            this.incur = 0;
-            if (index == 0) {
-                this.incur = 1;
-                this.cur = 1;
-            }
-            if (index == 1) {
-                this.incur = 2;
-                this.cur = 1;
-            }
-            if (index == 2) {
-                this.incur = 3;
-                this.cur = 4;
-            }
-            if (index == 3) {
-                this.incur = 4;
-                this.cur = 4;
-            }
-            if (index == 4) {
-                this.incur = 5;
-                this.cur = 4;
-            }
-            localStorage.setItem('cur',this.cur)
-            localStorage.setItem('incur',this.incur)
-        },
-        scal (index) {
-            if (index == 0) {
-                this.v1 = !this.v1;
-            }
-            if (index == 1) {
-                this.v2 = !this.v2;
-            }
-            localStorage.setItem('v1',this.v1)
-            localStorage.setItem('v2',this.v2)
+        selectSub (index) {
+            this.subindex = index;
         }
     }
 };
@@ -307,7 +246,7 @@ export default {
         text-decoration: none;
     }
     .menu-item-chil{
-        border-right: 0.22rem solid rgba(255,192,1,1);
+        /* border-right: 0.22rem solid rgba(255,192,1,1); */
         /* background:rgba(255,236,178,1); */
         font-size:0.39rem;
         font-family:PingFangSC-Medium;
