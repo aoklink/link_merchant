@@ -11,7 +11,9 @@
             </div>
             <div class="container">
                 <el-table ref="multipleTable" :data="data" border
+                        :row-class-name="tableRowClassName"
                           class="table table_list" @selection-change="handleSelectionChange"
+                           
                 >
                     <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
                     <el-table-column prop="id" label="手环编号"
@@ -682,7 +684,13 @@ export default {
         // 确定删除
         deleteRow () {
             this.getdel();
-        }
+        },
+        tableRowClassName: function (row) { 
+            if (this.tableData[row.rowIndex].battery >= -1 && this.tableData[row.rowIndex].battery < 34) {
+                return 'battery-low';
+            }
+            return '';
+        },
     }
 };
 
@@ -885,5 +893,5 @@ export default {
         left: 50px;
         width: 130px;
         overflow: hidden;
-    }
+    } 
 </style>
