@@ -167,7 +167,7 @@ export default {
                 {id:2, path: '/BaseMember', label: '会员管理', img: require('../assets/navb.png'),sub:[]},
                 {id:3, path: '/BaseBind', label: '手环管理', img: require('../assets/navc.png'),sub:[]},
                 {id:4, path: '/CoachManage', label: '教练管理', img: require('../assets/navd.png'),sub:[
-                        {id:1, path: '/AccountManagement', label: '教练列表', img: require('../assets/navd.png'),sub:[]},
+                        {id:1, path: '/CoachManage', label: '教练列表', img: require('../assets/navd.png'),sub:[]},
                         {id:2, path: '/ClassScene', label: '上课统计', img: require('../assets/navd.png'),sub:[]},
                         {id:3, path: '/EffectScene', label: '效果统计', img: require('../assets/navd.png'),sub:[]},
                         
