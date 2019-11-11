@@ -159,6 +159,7 @@
                                         :trigger-on-focus="true"
                                         @select="handleSelect"
                                         v-on:input="find(state2)"
+                                        @focus="find_null()"
                                     >
                                         <template slot-scope="props" width="400">
                                             <div class="name">
@@ -277,6 +278,7 @@ export default {
     },
     created () {
         this.getData();
+        this.find_null()
     },
     mounted () {
         // this.restaurants = this.loadAll();
@@ -286,6 +288,58 @@ export default {
         console.log(this.del_list);
     },
     methods: {
+        find_null (){
+            var that = this;
+            this.dataList = [];
+            let datt = {
+                gym_name: global.gym_name || localStorage.getItem('gym_name'),
+                page_num: 1,
+                page_size: this.page_size
+            };
+            this.$axios.post(this.localhost + '/api/platform/members', JSON.stringify(datt), {headers: {'Content-Type': 'application/json;charset=UTF-8'}})
+            .then((res) => {
+                if (res.data.code == 200) {
+                    console.log(res.data.data);
+                    var aDiv = [];
+                    for (var i = 0; i < res.data.data.list.length; i++) {
+                        aDiv.push(res.data.data.list[i]);
+                    }
+                    console.log(aDiv);
+                    var byby;
+                    for (var i = 0; i < aDiv.length; i++) {
+                        byby = {};
+                        byby.value = aDiv[i].phone_num;
+                        byby.date = aDiv[i].bind_time;
+                        byby.head = aDiv[i].head_icon || '';
+                        byby.name = decodeURIComponent(aDiv[i].nick_name.replace(/\+/g, '%20'));
+                        that.dataList.push(byby);
+                    }
+                    console.log(this.dataList);
+                    var arr = this.dataList
+                    var arr2 = arr.filter((x, index,self)=>{
+                    var arrids = []
+                    arr.forEach((item,i) => {
+                        arrids.push(item.value)
+                    })
+                    return arrids.indexOf(x.value) === index
+                    })  
+                    console.log(arr2);
+                    that.dataList = arr2
+                    console.log(that.dataList)
+                    that.$set(that.dataList);
+                } else {
+                    that.$message.error('会员查找失败');
+                }
+            })
+            .catch((res) => {
+                console.log(res);
+            });
+            console.log(123)
+            this.tableDdd = this.dataList;
+            console.log(this.tableDdd)
+            // this.restaurants = this.loadAll();
+            this.restaurants = this.tableDdd;
+        },
         find (val) {
             console.log(val)
             var val_zn = val

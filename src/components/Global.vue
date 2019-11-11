@@ -6,9 +6,9 @@ const hasEnter='';
 const gym_id='';
 const coaarr='';
 const coolo=[];
-// const host = 'http://bg.linkfeeling.cn';
+//const host = 'http://bg.linkfeeling.cn';
 const host = 'http://test.linkfeeling.cn';
-// const hostb = 'https://ll.linkfeeling.cn';
+//const hostb = 'https://ll.linkfeeling.cn';
 const hostb = 'https://dev.linkfeeling.cn';
 
   export default
